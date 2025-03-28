@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/mediq.io/static/css/main.79d19d76.css",
+    "main.css": "/mediq.io/static/css/main.c38b1cd2.css",
     "main.js": "/mediq.io/static/js/main.22ecccba.js",
     "static/js/453.c981a88f.chunk.js": "/mediq.io/static/js/453.c981a88f.chunk.js",
     "index.html": "/mediq.io/index.html",
-    "main.79d19d76.css.map": "/mediq.io/static/css/main.79d19d76.css.map",
+    "main.c38b1cd2.css.map": "/mediq.io/static/css/main.c38b1cd2.css.map",
     "main.22ecccba.js.map": "/mediq.io/static/js/main.22ecccba.js.map",
     "453.c981a88f.chunk.js.map": "/mediq.io/static/js/453.c981a88f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.79d19d76.css",
+    "static/css/main.c38b1cd2.css",
     "static/js/main.22ecccba.js"
   ]
 }
