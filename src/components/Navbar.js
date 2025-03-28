@@ -1,69 +1,150 @@
+// Navbar.js
 import React from "react";
-import "./Navbar.css"; // Optional: For styling if needed
-import downArrow from "../../assets/img/down-arrow-dark.svg"; // Adjust the path
-
+import logo from './images/logo.png';
+/**
+ * Navbar component
+ * 
+ * @returns {JSX.Element} The Navbar component
+ */
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-white z-index-3 py-3">
-      <div className="container">
-        <a
-          className="navbar-brand"
-          href="https://demos.creative-tim.com/material-kit-pro/index"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Material Kit 3 PRO
-        </a>
-
-        <a
-          href="https://www.creative-tim.com/product/material-kit-pro#pricingCard"
-          className="btn btn-sm bg-gradient-dark btn-round mb-0 ms-auto d-lg-none d-block"
-        >
-          Buy Now
-        </a>
-
-        <button
-          className="navbar-toggler shadow-none ms-2"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navigation"
-          aria-controls="navigation"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon mt-2">
-            <span className="navbar-toggler-bar bar1"></span>
-            <span className="navbar-toggler-bar bar2"></span>
-            <span className="navbar-toggler-bar bar3"></span>
-          </span>
-        </button>
-
-        <div className="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0" id="navigation">
-          <ul className="navbar-nav navbar-nav-hover mx-auto">
-            {["Pages", "Account", "Blocks", "Docs"].map((item, index) => (
-              <li className="nav-item mx-2" key={index}>
-                <a className="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center">
-                  {item}
-                  <img src={downArrow} alt="down-arrow" className="arrow ms-1" />
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <ul className="navbar-nav d-lg-block d-none">
-            <li className="nav-item">
-              <a
-                href="https://www.creative-tim.com/product/material-kit-pro#pricingCard"
-                className="btn btn-sm bg-gradient-dark mb-0 me-1"
-                role="button"
-              >
-                Buy Now
-              </a>
-            </li>
-          </ul>
-        </div>
+    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+      <div className="container-fluid">
+        <NavbarBrand />
+        <NavbarToggler />
+        <NavbarCollapse />
       </div>
     </nav>
+  );
+};
+
+/**
+ * NavbarBrand component
+ * 
+ * @returns {JSX.Element} The NavbarBrand component
+ */
+const NavbarBrand = () => {
+  return (
+    <a className="navbar-brand" href="#">
+      <img
+        src={logo}
+        alt="Logo"
+        width="30"
+        height="30"
+        className="d-inline-block align-text-top"
+      />
+      Navbar
+    </a>
+  );
+};
+
+/**
+ * NavbarToggler component
+ * 
+ * @returns {JSX.Element} The NavbarToggler component
+ */
+const NavbarToggler = () => {
+  return (
+    <button
+      className="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span className="navbar-toggler-icon"></span>
+    </button>
+  );
+};
+
+/**
+ * NavbarCollapse component
+ * 
+ * @returns {JSX.Element} The NavbarCollapse component
+ */
+const NavbarCollapse = () => {
+  return (
+    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+      <NavbarNav />
+      <NavbarSearch />
+    </div>
+  );
+};
+
+/**
+ * NavbarNav component
+ * 
+ * @returns {JSX.Element} The NavbarNav component
+ */
+const NavbarNav = () => {
+  return (
+    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+      <li className="nav-item">
+        <a className="nav-link active" aria-current="page" href="#">
+          Home
+        </a>
+      </li>
+      <li className="nav-item">
+        <a className="nav-link" href="#">
+          Link
+        </a>
+      </li>
+      <li className="nav-item dropdown">
+        <a
+          className="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Dropdown
+        </a>
+        <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li>
+            <a className="dropdown-item" href="#">
+              Action
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Another action
+            </a>
+          </li>
+          <li>
+            <hr className="dropdown-divider" />
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Something else here
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  );
+};
+
+/**
+ * NavbarSearch component
+ * 
+ * @returns {JSX.Element} The NavbarSearch component
+ */
+const NavbarSearch = () => {
+  return (
+    <form className="d-flex" role="search">
+      <input
+        className="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+      />
+      <button className="btn btn-outline-success" type="submit">
+        Search
+      </button>
+    </form>
   );
 };
 
