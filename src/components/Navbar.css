@@ -1,35 +1,28 @@
-/* Navbar.css */
-
-/* Navbar Container */
+/* Increase Navbar Height */
 .navbar {
     background: linear-gradient(135deg, #1e3c72, #2a5298);
-    padding: 10px 20px;
+    padding: 15px 30px;  /* Increased padding */
+    min-height: 80px; /* Adjust this for height */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
   
-  /* Brand Logo */
-  .navbar-brand {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: white !important;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
+  /* Increase Brand Logo Size */
   .navbar-brand img {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
   }
   
-  /* Navbar Links */
-  .navbar-nav .nav-link {
-    color: white !important;
-    font-weight: 500;
-    margin: 0 10px;
-    transition: color 0.3s ease-in-out;
+  /* Increase Navbar Text Size */
+  .navbar-brand {
+    font-size: 1.8rem; /* Bigger text */
   }
+  
+  .navbar-nav .nav-link {
+    font-size: 1.2rem; /* Increase link size */
+    padding: 12px 15px; /* More padding */
+  }
+  
   
   .navbar-nav .nav-link:hover {
     color: #ffcc00 !important;
