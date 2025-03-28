@@ -5,7 +5,7 @@ import './Navbar.css';
 /**
  * Navbar component
  * 
- * @returns {JSX.Element} The Navbar component
+ * @returns {JSX.Element} 
  */
 const Navbar = () => {
   return (
@@ -21,7 +21,7 @@ const Navbar = () => {
 
 /**
  * NavbarBrand component
- * 
+
  * @returns {JSX.Element} The NavbarBrand component
  */
 const NavbarBrand = () => {
@@ -63,7 +63,7 @@ const NavbarToggler = () => {
 /**
  * NavbarCollapse component
  * 
- * @returns {JSX.Element} The NavbarCollapse component
+ * @returns {JSX.Element} 
  */
 const NavbarCollapse = () => {
   return (
@@ -77,7 +77,7 @@ const NavbarCollapse = () => {
 /**
  * NavbarNav component
  * 
- * @returns {JSX.Element} The NavbarNav component
+ * @returns {JSX.Element} 
  */
 const NavbarNav = () => {
   return (
@@ -131,7 +131,7 @@ const NavbarNav = () => {
 /**
  * NavbarSearch component
  * 
- * @returns {JSX.Element} The NavbarSearch component
+ * @returns {JSX.Element} 
  */
 const NavbarSearch = () => {
   return (
