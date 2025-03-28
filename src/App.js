@@ -1,14 +1,12 @@
+// App.js
 import React from "react";
-import Navbar from "./components/Navbar"; // Adjust the path if needed
-import "bootstrap/dist/css/bootstrap.min.css";
-
+import Navbar from './components/Navbar';
 
 const App = () => {
   return (
     <div>
       <Navbar />
-      <h1>Welcome to MediQ.io</h1>
-      {/* Other Components */}
+      {/* Rest of the app */}
     </div>
   );
 };
