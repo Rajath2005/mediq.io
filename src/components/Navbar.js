@@ -34,7 +34,7 @@ const NavbarBrand = () => {
         height="30"
         className="d-inline-block align-text-top"
       />
-      Navbar
+      MediQ
     </a>
   );
 };

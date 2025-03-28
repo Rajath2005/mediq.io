@@ -2,16 +2,16 @@
 
 /* Navbar Container */
 .navbar {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  padding: 10px 20px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, hsla(182, 88%, 75%, 0.459), hsl(128, 61%, 66%));
+  padding: 50px 0px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.151);
 }
 
 /* Brand Logo */
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
-  color: white !important;
+  color: rgb(0, 0, 0) !important;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -25,19 +25,19 @@
 
 /* Navbar Links */
 .navbar-nav .nav-link {
-  color: white !important;
+  color: rgba(0, 0, 0, 0.685) !important;
   font-weight: 500;
   margin: 0 10px;
   transition: color 0.3s ease-in-out;
 }
 
 .navbar-nav .nav-link:hover {
-  color: #ffcc00 !important;
+  color: #000000 !important;
 }
 
 /* Dropdown */
 .navbar-nav .dropdown-menu {
-  background-color: #2a5298;
+  background-color: #35965d;
   border: none;
 }
 
