@@ -1,17 +1,19 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import SearchBar from "./components/SearchBar"; // Import the SearchBar component
 
 const App = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      {/* Empty section space */}
-      <div className="h-64 bg-gray-200 my-10"></div> 
+      {/* Hero Section with Search Bar */}
+      <div className="flex flex-col items-center justify-center h-64 bg-gray-200 my-10">
+        <h1 className="text-xl font-bold mb-4">Welcome to My Website</h1>
+        <SearchBar /> {/* Add SearchBar component */}
+      </div>
 
-      <h1 className="text-center text-xl font-bold">Welcome to My Website</h1>
-      
       {/* Other page content */}
 
       <Footer />
