@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import './Hero.css';
+import heroImage from './images/hero.jpeg';  // Correct image import
 
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const medicines = ["Ashwagandha", "Brahmi", "Tulsi", "Neem", "Triphala"];
 
   return (
     <div className="hero-section">
@@ -31,7 +31,7 @@ const HeroSection = () => {
         
         <div className="hero-right">
           <img 
-            src="/path-to-your-image.jpg" 
+            src={heroImage}  
             alt="Ayurvedic Medicines" 
             className="hero-image"
           />
