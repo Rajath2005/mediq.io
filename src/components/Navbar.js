@@ -34,7 +34,7 @@ const NavbarBrand = () => {
         height="30"
         className="d-inline-block align-text-top"
       />
-      MediQ
+      Navbar
     </a>
   );
 };
@@ -50,8 +50,8 @@ const NavbarToggler = () => {
       className="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
       aria-expanded="false"
       aria-label="Toggle navigation"
     >
@@ -60,7 +60,6 @@ const NavbarToggler = () => {
   );
 };
 
-
 /**
  * NavbarCollapse component
  * 
@@ -68,13 +67,12 @@ const NavbarToggler = () => {
  */
 const NavbarCollapse = () => {
   return (
-    <div className="collapse navbar-collapse" id="navbarNav">
+    <div className="collapse navbar-collapse" id="navbarSupportedContent">
       <NavbarNav />
       <NavbarSearch />
     </div>
   );
 };
-
 
 /**
  * NavbarNav component
