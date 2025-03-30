@@ -79,6 +79,10 @@ body.dark-mode .btn-outline-dark:hover {
   border-radius: 50%;
   object-fit: cover;
 }
+.navbar-logo :hover {
+transform: scale(1.1);
+}
+
 
 /* Gap between buttons */
 .d-flex.gap-3 > * {
