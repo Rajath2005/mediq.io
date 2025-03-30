@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import './Navbar.css';
 import logo from './images/logo.jpg';
+import { FaMoon, FaSun, FaUser } from "react-icons/fa"; // Import icons
 
 const Navbar = () => {
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("darkMode") === "true"
+  );
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav className={`navbar navbar-expand-lg ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`}>
       <div className="container-fluid">
+        
         {/* Logo & Brand */}
         <a className="navbar-brand d-flex align-items-center" href="#">
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
@@ -29,7 +44,7 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="#">Home</a>
+              <a className="nav-link active" href="#">Home</a>
             </li>
             <li className="nav-item">
               <a className="nav-link" href="#">Link</a>
@@ -51,21 +66,27 @@ const Navbar = () => {
                 <li><a className="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
           </ul>
 
-          {/* Search Form */}
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          {/* Right-side Buttons */}
+          <div className="d-flex align-items-center gap-3">
+            {/* Sign In Button */}
+            <button className="btn btn-outline-success">Sign In</button>
+
+            {/* Log In Button */}
+            <button className="btn btn-outline-info">Log In</button>
+
+            {/* Dark Mode Toggle */}
+            <button className="btn btn-outline-dark" onClick={() => setDarkMode(!darkMode)}>
+              {darkMode ? <FaSun /> : <FaMoon />}
+            </button>
+
+            {/* User Profile Icon */}
+            <button className="btn btn-outline-primary">
+              <FaUser />
+            </button>
+          </div>
+
         </div>
       </div>
     </nav>
