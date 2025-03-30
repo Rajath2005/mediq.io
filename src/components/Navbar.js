@@ -1,12 +1,18 @@
 import React from "react";
 import './Navbar.css';
-
+import logo from './images/logo.jpg';
 
 const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">Navbar</a>
+        {/* Logo & Brand */}
+        <a className="navbar-brand d-flex align-items-center" href="#">
+          <img src={logo} alt="Logo" className="navbar-logo me-2" />
+          Navbar
+        </a>
+
+        {/* Navbar Toggler Button */}
         <button
           className="navbar-toggler"
           type="button"
@@ -18,6 +24,8 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
+        {/* Navbar Links */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -47,6 +55,8 @@ const Navbar = () => {
               <a className="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
           </ul>
+
+          {/* Search Form */}
           <form className="d-flex" role="search">
             <input
               className="form-control me-2"
