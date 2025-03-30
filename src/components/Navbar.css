@@ -1,0 +1,64 @@
+/* Navbar Styling */
+.navbar {
+    background-color: #f0f8ff !important; /* Light blue healthcare theme */
+    padding: 15px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Navbar Brand */
+  .navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #007bff !important;
+  }
+  
+  /* Navbar Links */
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+    color: #0056b3 !important;
+    margin: 0 10px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #004080 !important;
+    text-decoration: underline;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown-menu {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Search Bar */
+  .form-control {
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 2px solid #007bff;
+  }
+  
+  .btn-outline-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-outline-success:hover {
+    background-color: #218838;
+    border-color: #218838;
+  }
+  
+  /* Mobile Menu */
+  .navbar-toggler {
+    border: none;
+    outline: none;
+  }
+  
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%280, 123, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+  
