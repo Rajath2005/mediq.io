@@ -3,20 +3,16 @@ import './Hero.css';
 
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const medicines = ["Ashwagandha", "Brahmi", "Tulsi", "Neem", "Triphala"]; // Example data
-
-  const filteredMedicines = medicines.filter((medicine) =>
-    medicine.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const medicines = ["Ashwagandha", "Brahmi", "Tulsi", "Neem", "Triphala"];
 
   return (
     <div className="hero-section">
       <div className="hero-container">
-        {/* Left Column */}
-        <div>
-          <h1>Welcome to Mediq</h1>
-          <p>
-            Discover the best Ayurvedic medicines for your health and wellness.
+        <div className="hero-left">
+          <h1 className="hero-title">Your Journey to Natural Wellness Starts Here</h1>
+          <p className="hero-description">
+            Discover the ancient wisdom of Ayurveda combined with modern science. 
+            Find the perfect natural remedies for your well-being.
           </p>
           <div className="search-bar-container">
             <input
@@ -26,25 +22,19 @@ const HeroSection = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-bar"
             />
-            {searchTerm && (
-              <ul className="search-results">
-                {filteredMedicines.map((medicine, index) => (
-                  <li
-                    key={index}
-                    onClick={() => setSearchTerm(medicine)}
-                  >
-                    {medicine}
-                  </li>
-                ))}
-              </ul>
-            )}
+          </div>
+          <div className="button-container">
+            <button className="button button-login">Login</button>
+            <button className="button button-signup">Sign Up</button>
           </div>
         </div>
-
-        {/* Right Column */}
-        <div className="button-container">
-          <button className="button button-login">Login</button>
-          <button className="button button-signup">Sign Up</button>
+        
+        <div className="hero-right">
+          <img 
+            src="/path-to-your-image.jpg" 
+            alt="Ayurvedic Medicines" 
+            className="hero-image"
+          />
         </div>
       </div>
     </div>
