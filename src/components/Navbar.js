@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun, FaUser } from "react-icons/fa"; // Import icons
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(
@@ -25,7 +26,7 @@ const Navbar = () => {
         {/* Logo & Brand */}
         <a className="navbar-brand d-flex align-items-center" href="/">
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
-          <span className="d-none d-sm-inline">Navbar</span>
+          <span className="d-none d-sm-inline">MediQ</span>
         </a>
 
         {/* Mobile Toggle Button */}
@@ -55,10 +56,10 @@ const Navbar = () => {
         <div className={`collapse navbar-collapse ${isNavExpanded ? 'show' : ''}`} id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" href="/">Home</a>
+              <Link className="nav-link active" to="/">Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/link">Link</a>
+              <Link className="nav-link" to="/about">About Us</Link>
             </li>
             <li className="nav-item dropdown">
               <button
@@ -66,13 +67,15 @@ const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown
+                Services
               </button>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="/action">Action</a></li>
-                <li><a className="dropdown-item" href="/another-action">Another action</a></li>
+                <li><Link className="dropdown-item" to="/services">All Services</Link></li>
+                <li><Link className="dropdown-item" to="/services/consultation">Medical Consultation</Link></li>
+                <li><Link className="dropdown-item" to="/services/diagnosis">Diagnosis</Link></li>
+                <li><Link className="dropdown-item" to="/services/treatment">Treatment Plans</Link></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="/something-else">Something else here</a></li>
+                <li><Link className="dropdown-item" to="/services/emergency">Emergency Care</Link></li>
               </ul>
             </li>
           </ul>

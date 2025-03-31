@@ -124,3 +124,15 @@ html {
     transition: none;
   }
 }
+
+/* Section spacing */
+.services-section {
+  margin: 40px 0;
+  overflow: hidden;
+}
+
+/* Better section transitions */
+section {
+  position: relative;
+  z-index: 1;
+}
