@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './Hero.css';
 import heroImage from './images/hero.jpeg';  // Correct image import
-
+import { Link } from "react-router-dom";
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -24,8 +24,8 @@ const HeroSection = () => {
             />
           </div>
           <div className="button-container">
-            <button className="button button-login">Login</button>
-            <button className="button button-signup">Sign Up</button>
+            <Link to="/login" className="button button-login">Login</Link>
+            <Link to="/signup" className="button button-signup">Sign Up</Link>
           </div>
         </div>
         
