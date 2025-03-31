@@ -1,20 +1,35 @@
-/* Hero Section Container */
 .hero-section {
   width: 100%;
   min-height: 90vh;
-  background: linear-gradient(to right, #38b2ac, rgba(66, 153, 225, 0.8));
-  color: white;
+  background: url('./images/back.jpeg') no-repeat center center/cover; /* Add background image */
   position: relative;
   overflow: hidden;
 }
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(194, 243, 190, 0.281); /* Light overlay */
+  z-index: 1;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+}
+
 
 .hero-container {
   max-width: 1400px;
   margin: 0 auto;
   padding: 4rem 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  grid-template-columns: 2fr 1.5fr;
+  gap: 10rem;
   height: 100%;
   align-items: center;
 }
@@ -94,15 +109,22 @@
 }
 
 .button-login {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.664);
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.2);
-  color: white;
+  color: rgb(0, 0, 0);
+}
+.button-login:hover {
+  background: rgba(25, 208, 240, 0.87);
 }
 
 .button-signup {
   background: white;
   color: #38b2ac;
+}
+.button-signup:hover {
+  background: #34d64aa4;
+  color: white;
 }
 
 @media (max-width: 768px) {
