@@ -25,20 +25,31 @@ const Navbar = () => {
         {/* Logo & Brand */}
         <a className="navbar-brand d-flex align-items-center" href="/">
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
-          Navbar
+          <span className="d-none d-sm-inline">Navbar</span>
         </a>
 
-        {/* Navbar Toggler Button */}
-        <button
-          className="navbar-toggler border-0"
-          type="button"
-          onClick={() => setIsNavExpanded(!isNavExpanded)}
-          aria-controls="navbarSupportedContent"
-          aria-expanded={isNavExpanded}
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        {/* Mobile Toggle Button */}
+        <div className="d-flex align-items-center">
+          {/* Dark Mode Toggle - Always visible */}
+          <button 
+            className="btn btn-outline-dark me-2 d-lg-none" 
+            onClick={() => setDarkMode(!darkMode)}
+          >
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+
+          {/* Navbar Toggler */}
+          <button
+            className="navbar-toggler border-0 p-1"
+            type="button"
+            onClick={() => setIsNavExpanded(!isNavExpanded)}
+            aria-controls="navbarSupportedContent"
+            aria-expanded={isNavExpanded}
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+        </div>
 
         {/* Navbar Links */}
         <div className={`collapse navbar-collapse ${isNavExpanded ? 'show' : ''}`} id="navbarSupportedContent">
