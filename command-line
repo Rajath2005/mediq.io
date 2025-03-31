@@ -1,0 +1,14 @@
+# First, add all files to staging
+git add .
+
+# Check status
+git status
+
+# Commit the changes
+git commit -m "Merge remote changes with local updates"
+
+# Push to remote repository
+git push origin main
+
+# Only use force push if absolutely necessary and you understand the consequences
+# git push -f origin main
