@@ -12,6 +12,14 @@ code {
     monospace;
 }
 @tailwind base;
+
+/* Light Mode Styles */
+body {
+  background: linear-gradient(to right, #a8e0ff, #ffffff); /* Light blue to white gradient */
+  color: #333; /* Dark text for contrast */
+}
+
 @tailwind components;
 @tailwind utilities;
+
 

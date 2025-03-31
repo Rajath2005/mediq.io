@@ -2,6 +2,56 @@
   text-align: center;
 }
 
+/* Base styles */
+body, #root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Background image with parallax effect */
+#root::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./components/images/back.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  transform: translateZ(0);
+  will-change: transform;
+  z-index: -2;
+}
+
+/* Enhanced overlay with gradient */
+#root::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(194, 243, 190, 0.15) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(2px);
+  z-index: -1;
+}
+
+/* Main container */
+.app-container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease-in-out;
+}
 
 .App-logo {
   height: 40vmin;
@@ -35,5 +85,42 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Dark mode styles */
+body.dark-mode #root::after {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  backdrop-filter: blur(3px);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better mobile experience */
+@media (max-width: 768px) {
+  #root::after {
+    backdrop-filter: blur(1.5px);
+  }
+
+  .app-container {
+    padding: 0 1rem;
+  }
+}
+
+/* Optimize performance */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
+  .app-container {
+    transition: none;
   }
 }
