@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun, FaUser } from "react-icons/fa"; // Import icons
-import { Link } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"
@@ -26,40 +25,29 @@ const Navbar = () => {
         {/* Logo & Brand */}
         <a className="navbar-brand d-flex align-items-center" href="/">
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
-          <span className="d-none d-sm-inline">MediQ</span>
+          Navbar
         </a>
 
-        {/* Mobile Toggle Button */}
-        <div className="d-flex align-items-center">
-          {/* Dark Mode Toggle - Always visible */}
-          <button 
-            className="btn btn-outline-dark me-2 d-lg-none" 
-            onClick={() => setDarkMode(!darkMode)}
-          >
-            {darkMode ? <FaSun /> : <FaMoon />}
-          </button>
-
-          {/* Navbar Toggler */}
-          <button
-            className="navbar-toggler border-0 p-1"
-            type="button"
-            onClick={() => setIsNavExpanded(!isNavExpanded)}
-            aria-controls="navbarSupportedContent"
-            aria-expanded={isNavExpanded}
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-        </div>
+        {/* Navbar Toggler Button */}
+        <button
+          className="navbar-toggler border-0"
+          type="button"
+          onClick={() => setIsNavExpanded(!isNavExpanded)}
+          aria-controls="navbarSupportedContent"
+          aria-expanded={isNavExpanded}
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
         {/* Navbar Links */}
         <div className={`collapse navbar-collapse ${isNavExpanded ? 'show' : ''}`} id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" to="/">Home</Link>
+              <a className="nav-link active" href="/">Home</a>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about">About Us</Link>
+              <a className="nav-link" href="/link">Link</a>
             </li>
             <li className="nav-item dropdown">
               <button
@@ -67,15 +55,13 @@ const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Services
+                Dropdown
               </button>
               <ul className="dropdown-menu">
-                <li><Link className="dropdown-item" to="/services">All Services</Link></li>
-                <li><Link className="dropdown-item" to="/services/consultation">Medical Consultation</Link></li>
-                <li><Link className="dropdown-item" to="/services/diagnosis">Diagnosis</Link></li>
-                <li><Link className="dropdown-item" to="/services/treatment">Treatment Plans</Link></li>
+                <li><a className="dropdown-item" href="/action">Action</a></li>
+                <li><a className="dropdown-item" href="/another-action">Another action</a></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" to="/services/emergency">Emergency Care</Link></li>
+                <li><a className="dropdown-item" href="/something-else">Something else here</a></li>
               </ul>
             </li>
           </ul>
@@ -83,10 +69,8 @@ const Navbar = () => {
           {/* Right-side Buttons */}
           <div className="d-flex align-items-center gap-3">
             {/* Sign In Button */}
-            <button className="btn btn-outline-success">Sign In</button>
-
-            {/* Log In Button */}
-            <button className="btn btn-outline-info">Log In</button>
+            <Link to="/signup" className="btn btn-outline-success">Sign Up</Link>
+            <Link to="/login" className="btn btn-outline-info">Log In</Link>
 
             {/* Dark Mode Toggle */}
             <button className="btn btn-outline-dark" onClick={() => setDarkMode(!darkMode)}>
