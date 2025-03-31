@@ -19,8 +19,8 @@ const Navbar = () => {
   }, [darkMode]);
 
   return (
-    <nav className={`navbar navbar-expand-lg ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`}>
-      <div className="container-fluid">
+    <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`}>
+      <div className="container-fluid px-3">
         
         {/* Logo & Brand */}
         <a className="navbar-brand d-flex align-items-center" href="/">
@@ -30,7 +30,7 @@ const Navbar = () => {
 
         {/* Navbar Toggler Button */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler border-0"
           type="button"
           onClick={() => setIsNavExpanded(!isNavExpanded)}
           aria-controls="navbarSupportedContent"
