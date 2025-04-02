@@ -1,17 +1,31 @@
 .footer {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  padding: 20px;
+  background-color: #f8fafb;
+  color: #2c4964;
+  padding: 15px 20px;
   text-align: center;
+  border-top: 1px solid #e6e9ef;
+  position: relative;
+  margin-top: 20px;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer-logo img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 8px rgba(44, 73, 100, 0.15);
   transition: transform 0.3s ease;
+  margin-bottom: 15px;
+}
+
+.footer-logo img:hover {
+  transform: translateY(-3px);
+}
+
+.footer-nav {
+  margin: 15px 0;
 }
 
 .footer-nav ul {
@@ -20,30 +34,76 @@
   margin: 0;
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 20px;
 }
 
 .footer-nav ul li a {
-  color: #ecf0f1;
+  color: #2c4964;
   text-decoration: none;
   font-size: 14px;
+  font-weight: 400;
+  transition: color 0.2s ease;
 }
 
 .footer-nav ul li a:hover {
-  text-decoration: underline;
+  color: #1977cc;
+  text-decoration: none;
 }
 
 .footer-social {
   margin-top: 15px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(44, 73, 100, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .footer-social a {
-  color: #ecf0f1;
-  margin: 0 10px;
-  font-size: 18px;
-  text-decoration: none;
+  color: #2c4964;
+  font-size: 20px;
+  transition: all 0.2s ease;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: rgba(25, 119, 204, 0.1);
 }
 
 .footer-social a:hover {
-  color: #3498db;
+  color: #000000;
+  opacity: 1;
+  transform: translateY(-2px);
+  background: rgba(25, 119, 204, 0.2);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 12px 15px;
+    margin-top: 15px;
+  }
+  
+  .footer-nav ul {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .footer-social a {
+    margin: 0 8px;
+    font-size: 16px;
+  }
+  
+  .footer-social {
+    gap: 15px;
+  }
+  
+  .footer-social a {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
 }

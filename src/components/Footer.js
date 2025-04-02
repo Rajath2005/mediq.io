@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faInstagram, faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
 import './Footer.css';
 import logo from './images/logo.jpg';
 
@@ -18,16 +20,19 @@ const Footer = () => {
       </nav>
       <div className="footer-social">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-facebook-f"></i>
+          <FontAwesomeIcon icon={faFacebookF} />
         </a>
         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-twitter"></i>
+          <FontAwesomeIcon icon={faTwitter} />
         </a>
         <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-instagram"></i>
+          <FontAwesomeIcon icon={faInstagram} />
         </a>
         <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-          <i className="fab fa-linkedin-in"></i>
+          <FontAwesomeIcon icon={faLinkedinIn} />
+        </a>
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <FontAwesomeIcon icon={faGithub} />
         </a>
       </div>
     </footer>
