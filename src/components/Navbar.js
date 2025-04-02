@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
-import { FaMoon, FaSun, FaUser } from "react-icons/fa"; // Import icons
-import { Link } from "react-router-dom";
+import { FaMoon, FaSun, FaUser } from "react-icons/fa";
+
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("darkMode") === "true"
-  );
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const [isNavExpanded, setIsNavExpanded] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-    } else {
-      document.body.classList.remove("dark-mode");
-    }
+    document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
@@ -23,12 +19,12 @@ const Navbar = () => {
       <div className="container-fluid px-3">
         
         {/* Logo & Brand */}
-        <a className="navbar-brand d-flex align-items-center" href="/">
+        <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavExpanded(false)}>
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
           MediQ
-        </a>
+        </Link>
 
-        {/* Navbar Toggler Button */}
+        {/* Navbar Toggler */}
         <button
           className="navbar-toggler border-0"
           type="button"
@@ -44,33 +40,33 @@ const Navbar = () => {
         <div className={`collapse navbar-collapse ${isNavExpanded ? 'show' : ''}`} id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active" href="/">Home</a>
+              <Link className="nav-link active" to="/" onClick={() => setIsNavExpanded(false)}>Home</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/link">Link</a>
+              <Link className="nav-link" to="/link" onClick={() => setIsNavExpanded(false)}>Link</Link>
             </li>
+
+            {/* Dropdown */}
             <li className="nav-item dropdown">
               <button
                 className="nav-link dropdown-toggle"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 Dropdown
               </button>
-              <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="/action">Action</a></li>
-                <li><a className="dropdown-item" href="/another-action">Another action</a></li>
+              <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+                <li><Link className="dropdown-item" to="/action" onClick={() => setIsNavExpanded(false)}>Action</Link></li>
+                <li><Link className="dropdown-item" to="/another-action" onClick={() => setIsNavExpanded(false)}>Another action</Link></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="/something-else">Something else here</a></li>
+                <li><Link className="dropdown-item" to="/something-else" onClick={() => setIsNavExpanded(false)}>Something else here</Link></li>
               </ul>
             </li>
           </ul>
 
           {/* Right-side Buttons */}
           <div className="d-flex align-items-center gap-3">
-            {/* Sign In Button */}
-            <Link to="/signup" className="btn btn-outline-success">Sign Up</Link>
-            <Link to="/login" className="btn btn-outline-info">Log In</Link>
+            <Link to="/signup" className="btn btn-outline-success" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
+            <Link to="/login" className="btn btn-outline-info" onClick={() => setIsNavExpanded(false)}>Log In</Link>
 
             {/* Dark Mode Toggle */}
             <button className="btn btn-outline-dark" onClick={() => setDarkMode(!darkMode)}>
