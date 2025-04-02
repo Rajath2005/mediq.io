@@ -14,29 +14,29 @@ import Emergency from './pages/Emergency';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 
-
 const App = () => {
   return (
     <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={
-          <>
-            <Hero />
-            <ServicesSection />
-          </>
-        } />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<ServicesPage />} />
-        <Route path="/services/consultation" element={<Consultation />} />
-        <Route path="/services/diagnosis" element={<Diagnosis />} />
-        <Route path="/services/treatment" element={<Treatment />} />
-        <Route path="/services/emergency" element={<Emergency />} />
-        <Route path="/" element={<Hero />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
-      <Footer />
+      <div>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={
+            <>
+              <Hero />
+              <ServicesSection />
+            </>
+          } />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services/consultation" element={<Consultation />} />
+          <Route path="/services/diagnosis" element={<Diagnosis />} />
+          <Route path="/services/treatment" element={<Treatment />} />
+          <Route path="/services/emergency" element={<Emergency />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Routes>
+        <Footer />
+      </div>
     </Router>
   );
 };

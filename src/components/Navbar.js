@@ -25,7 +25,7 @@ const Navbar = () => {
         {/* Logo & Brand */}
         <a className="navbar-brand d-flex align-items-center" href="/">
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
-          Navbar
+          MediQ
         </a>
 
         {/* Navbar Toggler Button */}
