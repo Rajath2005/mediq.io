@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'; 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
@@ -16,9 +16,10 @@ import Signup from "./components/Signup";
 
 const App = () => {
   return (
-    <Router>
+    <Router>  {/* Changed BrowserRouter to HashRouter */}
       <div>
         <Navbar />
+        {/* Hero and ServicesSection will always be visible on Home Page */}
         <Routes>
           <Route path="/" element={
             <>
