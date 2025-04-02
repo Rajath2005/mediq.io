@@ -2,17 +2,32 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
-import { FaMoon, FaSun, FaUser } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
+import UserProfileDropdown from './UserProfileDropdown';
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Simulate login for testing
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Set to true for testing
+  const [userDetails, setUserDetails] = useState({
+    name: "John Doe",
+    email: "johndoe@example.com",
+    profileImage: null, // Replace with a valid image URL if available
+  });
+
   useEffect(() => {
     document.body.classList.toggle("dark-mode", darkMode);
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setUserDetails(null);
+    // Add your logout logic here
+  };
 
   return (
     <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`}>
@@ -43,7 +58,7 @@ const Navbar = () => {
               <Link className="nav-link active" to="/" onClick={() => setIsNavExpanded(false)}>Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/link" onClick={() => setIsNavExpanded(false)}>Link</Link>
+              <Link className="nav-link" to="/link" onClick={() => setIsNavExpanded(false)}>About Us</Link>
             </li>
 
             {/* Dropdown */}
@@ -65,17 +80,22 @@ const Navbar = () => {
 
           {/* Right-side Buttons */}
           <div className="d-flex align-items-center gap-3">
-            <Link to="/signup" className="btn btn-outline-success" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
-            <Link to="/login" className="btn btn-outline-info" onClick={() => setIsNavExpanded(false)}>Log In</Link>
+            {!isAuthenticated ? (
+              <>
+                <Link to="/signup" className="btn btn-outline-success" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
+                <Link to="/login" className="btn btn-outline-info" onClick={() => setIsNavExpanded(false)}>Log In</Link>
+              </>
+            ) : (
+              <UserProfileDropdown
+                isAuthenticated={isAuthenticated}
+                userDetails={userDetails}
+                onLogout={handleLogout}
+              />
+            )}
 
             {/* Dark Mode Toggle */}
             <button className="btn btn-outline-dark" onClick={() => setDarkMode(!darkMode)}>
               {darkMode ? <FaSun /> : <FaMoon />}
-            </button>
-
-            {/* User Profile Icon */}
-            <button className="btn btn-outline-primary">
-              <FaUser />
             </button>
           </div>
 

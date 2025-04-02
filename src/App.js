@@ -13,6 +13,8 @@ import Treatment from './pages/Treatment';
 import Emergency from './pages/Emergency';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Profile from "./pages/Profile";
+import Appointments from "./pages/Appointments";
 
 const App = () => {
   return (
@@ -35,6 +37,8 @@ const App = () => {
           <Route path="/services/emergency" element={<Emergency />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/appointments" element={<Appointments />} />
         </Routes>
         <Footer />
       </div>
