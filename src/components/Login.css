@@ -1,37 +1,103 @@
 .auth-container {
   max-width: 400px;
   margin: 2rem auto;
-  padding: 2rem;
-  text-align: center;
+  padding: 2.5rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
   text-align: left;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+  font-size: 0.95rem;
 }
 
 .form-group input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  background-color: #f9fafb;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #2563eb;
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .auth-link {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-link:hover {
+  color: #374151;
 }
 
 .button {
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  margin-top: 1rem;
 }
 
-.button-login { background-color: #4CAF50; color: white; }
-.button-signup { background-color: #2196F3; color: white; }
+.button-login {
+  background-color: #2563eb;
+  color: white;
+}
+
+.button-login:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.button-signup {
+  background-color: #10b981;
+  color: white;
+}
+
+.button-signup:hover {
+  background-color: #059669;
+  transform: translateY(-1px);
+}
+
+/* Add responsive design */
+@media (max-width: 480px) {
+  .auth-container {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+  
+  .form-group input {
+    padding: 0.6rem 0.8rem;
+  }
+  
+  .button {
+    padding: 0.6rem 1.2rem;
+  }
+}
