@@ -50,7 +50,7 @@ MediQ is a health-focused React web app that offers users a platform to manage t
 ## 🖼️ Project Preview
 
 <p align="center">
-  <img src="https://github.com/Rajath2005/mediq.io/assets/login-preview.png" alt="Login Page Preview" width="600"/>
+  <img src="src/components/images/login.jpg" alt="Login Page Preview" width="600"/>
   <br/>
   <em>Login page (desktop view)</em>
 </p>
