@@ -1,7 +1,7 @@
 # MediQ 🏥
 
 <div align="center">
-  <img src="public/images/mediq-logo.png" alt="MediQ Logo" width="200"/>
+  <img src="src/components/images/logo.jpg" alt="MediQ Logo" width="200"/>
   
   [![React](https://img.shields.io/badge/React-18.0.0-blue.svg)](https://reactjs.org/)
   [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
