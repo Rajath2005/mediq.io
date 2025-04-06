@@ -58,7 +58,9 @@ const Navbar = () => {
               <Link className="nav-link active" to="/" onClick={() => setIsNavExpanded(false)}>Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/link" onClick={() => setIsNavExpanded(false)}>About Us</Link>
+            <Link className="nav-link" to="/about" onClick={() => setIsNavExpanded(false)}>About Us</Link>
+
+
             </li>
 
             {/* Dropdown */}
