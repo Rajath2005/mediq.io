@@ -1,18 +1,34 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cardLoadingSkeleton {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 section.services-section {
   width: 100%;
   padding: 80px 0;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
   position: relative;
+  transition: all 0.4s ease-in-out;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 .section-heading {
   font-size: 2.5rem;
-  color: #1f194c;
+  color: #2a2363;
   margin-bottom: 1.5em;
   position: relative;
   text-transform: uppercase;
   letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  transition: color 0.3s ease;
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards 0.2s;
 }
 
 .section-heading::after {
@@ -23,37 +39,58 @@ section.services-section {
   transform: translateX(-50%);
   width: 50px;
   height: 3px;
-  background: #2c7bfe;
+  background: linear-gradient(90deg, #fff6a9, #94f8bd);
+  transition: width 0.3s ease;
 }
 
 .row {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: 0 auto;           /* centers the row */
+  padding: 0 20px;          /* adds horizontal padding */
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  flex-wrap: wrap;          /* allows wrapping on smaller screens */
+  justify-content: center; /* centers child items horizontally */
+  gap: 20px;                /* space between items */
+  box-sizing: border-box;  /* includes padding in width calc */
+  transition: all 0.3s ease-in-out;
+  perspective: 1000px;
 }
 
 .column {
   width: 100%;
   padding: 0 1em 1em 1em;
   text-align: center;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeIn 0.8s ease-out forwards;
 }
+
+.column:nth-child(1) { animation-delay: 0.3s; }
+.column:nth-child(2) { animation-delay: 0.5s; }
+.column:nth-child(3) { animation-delay: 0.7s; }
 
 .card {
   width: 100%;
   height: 100%;
-  min-height: 280px;
-  padding: 2em 1.5em;
-  background: linear-gradient(#ffffff 50%, #2c7bfe 50%);
-  background-size: 100% 200%;
-  background-position: 0 2.5%;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  min-height: 300px;
+  padding: 2.5em 1.8em;
+  background: linear-gradient(135deg, #a0f8cc8f 50%, #3cee2c9f 50%);
+  background-size: 200% 200%;
+  background-position: 0 0;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.card.loading {
+  background: linear-gradient(90deg, 
+    #f0f0f0 0%, #f7f7f7 50%, #f0f0f0 100%);
+  background-size: 200% 100%;
+  animation: cardLoadingSkeleton 1.5s infinite linear;
 }
 
 h3 {
@@ -61,6 +98,7 @@ h3 {
   font-weight: 600;
   color: #1f194c;
   margin: 1em 0;
+  transition: all 0.3s ease;
 }
 
 p {
@@ -68,29 +106,33 @@ p {
   font-size: 15px;
   line-height: 1.6;
   letter-spacing: 0.03em;
+  transition: all 0.3s ease;
 }
 
 .icon-wrapper {
-  background-color: #2c7bfe;
+  background: linear-gradient(145deg, #94f8bd, #7ee8a7);
   position: relative;
   margin: auto;
   font-size: 30px;
-  height: 2.5em;
-  width: 2.5em;
-  color: #ffffff;
+  height: 3em;
+  width: 3em;
+  color: #525252af;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  transition: 0.5s;
+  box-shadow: 0 8px 20px rgba(148, 248, 189, 0.3);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card:hover {
-  background-position: 0 100%;
+  transform: translateY(-10px) scale(1.02);
+  background-position: 100% 100%;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
 }
 
 .card:hover .icon-wrapper {
-  background-color: #ffffff;
-  color: #2c7bfe;
+  transform: scale(1.1) rotate(5deg);
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
 }
 
 .card:hover h3 {
@@ -98,7 +140,7 @@ p {
 }
 
 .card:hover p {
-  color: #f0f0f0;
+  color: #0000007e;
 }
 
 @media screen and (min-width: 768px) {
@@ -108,6 +150,9 @@ p {
   .column {
     flex: 0 calc(50% - 20px);
     max-width: calc(50% - 20px);
+  }
+  .column:hover {
+    transform: scale(1.02);
   }
 }
 
@@ -119,4 +164,26 @@ p {
     flex: 0 0 calc(33.33% - 20px);
     max-width: calc(33.33% - 20px);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-services,
+  .section-heading,
+  .column,
+  .card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
 }
