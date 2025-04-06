@@ -1,6 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faTwitter, faInstagram, faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
+import {
+  faFacebookF,
+  faTwitter,
+  faInstagram,
+  faLinkedinIn,
+  faGithub,
+} from '@fortawesome/free-brands-svg-icons';
 import './Footer.css';
 import logo from './images/logo.jpg';
 
@@ -10,14 +17,18 @@ const Footer = () => {
       <div className="footer-logo">
         <img src={logo} alt="Site Logo" />
       </div>
+
+      {/* Navigation Links using React Router */}
       <nav className="footer-nav">
         <ul>
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/services">Services</a></li>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><Link to="/about">About Us</Link></li>
+          <li><Link to="/services">Services</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
+          <li><Link to="/privacy">Privacy Policy</Link></li>
         </ul>
       </nav>
+
+      {/* Social Icons */}
       <div className="footer-social">
         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faFacebookF} />
