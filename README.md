@@ -45,6 +45,16 @@ MediQ is a modern, comprehensive healthcare management platform that empowers us
 - End-to-end encryption
 - Real-time notifications
 
+MediQ is a health-focused React web app that offers users a platform to manage their well-being through tools like a personal dashboard, health tips, and appointment tracking. Now integrated with a **Login and Signup system**, MediQ offers secure and personalized user experiences.
+
+## 🖼️ Project Preview
+
+<p align="center">
+  <img src="https://github.com/Rajath2005/mediq.io/assets/login-preview.png" alt="Login Page Preview" width="600"/>
+  <br/>
+  <em>Login page (desktop view)</em>
+</p>
+
 ## 🛠️ Installation
 
 1. **Clone the repository**
