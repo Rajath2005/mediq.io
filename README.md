@@ -1,70 +1,137 @@
-# Getting Started with Create React App
+# MediQ 🏥
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+  <img src="public/images/mediq-logo.png" alt="MediQ Logo" width="200"/>
+  
+  [![React](https://img.shields.io/badge/React-18.0.0-blue.svg)](https://reactjs.org/)
+  [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+</div>
 
-## Available Scripts
+## 🚀 Overview
 
-In the project directory, you can run:
+MediQ is a modern, comprehensive healthcare management platform that empowers users to take control of their health journey. Built with React and modern web technologies, it offers an intuitive interface and powerful features for effective health management.
 
-### `npm start`
+<div align="center">
+  <img src="public/images/dashboard-preview.png" alt="MediQ Dashboard" width="800"/>
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ✨ Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 🎯 Core Features
+- **Smart Dashboard**
+  - Personalized health metrics visualization
+  - Activity tracking and progress reports
+  - Custom health goals setting
 
-### `npm test`
+- **Appointment Management**
+  - Easy scheduling system
+  - Real-time availability checking
+  - Appointment reminders
+  
+- **Medication Tracking**
+  - Automated reminder system
+  - Medication history
+  - Prescription management
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Health Resources**
+  - Educational content
+  - Health tips and articles
+  - Video consultations
 
-### `npm run build`
+### 💫 Technical Features
+- Responsive design across all devices
+- PWA support for offline access
+- End-to-end encryption
+- Real-time notifications
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Rajath2005/mediq.io.git
+   cd mediq.io
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-### `npm run eject`
+3. **Start development server**
+   ```bash
+   npm start
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📁 Project Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+mediq.io/
+├── public/
+│   ├── images/
+│   │   ├── logo.png
+│   │   └── preview/
+│   └── index.html
+├── src/
+│   ├── assets/
+│   │   ├── images/
+│   │   ├── icons/
+│   │   └── styles/
+│   ├── components/
+│   │   ├── Dashboard/
+│   │   │   ├── HealthMetrics.js
+│   │   │   ├── ActivityTracker.js
+│   │   │   └── GoalsWidget.js
+│   │   ├── Appointments/
+│   │   │   ├── Calendar.js
+│   │   │   └── BookingForm.js
+│   │   ├── Reminders/
+│   │   │   ├── MedicationList.js
+│   │   │   └── ReminderSettings.js
+│   │   └── Resources/
+│   │       ├── ArticleList.js
+│   │       └── VideoConsult.js
+│   ├── pages/
+│   │   ├── Home/
+│   │   │   ├── Home.js
+│   │   │   └── Home.styles.js
+│   │   ├── Profile/
+│   │   │   ├── Profile.js
+│   │   │   └── Profile.styles.js
+│   │   └── Settings/
+│   ├── contexts/
+│   ├── hooks/
+│   ├── services/
+│   ├── utils/
+│   ├── App.js
+│   └── index.js
+├── tests/
+├── .env.example
+├── .gitignore
+├── package.json
+└── README.md
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🔧 Configuration
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Create a `.env` file in the root directory:
+```env
+REACT_APP_API_URL=your_api_url
+REACT_APP_API_KEY=your_api_key
+```
 
-## Learn More
+## 🤝 Contributing
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📄 License
 
-### Code Splitting
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🌟 Support
 
-### Analyzing the Bundle Size
+If you find this project helpful, please give it a star ⭐️
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 📧 Contact
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For any queries, reach out to us at support@mediq.io
