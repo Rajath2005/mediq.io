@@ -13,7 +13,7 @@
 MediQ is a modern, comprehensive healthcare management platform that empowers users to take control of their health journey. Built with React and modern web technologies, it offers an intuitive interface and powerful features for effective health management.
 
 <div align="center">
-  <img src="public/images/dashboard-preview.png" alt="MediQ Dashboard" width="800"/>
+  <img src="src/components/images/Dashboard.jpg" alt="MediQ Dashboard" width="800"/>
 </div>
 
 ## ✨ Features
