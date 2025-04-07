@@ -60,7 +60,9 @@ const Navbar = () => {
             <li className="nav-item">
             <Link className="nav-link" to="/about" onClick={() => setIsNavExpanded(false)}>About Us</Link>
 
-
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/contact" onClick={() => setIsNavExpanded(false)}>Contact Us</Link>
             </li>
 
             {/* Dropdown */}

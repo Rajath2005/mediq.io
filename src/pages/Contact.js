@@ -5,7 +5,7 @@ const Contact = () => {
   return (
     <article className="contact" data-page="contact">
       <header>
-        <h2 className="h2 article-title">Contact</h2>
+        <h1 className="h2 article-title">Contact Us</h1>
       </header>
 
       <section className="mapbox" data-mapbox>

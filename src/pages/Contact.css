@@ -1,33 +1,75 @@
 .contact {
     padding: 20px;
-  }
-  
-  .article-title {
-    text-align: center;
-  }
-  
-  .mapbox {
-    margin-bottom: 20px;
-  }
-  
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-  
-  .form-input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-  }
-  .input-wrapper{
-      display: flex;
-      gap: 10px;
-  }
-  .form-btn{
-      background-color: blue;
-      color: white;
-      padding:10px 20px;
-      border: none;
-      cursor: pointer;
-  }
-  
-  /* Add more styles as needed */
+.article-title {
+    text-align: center;
+}
+
+.mapbox {
+    margin-bottom: 20px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 10px;
+}
+
+.form-btn {
+    background-color: rgba(224, 226, 119, 0.774);
+    color: rgba(0, 0, 0, 0.781);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.form-btn:hover {
+    background-color: rgb(255, 242, 63);
+    color: #000;
+}
+
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .contact {
+        padding: 10px;
+    }
+
+    .input-wrapper {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .form-btn {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .large-health-card {
+        padding: 15px;
+        margin: 10px 0;
+    }
+
+    .mapbox {
+        height: auto;
+    }
+}
+
+@media (min-width: 769px) {
+    .form-btn {
+        padding: 10px 30px;
+    }
+}
+
+/* Add more styles as needed */
