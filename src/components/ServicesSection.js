@@ -2,34 +2,46 @@ import React from 'react';
 import './ServicesSection.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faHammer, 
-  faBrush, 
-  faWrench, 
-  faTruckPickup, 
-  faBroom, 
-  faPlug 
+  faHeartbeat, 
+  faCalendarAlt, 
+  faPrescription, 
+  faAmbulance,
+  faChartLine,
+  faCommentDots
 } from '@fortawesome/free-solid-svg-icons';
 
 const ServicesSection = () => {
   const services = [
     { 
-      icon: faHammer, 
-      title: "Medical Device Development", 
-      description: "Comprehensive solutions for medical device design and development, ensuring compliance with industry standards." 
+      icon: faHeartbeat, 
+      title: "Health Monitoring", 
+      description: "Real-time tracking of vital health metrics and personalized insights to help you stay healthy." 
     },
     { 
-      icon: faBrush, 
-      title: "Healthcare Solutions", 
-      description: "Innovative healthcare solutions tailored to meet modern medical challenges and improve patient care." 
+      icon: faCalendarAlt, 
+      title: "Appointment Scheduling", 
+      description: "Easily schedule appointments with doctors and specialists, manage reminders, and stay organized." 
     },
     { 
-      icon: faWrench, 
-      title: "Quality Assurance", 
-      description: "Rigorous quality control and assurance processes to maintain the highest standards in medical technology." 
+      icon: faPrescription, 
+      title: "Prescription Management", 
+      description: "Manage your prescriptions, set reminders, and access important medication information." 
     },
-    { icon: faTruckPickup, title: "Service Heading", description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam consequatur necessitatibus eaque." },
-    { icon: faBroom, title: "Service Heading", description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam consequatur necessitatibus eaque." },
-    { icon: faPlug, title: "Service Heading", description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quisquam consequatur necessitatibus eaque." }
+    { 
+      icon: faAmbulance, 
+      title: "Emergency Assistance", 
+      description: "Quick access to emergency services and support when you need it most." 
+    },
+    {
+      icon: faChartLine,
+      title: "Health Analytics",
+      description: "Detailed analysis of your health data, providing trends and actionable insights for better health management."
+    },
+    {
+      icon: faCommentDots,
+      title: "Doctor Chat",
+      description: "Secure and convenient communication with your healthcare providers for questions, consultations, and support."
+    }
   ];
 
   return (
