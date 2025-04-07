@@ -15,7 +15,7 @@ const Navbar = () => {
   const [userDetails, setUserDetails] = useState({
     name: "John Doe",
     email: "johndoe@example.com",
-    profileImage: null, // Replace with a valid image URL if available
+    profileImage: null,
   });
 
   useEffect(() => {
@@ -26,18 +26,25 @@ const Navbar = () => {
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserDetails(null);
-    // Add your logout logic here
   };
 
   return (
     <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`}>
       <div className="container-fluid px-3">
-        
+
         {/* Logo & Brand */}
         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavExpanded(false)}>
           <img src={logo} alt="Logo" className="navbar-logo me-2" />
           MediQ
         </Link>
+
+        {/* Mobile Emergency Button */}
+        <a
+          href="tel:+911234567890"
+          className="btn btn-danger d-lg-none me-2"
+        >
+          Emergency
+        </a>
 
         {/* Navbar Toggler */}
         <button
@@ -58,8 +65,7 @@ const Navbar = () => {
               <Link className="nav-link active" to="/" onClick={() => setIsNavExpanded(false)}>Home</Link>
             </li>
             <li className="nav-item">
-            <Link className="nav-link" to="/about" onClick={() => setIsNavExpanded(false)}>About Us</Link>
-
+              <Link className="nav-link" to="/about" onClick={() => setIsNavExpanded(false)}>About Us</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/contact" onClick={() => setIsNavExpanded(false)}>Contact Us</Link>
@@ -84,6 +90,14 @@ const Navbar = () => {
 
           {/* Right-side Buttons */}
           <div className="d-flex align-items-center gap-3">
+            {/* Desktop Emergency Call Button */}
+            <a
+              href="tel:+911234567890"
+              className="btn btn-danger d-none d-lg-block"
+            >
+              Emergency Call
+            </a>
+
             {!isAuthenticated ? (
               <>
                 <Link to="/signup" className="btn btn-outline-success" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
@@ -102,7 +116,6 @@ const Navbar = () => {
               {darkMode ? <FaSun /> : <FaMoon />}
             </button>
           </div>
-
         </div>
       </div>
     </nav>
