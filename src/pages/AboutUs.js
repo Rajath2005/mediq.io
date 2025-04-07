@@ -48,11 +48,6 @@ const teamMembers = [
 const AboutUs = () => {
   return (
     <div>
-      <nav className="header-nav">
-        <a href="/">Home</a>
-        <a href="/about">About</a>
-      </nav>
-
       <div className="container">
         <p className="team-head-text">Our Team</p>
         <div className="responsive-container-block">
