@@ -16,7 +16,7 @@ MediQ is a modern, comprehensive healthcare management platform that empowers us
   <img src="src/components/images/Dashboard.jpg" alt="MediQ Dashboard" width="800"/>
 </div>
 
-## ✨  Features
+## ✨ Features
 
 ### 🎯 Core Features
 - **Smart Dashboard**
