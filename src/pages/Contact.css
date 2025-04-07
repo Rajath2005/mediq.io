@@ -1,0 +1,33 @@
+.contact {
+    padding: 20px;
+  }
+  
+  .article-title {
+    text-align: center;
+  }
+  
+  .mapbox {
+    margin-bottom: 20px;
+  }
+  
+
+  
+  .form-input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+  }
+  .input-wrapper{
+      display: flex;
+      gap: 10px;
+  }
+  .form-btn{
+      background-color: blue;
+      color: white;
+      padding:10px 20px;
+      border: none;
+      cursor: pointer;
+  }
+  
+  /* Add more styles as needed */
