@@ -39,7 +39,7 @@ const teamMembers = [
     name: 'Sheethal',
     position: 'Developer',
     image: SheethalImg,
-    gmail: 'bhy@gmail.com',
+    gmail: 'siddudrai@gmail.com',
     github: 'https://github.com/Shrinidhi516',
     linkedin: 'https://www.linkedin.com/in/shrinidhi-k-v-794653290',
   },
@@ -85,9 +85,7 @@ const AboutUs = () => {
         </div>
       </div>
 
-      <footer>
-        <p>&copy; 2024 Binary Explorers. All rights reserved.</p>
-      </footer>
+      
     </div>
   );
 };
