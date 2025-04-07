@@ -1,5 +1,6 @@
 import React from 'react';
 import './Contact.css';
+import Button from '../components/Button';
 
 const Contact = () => {
   return (
@@ -60,9 +61,13 @@ const Contact = () => {
             data-form-input
           ></textarea>
 
-          <button className="form-btn" type="submit" data-form-btn>
-            <span>Send Message</span>
-          </button>
+          <Button
+            className="contact-submit-button"
+            type="submit"
+            data-form-btn
+            text="Send Message"
+          />
+
         </form>
       </section>
     </article>
