@@ -16,7 +16,8 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Appointments from "./pages/Appointments";
-import Preloader from "./components/Preloader"; // Import Preloader
+import BookAppointment from "./pages/BookAppointment"; // ✅ New route
+import Preloader from "./components/Preloader";
 
 import './App.css';
 
@@ -58,6 +59,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/appointments" element={<Appointments />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/book-appointment" element={<BookAppointment />} /> {/* ✅ New route */}
             </Routes>
 
             <Footer />
