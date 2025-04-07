@@ -1,0 +1,68 @@
+.preloaderBg {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, #ffffff, #f2f2f2);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .preloader {
+    position: relative;
+    width: 180px;
+    height: 180px;
+  }
+  
+  .preloader::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("https://res.cloudinary.com/dacpbywfp/image/upload/v1744039283/logo_emrfgw.jpg")
+      no-repeat center;
+    background-size: cover;
+    border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.2);
+    animation: pulse-glow 2s infinite ease-in-out;
+  }
+  
+  .preloader2 {
+    position: absolute;
+    border: 3px solid rgba(0, 123, 255, 0.1);
+    border-top: 3px solid #007bff;
+    border-radius: 50%;
+    width: 210px;
+    height: 210px;
+    top: -15px;
+    left: -15px;
+    animation: spin 1.5s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes pulse-glow {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.3);
+    }
+    50% {
+        transform: scale(1);
+        box-shadow: 0 0 20px 10px rgba(0, 123, 255, 0.2);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.3);
+    }
+  }
