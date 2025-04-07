@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
+import Contact from './pages/Contact'; // Import the Contact component
 
 import AboutUs from './pages/AboutUs';
 import ServicesPage from './pages/ServicesPage';
@@ -45,6 +46,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/appointments" element={<Appointments />} />
+          <Route path="/contact" element={<Contact />} /> {/* Add the Contact route */}
         </Routes>
 
         <Footer />
