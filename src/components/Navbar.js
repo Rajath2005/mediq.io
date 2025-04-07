@@ -11,7 +11,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Simulate login for testing
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Set to true for testing
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   const [userDetails, setUserDetails] = useState({
     name: "John Doe",
     email: "johndoe@example.com",
@@ -80,10 +80,21 @@ const Navbar = () => {
                 Dropdown
               </button>
               <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
-                <li><Link className="dropdown-item" to="/action" onClick={() => setIsNavExpanded(false)}>Action</Link></li>
-                <li><Link className="dropdown-item" to="/another-action" onClick={() => setIsNavExpanded(false)}>Another action</Link></li>
+                <li>
+                  <Link className="dropdown-item" to="/action" onClick={() => setIsNavExpanded(false)}>Action</Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/another-action" onClick={() => setIsNavExpanded(false)}>Another action</Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/book-appointment" onClick={() => setIsNavExpanded(false)}>
+                    Appointment to Doctors
+                  </Link>
+                </li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><Link className="dropdown-item" to="/something-else" onClick={() => setIsNavExpanded(false)}>Something else here</Link></li>
+                <li>
+                  <Link className="dropdown-item" to="/something-else" onClick={() => setIsNavExpanded(false)}>Something else here</Link>
+                </li>
               </ul>
             </li>
           </ul>
