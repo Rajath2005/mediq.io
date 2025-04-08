@@ -23,8 +23,8 @@ const teamMembers = [
     name: 'Ritesh',
     position: 'Developer',
     image: RitheshImg,
-    gmail: 'Onceupontime550@gmail.com',
-    github: 'https://github.com/Rithesh15',
+    gmail: 'ritheshputtur15@gmail.com',
+    github: 'https://github.com/Rithesh0115',
     linkedin: 'https://www.linkedin.com/in/rithesh-k-7b22842b7',
   },
   {
