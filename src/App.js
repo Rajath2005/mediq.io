@@ -8,16 +8,13 @@ import ServicesSection from './components/ServicesSection';
 import Contact from './pages/Contact';
 import AboutUs from './pages/AboutUs';
 import ServicesPage from './pages/ServicesPage';
-import Consultation from './pages/Consultation';
-import Diagnosis from './pages/Diagnosis';
-import Treatment from './pages/Treatment';
-import Emergency from './pages/Emergency';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Appointments from "./pages/Appointments";
 import BookAppointment from "./pages/BookAppointment"; 
 import Preloader from "./components/Preloader";
+import SearchPage from './pages/SearchPage';
 
 import './App.css';
 
@@ -50,16 +47,13 @@ const App = () => {
               />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/services" element={<ServicesPage />} />
-              <Route path="/services/consultation" element={<Consultation />} />
-              <Route path="/services/diagnosis" element={<Diagnosis />} />
-              <Route path="/services/treatment" element={<Treatment />} />
-              <Route path="/services/emergency" element={<Emergency />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/appointments" element={<Appointments />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/book-appointment" element={<BookAppointment />} /> {/* ✅ New route */}
+              <Route path="/search-medicines" element={<SearchPage />} />
             </Routes>
 
             <Footer />

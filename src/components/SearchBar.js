@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./SearchBar.css";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -15,21 +16,15 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center border border-gray-400 rounded-lg p-2 bg-white">
+    <div className="search-bar-container">
+      <div className="flex items-center">
         <input
           type="text"
-          placeholder="Search..."
+          placeholder="Search for Ayurvedic medicines..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="px-3 py-2 outline-none w-64"
+          className="search-bar"
         />
-        <button
-          onClick={handleSearch}
-          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-        >
-          Search
-        </button>
       </div>
       {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
     </div>

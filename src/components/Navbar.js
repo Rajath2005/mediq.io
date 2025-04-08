@@ -77,11 +77,11 @@ const Navbar = () => {
                 className="nav-link dropdown-toggle"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                Dropdown
+                Services
               </button>
               <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
                 <li>
-                  <Link className="dropdown-item" to="/action" onClick={() => setIsNavExpanded(false)}>Action</Link>
+                  <Link className="dropdown-item" to="/search-medicines" onClick={() => setIsNavExpanded(false)}>Search Ayurvedic Medicines</Link>
                 </li>
                 <li>
                   <Link className="dropdown-item" to="/another-action" onClick={() => setIsNavExpanded(false)}>Another action</Link>
