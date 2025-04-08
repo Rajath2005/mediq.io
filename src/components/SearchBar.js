@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import "./SearchBar.css";
 
-const SearchBar = () => {
-  const [query, setQuery] = useState("");
-  const [error, setError] = useState("");
+const SearchBar = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = async () => {
-    try {
-      setError("");
-      alert(`Searching for: ${query}`);
-    } catch (err) {
-      setError("Connection error. Please try again later.");
-      console.error("Search error:", err);
-    }
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    onSearch(value); // Call the onSearch prop with the current value
   };
 
   return (
@@ -21,12 +16,11 @@ const SearchBar = () => {
         <input
           type="text"
           placeholder="Search for Ayurvedic medicines..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          value={searchTerm}
+          onChange={handleInputChange}
           className="search-bar"
         />
       </div>
-      {error && <p className="text-red-500 mt-2 text-sm">{error}</p>}
     </div>
   );
 };
