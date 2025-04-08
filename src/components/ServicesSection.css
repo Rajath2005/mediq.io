@@ -10,12 +10,15 @@
 
 section.services-section {
   width: 100%;
-  padding: 80px 0;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 20px;
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(15px);
   position: relative;
   transition: all 0.4s ease-in-out;
   animation: fadeIn 0.8s ease-out forwards;
+  box-sizing: border-box;
 }
 
 .section-heading {
@@ -44,21 +47,24 @@ section.services-section {
 }
 
 .row {
+  width: 100%;
   max-width: 1200px;
-  margin: 0 auto;           /* centers the row */
-  padding: 0 20px;          /* adds horizontal padding */
+  margin: 0 auto;
+  padding: 0;
   display: flex;
-  flex-wrap: wrap;          /* allows wrapping on smaller screens */
-  justify-content: center; /* centers child items horizontally */
-  gap: 20px;                /* space between items */
-  box-sizing: border-box;  /* includes padding in width calc */
-  transition: all 0.3s ease-in-out;
-  perspective: 1000px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 30px;
+  box-sizing: border-box;
 }
 
 .column {
-  width: 100%;
-  padding: 0 1em 1em 1em;
+  flex: 1 1 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  padding: 15px;
+  box-sizing: border-box;
   text-align: center;
   transition: transform 0.3s ease;
   opacity: 0;
@@ -73,17 +79,21 @@ section.services-section {
 .card {
   width: 100%;
   height: 100%;
-  min-height: 300px;
-  padding: 2.5em 1.8em;
-  background: linear-gradient(135deg, #a0f8cc8f 50%, #3cee2c9f 50%);
+  min-height: 320px;
+  padding: 2em;
+  background: linear-gradient(135deg, #a0f8cc8f 0%, #3cee2c9f 100%);
   background-size: 200% 200%;
   background-position: 0 0;
   border-radius: 20px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
   backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card.loading {
@@ -144,25 +154,24 @@ p {
 }
 
 @media screen and (min-width: 768px) {
-  section {
-    padding: 0 2em;
+  section.services-section {
+    padding: 80px 40px;
   }
+  
   .column {
-    flex: 0 calc(50% - 20px);
-    max-width: calc(50% - 20px);
-  }
-  .column:hover {
-    transform: scale(1.02);
+    flex: 0 1 calc(50% - 30px);
+    margin: 0;
   }
 }
 
 @media screen and (min-width: 992px) {
-  section {
-    padding: 1em 3em;
+  section.services-section {
+    padding: 80px 60px;
   }
+  
   .column {
-    flex: 0 0 calc(33.33% - 20px);
-    max-width: calc(33.33% - 20px);
+    flex: 0 1 calc(33.333% - 30px);
+    margin: 0;
   }
 }
 

@@ -16,7 +16,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Appointments from "./pages/Appointments";
-import BookAppointment from "./pages/BookAppointment"; // ✅ New route
+import BookAppointment from "./pages/BookAppointment"; 
 import Preloader from "./components/Preloader";
 
 import './App.css';
