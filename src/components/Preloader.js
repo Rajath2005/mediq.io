@@ -1,5 +1,6 @@
 // Preloader.jsx
 import React, { useEffect } from "react";
+import LoadingText from "./LoadingText";
 import "./Preloader.css";
 
 const Preloader = () => {
@@ -16,6 +17,9 @@ const Preloader = () => {
     <div className="preloaderBg" id="preloader">
       <div className="preloader">
         <div className="preloader2"></div>
+      </div>
+      <div className="text-animation">
+        <LoadingText />
       </div>
     </div>
   );
