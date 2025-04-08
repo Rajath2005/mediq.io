@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import './AboutUs.css';
 
 import RajathImg from './OurImages/Rajath.jpeg';
@@ -49,21 +50,62 @@ const AboutUs = () => {
   return (
     <div>
       <div className="container">
-        <p className="team-head-text">Our Team</p>
+        <motion.p 
+          className="team-head-text"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          Our Team
+        </motion.p>
         <div className="responsive-container-block">
           {teamMembers.map((member, index) => (
-            <div className="card-container" key={index}>
-              <div className="card">
-                <div className="team-image-wrapper">
+            <motion.div 
+              className="card-container" 
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.2 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <motion.div 
+                className="card"
+                whileHover={{ boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.2)" }}
+              >
+                <motion.div 
+                  className="team-image-wrapper"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
                   <img
                     className="team-member-image"
                     src={member.image}
                     alt={member.name}
                   />
-                </div>
-                <p className="name">{member.name}</p>
-                <p className="position">{member.position}</p>
-                <div className="social-icons">
+                </motion.div>
+                <motion.p 
+                  className="name"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {member.name}
+                </motion.p>
+                <motion.p 
+                  className="position"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {member.position}
+                </motion.p>
+                <motion.div 
+                  className="social-icons"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
                   <a href={`mailto:${member.gmail}`}>
                     <img className="social-icon" src={GmailIcon} alt="Gmail" />
                   </a>
@@ -73,14 +115,12 @@ const AboutUs = () => {
                   <a href={member.linkedin} target="_blank" rel="noreferrer">
                     <img className="social-icon" src={LinkedInIcon} alt="LinkedIn" />
                   </a>
-                </div>
-              </div>
-            </div>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
       </div>
-
-      
     </div>
   );
 };

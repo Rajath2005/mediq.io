@@ -1,5 +1,6 @@
 import React from 'react';
 import './ServicesSection.css';
+import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faHeartbeat, 
@@ -45,15 +46,15 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="services-section" id="services">
+    <section className="services-section animate__animated animate__fadeIn" id="services">
       <div className="row">
-        <h2 className="section-heading">Our Services</h2>
+        <h2 className="section-heading animate__animated animate__slideInDown">Our Services</h2>
       </div>
       <div className="row">
         {services.map((service, index) => (
           <div className="column" key={index}>
-            <div className="card">
-              <div className="icon-wrapper">
+            <div className="card animate__animated animate__fadeInUp" style={{ animationDelay: `${index * 0.2}s` }}>
+              <div className="icon-wrapper animate__animated animate__pulse animate__infinite">
                 <FontAwesomeIcon icon={service.icon} />
               </div>
               <h3>{service.title}</h3>
