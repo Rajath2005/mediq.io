@@ -78,101 +78,100 @@ MediQ is a health-focused React web app that offers users a platform to manage t
    npm start
    ```
 
-## 📁 Project Structure
+   ## 📁 Project Folder Structure
 
-.
-├── ```
-├── 📦 
-├── ├─ .gitattributes
-├── ├─ .gitignore
-├── ├─ LICENSE
-├── ├─ README.md
-├── ├─ command-line
-├── ├─ package-lock.json
-├── ├─ package.json
-├── ├─ postcss.config.js
-├── ├─ public
-├── │  ├─ favicon.ico
-├── │  ├─ index.html
-├── │  ├─ logo192.png
-├── │  ├─ logo512.png
-├── │  ├─ manifest.json
-├── │  └─ robots.txt
-├── ├─ src
-├── │  ├─ App.css
-├── │  ├─ App.js
-├── │  ├─ App.test.js
-├── │  ├─ components
-├── │  │  ├─ Appointments
-├── │  │  │  └─ Appointments.js
-├── │  │  ├─ Button.css
-├── │  │  ├─ Button.js
-├── │  │  ├─ ComponentName.css
-├── │  │  ├─ Footer.css
-├── │  │  ├─ Footer.js
-├── │  │  ├─ Footer.jsx
-├── │  │  ├─ Hero.css
-├── │  │  ├─ Hero.js
-├── │  │  ├─ HeroSection.js
-├── │  │  ├─ Loading06.css
-├── │  │  ├─ LoadingText.js
-├── │  │  ├─ Login.css
-├── │  │  ├─ Login.js
-├── │  │  ├─ Navbar.css
-├── │  │  ├─ Navbar.js
-├── │  │  ├─ Preloader.css
-├── │  │  ├─ Preloader.js
-├── │  │  ├─ Profile
-├── │  │  │  └─ Profile.js
-├── │  │  ├─ SearchBar.css
-├── │  │  ├─ SearchBar.js
-├── │  │  ├─ ServicesSection.css
-├── │  │  ├─ ServicesSection.js
-├── │  │  ├─ Settings
-├── │  │  │  └─ Settings.js
-├── │  │  ├─ SignInSide.jsx
-├── │  │  ├─ Signup.css
-├── │  │  ├─ Signup.js
-├── │  │  ├─ UserProfileDropdown.css
-├── │  │  ├─ UserProfileDropdown.js
-├── │  │  ├─ assets
-├── │  │  │  └─ images
-├── │  │  │     └─ default-avatar.png
-├── │  │  └─ images
-├── │  │     ├─ Dashboard.jpg
-├── │  │     ├─ Sign up .jpg
-├── │  │     ├─ back.jpeg
-├── │  │     ├─ hero.jpeg
-├── │  │     ├─ login.jpg
-├── │  │     └─ logo.jpg
-├── │  ├─ index.css
-├── │  ├─ index.js
-├── │  ├─ logo.svg
-├── │  ├─ pages
-├── │  │  ├─ AboutUs.css
-├── │  │  ├─ AboutUs.js
-├── │  │  ├─ Appointments.js
-├── │  │  ├─ BookAppointment.js
-├── │  │  ├─ Consultation.js
-├── │  │  ├─ Contact.css
-├── │  │  ├─ Contact.js
-├── │  │  ├─ OurImages
-├── │  │  │  ├─ Rajath.jpeg
-├── │  │  │  ├─ Rithesh.jpeg
-├── │  │  │  ├─ Sanath.jpeg
-├── │  │  │  ├─ github.png
-├── │  │  │  ├─ gmail.png
-├── │  │  │  ├─ linkedin.png
-├── │  │  │  └─ sheethal.jpg
-├── │  │  ├─ Profile.js
-├── │  │  ├─ SearchPage.js
-├── │  │  └─ ServicesPage.js
-├── │  ├─ reportWebVitals.js
-├── │  ├─ setupTests.js
-├── │  └─ styles
-├── │     └─ SearchPage.css
-├── └─ tailwind.config.js
-├── ```
+```bash
+📦 mediq.io
+├── .gitattributes
+├── .gitignore
+├── LICENSE
+├── README.md
+├── command-line
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── logo192.png
+│   ├── logo512.png
+│   ├── manifest.json
+│   └── robots.txt
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   ├── reportWebVitals.js
+│   ├── setupTests.js
+│   ├── styles
+│   │   └── SearchPage.css
+│   ├── components
+│   │   ├── Appointments
+│   │   │   └── Appointments.js
+│   │   ├── Button.css
+│   │   ├── Button.js
+│   │   ├── ComponentName.css
+│   │   ├── Footer.css
+│   │   ├── Footer.js
+│   │   ├── Footer.jsx
+│   │   ├── Hero.css
+│   │   ├── Hero.js
+│   │   ├── HeroSection.js
+│   │   ├── Loading06.css
+│   │   ├── LoadingText.js
+│   │   ├── Login.css
+│   │   ├── Login.js
+│   │   ├── Navbar.css
+│   │   ├── Navbar.js
+│   │   ├── Preloader.css
+│   │   ├── Preloader.js
+│   │   ├── Profile
+│   │   │   └── Profile.js
+│   │   ├── SearchBar.css
+│   │   ├── SearchBar.js
+│   │   ├── ServicesSection.css
+│   │   ├── ServicesSection.js
+│   │   ├── Settings
+│   │   │   └── Settings.js
+│   │   ├── SignInSide.jsx
+│   │   ├── Signup.css
+│   │   ├── Signup.js
+│   │   ├── UserProfileDropdown.css
+│   │   ├── UserProfileDropdown.js
+│   │   ├── assets
+│   │   │   └── images
+│   │   │       └── default-avatar.png
+│   │   └── images
+│   │       ├── Dashboard.jpg
+│   │       ├── Sign up .jpg
+│   │       ├── back.jpeg
+│   │       ├── hero.jpeg
+│   │       ├── login.jpg
+│   │       └── logo.jpg
+│   └── pages
+│       ├── AboutUs.css
+│       ├── AboutUs.js
+│       ├── Appointments.js
+│       ├── BookAppointment.js
+│       ├── Consultation.js
+│       ├── Contact.css
+│       ├── Contact.js
+│       ├── Profile.js
+│       ├── SearchPage.js
+│       ├── ServicesPage.js
+│       └── OurImages
+│           ├── Rajath.jpeg
+│           ├── Rithesh.jpeg
+│           ├── Sanath.jpeg
+│           ├── github.png
+│           ├── gmail.png
+│           ├── linkedin.png
+│           └── sheethal.jpg
+
 
 
 ## 🔧 Configuration
