@@ -95,8 +95,12 @@
 
 .button-container {
   display: flex;
-  gap: 1.2rem;
-  margin-top: 2.5rem;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.button-container a {
+  text-decoration: none;
 }
 
 .button {
@@ -187,6 +191,16 @@
   .button-container {
     justify-content: center;
     flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .button-container a {
+    width: 100%;
+  }
+
+  .contact-submit-button {
+    width: 100%;
   }
 }
 

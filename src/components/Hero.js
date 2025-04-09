@@ -3,6 +3,8 @@ import './Hero.css';
 import 'animate.css';
 import heroImage from './images/hero.jpeg';
 import { Link } from "react-router-dom";
+import Button from '../components/Button';
+
 
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,9 +29,23 @@ const HeroSection = () => {
               className="search-bar"
             />
           </div>
-          <div className="button-container animate__animated animate__fadeInUp animate__delay-2s">
-            <Link to="/login" className="button button-login">Login</Link>
-            <Link to="/signup" className="button button-signup">Sign Up</Link>
+          <div className="button-container d-flex gap-4 mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+            <Link to="/login">
+              <Button
+                className="contact-submit-button"
+                type="button"
+                data-form-btn
+                text="Login"
+              />
+            </Link>
+            <Link to="/signup">
+              <Button
+                className="contact-submit-button"
+                type="button"
+                data-form-btn
+                text="Signup"
+              />
+            </Link>
           </div>
         </div>
         
