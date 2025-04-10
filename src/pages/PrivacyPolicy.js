@@ -7,17 +7,20 @@ const PrivacyPolicy = ({ onAccept }) => {
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
 
   const handleScroll = (e) => {
-    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    const element = e.target;
+    const bottom = Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 50;
     if (bottom) {
       setScrolledToBottom(true);
     }
   };
 
-  const handleAccept = () => {
+  const handleAccept = (e) => {
+    e.preventDefault();
     if (agree && scrolledToBottom) {
       localStorage.setItem('privacyAccepted', 'true');
-      onAccept?.();
-      window.location.href = '/';
+      if (onAccept) {
+        onAccept();
+      }
     } else {
       alert('Please scroll through and agree to the Privacy Policy to continue.');
     }
@@ -205,7 +208,13 @@ const PrivacyPolicy = ({ onAccept }) => {
             onChange={(e) => setAgree(e.target.checked)} 
           /> I agree to the terms and conditions
         </label>
-        <button onClick={handleAccept} disabled={!agree || !scrolledToBottom}>
+        <button 
+          onClick={handleAccept} 
+          disabled={!agree || !scrolledToBottom}
+          style={{
+            opacity: (!agree || !scrolledToBottom) ? 0.5 : 1
+          }}
+        >
           Accept & Continue
         </button>
       </div>
