@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import About from '../components/About';
 import './AboutUs.css';
 
-import RajathImg from './OurImages/Rajath.jpeg';
+import RajathImg from './OurImages/Rajath.jpg';
 import RitheshImg from './OurImages/Rithesh.jpeg';
 import SanathImg from './OurImages/Sanath.jpeg';
 import SheethalImg from './OurImages/sheethal.jpg';
