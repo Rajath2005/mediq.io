@@ -1,220 +1,112 @@
-/* AboutUs.css */
+/* General Styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(to bottom, #e6f9f0, #d0f0fd);
-    color: #1a1a1a;
-  }
-  
-  .about-section {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 60px 80px;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .about-left {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .about-left h1 {
-    font-size: 48px;
-    color: #2acfa1;
-    
-  }
-  
-  .about-left h2 {
-    font-size: 28px;
-    color: #26a69a;
-    margin-bottom: 10px;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(to bottom, #e6f9f0, #d0f0fd);
+  color: #1a1a1a;
+}
 
-  
-  .about-left p {
-    font-size: 16px;
-    line-height: 1.6;
-    max-width: 500px;
+.about-section {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 60px 80px;
+  justify-content: space-between;
+  align-items: center; /* Center-align items vertically */
+  gap: 30px; /* Add spacing between sections */
+}
+
+.about-left,
+.about-right {
+  flex: 1;
+  min-width: 300px;
+  text-align: center; /* Center-align text for better mobile view */
+}
+
+.about-left h1 {
+  font-size: 48px;
+  color: #2acfa1;
+  margin-bottom: 20px;
+}
+
+.about-left h2,
+.about-right h2 {
+  font-size: 28px;
+  color: #26a69a;
+  margin-bottom: 10px;
+}
+
+.about-left p,
+.about-right p {
+  font-size: 16px;
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto; /* Center-align text */
+}
+
+.about-left p:hover,
+.about-right p:hover {
+  color: #000000;
+  text-decoration: underline; /* Use underline for better readability */
+}
+
+.view-more {
+  margin-top: 30px;
+  padding: 12px 28px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #2acfa1;
+  color: white;
+  box-shadow: 0 0 15px rgba(42, 207, 161, 0.6);
+  transition: 0.3s ease;
+}
+
+.view-more:hover {
+  background-color: #26a69a;
+}
+
+.about-right img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: #b2ebf2;
+  padding: 20px;
+  object-fit: cover;
+  box-shadow: 0 0 30px rgba(38, 166, 154, 0.4);
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+  .about-section {
+    flex-direction: column; /* Stack sections vertically */
+    padding: 40px 20px;
+    text-align: center; /* Center-align text for mobile */
   }
-  
-  .about-left p:hover {
-    color: #000000;
-    text-decoration: wavy;
+
+  .about-left h1 {
+    font-size: 36px; /* Reduce font size for smaller screens */
   }
-  
-  .view-more {
-    margin-top: 30px;
-    padding: 12px 28px;
-    border-radius: 25px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    background: #2acfa1;
-    color: white;
-    box-shadow: 0 0 15px rgba(42, 207, 161, 0.6);
-    transition: 0.3s ease;
-  }
-  
-  .view-more:hover {
-    background-color: #26a69a;
-  }
-  
-  .about-right {
-    flex: 1;
-    text-align: center;
-    position: relative;
-  }
-  
-  .about-right img {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    background: #b2ebf2;
-    padding: 20px;
-    object-fit: cover;
-    box-shadow: 0 0 30px rgba(38, 166, 154, 0.4);
-  }
-  
+
+  .about-left h2,
   .about-right h2 {
     font-size: 24px;
-    color: #26a69a;
-    margin-top: 30px;
   }
-  
+
+  .about-left p,
   .about-right p {
-    font-size: 15px;
-    max-width: 500px;
-    margin: 10px auto 0;
-  }
-  .about-right p:hover {
-    color: #000000;
-    text-decoration: wavy;
-  }
-  .about-left {
-    flex: 1;
-    text-align: left;
-    position: relative;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .about-left img {
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    background: #b2ebf2;
-    padding: 20px;
-    object-fit: cover;
-    box-shadow: 0 0 30px rgba(38, 166, 154, 0.4);
-  }
-  
-  .about-left h2 {
-    font-size: 24px;
-    color: #26a69a;
-    margin-top: 30px;
-  }
-  
-  .about-left p {
-    font-size: 15px;
-    max-width: 500px;
-    margin: 10px 0 0 0; /* Remove auto to align left */
-  }
-  
-  .about-left p:hover {
-    color: #000000;
-    text-decoration: wavy;
+    font-size: 14px;
+    line-height: 1.8;
   }
 
-  /* Media Queries for Mobile Responsiveness */
-  @media screen and (max-width: 768px) {
-    .about-section {
-      padding: 40px 24px;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .about-left {
-      width: 100%;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .about-left:hover {
-      transform: translateY(-5px);
-    }
-
-    .about-left h1 {
-      font-size: 32px;
-      background: linear-gradient(45deg, #2acfa1, #26a69a);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 15px;
-    }
-
-    .about-left h2 {
-      font-size: 22px;
-      letter-spacing: 0.5px;
-    }
-
-    .about-left p {
-      font-size: 15px;
-      margin: 15px auto;
-      line-height: 1.8;
-      padding: 0 10px;
-    }
-
-    .about-right {
-      margin-top: 30px;
-      width: 100%;
-      transform: translateY(0);
-      transition: transform 0.4s ease;
-    }
-
-    .about-right:hover {
-      transform: translateY(-5px);
-    }
-
-    .about-right img {
-      width: 180px;
-      height: 180px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .about-right img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 40px rgba(38, 166, 154, 0.6);
-    }
-
-    .view-more {
-      padding: 12px 28px;
-      font-size: 15px;
-      background: linear-gradient(45deg, #2acfa1, #26a69a);
-      border-radius: 30px;
-      transform: scale(1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .view-more:hover {
-      transform: scale(1.05);
-      box-shadow: 0 5px 15px rgba(42, 207, 161, 0.4);
-      background: linear-gradient(45deg, #26a69a, #2acfa1);
-    }
-
-    .view-more:active {
-      transform: scale(0.95);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .about-left, .about-right {
-      animation: fadeIn 0.8s ease forwards;
-    }
+  .about-right img {
+    width: 200px;
+    height: 200px;
   }
+
+  .view-more {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
