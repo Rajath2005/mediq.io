@@ -1,4 +1,3 @@
-// AboutUs.jsx
 import React from 'react';
 import './About.css';
 import logo from './images/logo.jpg';
@@ -18,18 +17,7 @@ const AboutUs = () => {
         </div>
 
         <div className="about-right">
-          <img src={logo} alt="MediQLogo" />
-          <h2>Our Vision</h2>
-          <div className="underline"></div>
-          <p>
-            At MediQ, we strive to make traditional Ayurvedic healing accessible to everyone. Our team of experienced practitioners and modern healthcare experts work together to deliver personalized wellness solutions for our valued clients.
-          </p>
-        </div>
-      </section>
-
-      <section className="about-section">
-        <div className="about-left">
-          <img src={logo} alt="MediQLogo" />
+          <img src={logo} alt="MediQ Logo" />
           <h2>Our Vision</h2>
           <div className="underline"></div>
           <p>
