@@ -6,16 +6,20 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import Contact from './pages/Contact';
-import AboutUs from './pages/AboutUs';
+import AboutUs from './components/About'; // Updated import path for AboutUs
 import ServicesPage from './pages/ServicesPage';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Appointments from "./pages/Appointments";
-import BookAppointment from "./pages/BookAppointment";
 import Preloader from "./components/Preloader";
 import SearchPage from './pages/SearchPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+
+// Booking pages
+import HospitalList from './pages/booking/HospitalList';
+import DoctorList from './pages/booking/DoctorList';
+import BookAppointment from './pages/booking/BookAppointment';
 
 import './App.css';
 
@@ -24,14 +28,12 @@ const App = () => {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
 
   useEffect(() => {
-    // Check privacy policy acceptance
     const hasAcceptedPrivacy = localStorage.getItem('privacyAccepted') === 'true';
     setPrivacyAccepted(hasAcceptedPrivacy);
 
-    // Existing preloader logic
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000); // Show Preloader for 3 seconds
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -40,37 +42,36 @@ const App = () => {
   }
 
   if (!privacyAccepted) {
-    return <PrivacyPolicy 
-      isOpen={true} 
-      onAccept={() => {
-        setPrivacyAccepted(true);
-      }} 
-      onClose={() => {
-        // We don't want to close it if it's not accepted
-        // But we need to provide this prop
-      }}
-    />;
+    return (
+      <PrivacyPolicy
+        isOpen={true}
+        onAccept={() => setPrivacyAccepted(true)}
+        onClose={() => {}}
+      />
+    );
   }
 
   return (
     <Router>
       <div>
         <Navbar />
-
         <Routes>
           <Route path="/" element={<><Hero /><ServicesSection /></>} />
-          <Route path="/about" element={<AboutUs />} />
+          <Route path="/about" element={<><Hero /><AboutUs /></>} /> {/* Added Hero to AboutUs */}
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/book-appointment" element={<BookAppointment />} />
           <Route path="/search-medicines" element={<SearchPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-        </Routes>
 
+          {/* Booking flow */}
+          <Route path="/hospitals" element={<HospitalList />} />
+          <Route path="/hospitals/:hospitalId/doctors" element={<DoctorList />} />
+          <Route path="/book-appointment/:hospitalId/:doctorId" element={<BookAppointment />} />
+        </Routes>
         <Footer />
       </div>
     </Router>
