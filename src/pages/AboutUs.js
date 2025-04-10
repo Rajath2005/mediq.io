@@ -58,7 +58,7 @@ const AboutUs = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          Our Team
+          Meet the Team
         </motion.p>
         <div className="responsive-container-block">
           {teamMembers.map((member, index) => (
