@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import About from '../components/About';
 import './AboutUs.css';
 
 import RajathImg from './OurImages/Rajath.jpeg';
@@ -49,6 +50,7 @@ const teamMembers = [
 const AboutUs = () => {
   return (
     <div>
+      <About />
       <div className="container">
         <motion.p 
           className="team-head-text"
