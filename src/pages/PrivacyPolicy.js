@@ -1,10 +1,21 @@
 // src/pages/PrivacyPolicy/PrivacyPolicy.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './PrivacyPolicy.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'animate.css';
 
-const PrivacyPolicy = ({ onAccept }) => {
+const PrivacyPolicy = ({ onAccept, isOpen, onClose }) => {
   const [agree, setAgree] = useState(false);
   const [scrolledToBottom, setScrolledToBottom] = useState(false);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setVisible(true);
+    } else {
+      setTimeout(() => setVisible(false), 300);
+    }
+  }, [isOpen]);
 
   const handleScroll = (e) => {
     const element = e.target;
@@ -18,205 +29,118 @@ const PrivacyPolicy = ({ onAccept }) => {
     e.preventDefault();
     if (agree && scrolledToBottom) {
       localStorage.setItem('privacyAccepted', 'true');
-      if (onAccept) {
-        onAccept();
-      }
+      if (onAccept) onAccept();
+      if (onClose) onClose();
     } else {
-      alert('Please scroll through and agree to the Privacy Policy to continue.');
+      const errorMessage = !scrolledToBottom 
+        ? 'Please scroll through the entire Privacy Policy to continue.' 
+        : 'Please agree to the Privacy Policy to continue.';
+        
+      document.getElementById('privacyToast').classList.add('show');
+      document.getElementById('privacyToastMessage').innerText = errorMessage;
+      setTimeout(() => document.getElementById('privacyToast').classList.remove('show'), 3000);
     }
   };
 
+  if (!visible) return null;
+
+  const overlayClasses = `privacy-policy-overlay ${isOpen ? 'animate__animated animate__fadeIn' : 'animate__animated animate__fadeOut'}`;
+  const modalClasses = `privacy-policy-container ${isOpen ? 'animate__animated animate__zoomIn' : 'animate__animated animate__zoomOut'}`;
+
   return (
-    <div className="privacy-policy-container">
-      <div className="privacy-policy-content scrollable" onScroll={handleScroll}>
-        <h1>MediQ Privacy Policy</h1>
-        <p className="last-updated"><strong>Last Updated: April 9, 2025</strong></p>
+    <div className={overlayClasses}>
+      <div className={modalClasses}>
+        <div className="privacy-policy-header">
+          <h1 className="text-primary">MediQ Privacy Policy</h1>
+          <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
+        </div>
+        
+        <p className="last-updated text-muted">
+          <i className="bi bi-calendar-check me-2"></i>
+          <strong>Last Updated: April 9, 2025</strong>
+        </p>
 
-        <section>
-          <h2>1. Introduction</h2>
-          <p>
-            Welcome to MediQ. We understand the importance of your personal information, 
-            particularly when it comes to health data. This Privacy Policy explains how 
-            we collect, use, disclose, and safeguard your information when you use our 
-            website and services.
-          </p>
-        </section>
+        <div className="progress mb-3" style={{ height: '6px' }}>
+          <div 
+            className="progress-bar bg-success" 
+            role="progressbar" 
+            style={{ width: scrolledToBottom ? '100%' : '0%' }}
+            aria-valuenow={scrolledToBottom ? 100 : 0} 
+            aria-valuemin="0" 
+            aria-valuemax="100"
+          ></div>
+        </div>
 
-        <section>
-          <h2>2. Information We Collect</h2>
-          
-          <h3>2.1 Personal Information</h3>
-          <p>We may collect personally identifiable information, such as:</p>
-          <ul>
-            <li>Full name</li>
-            <li>Contact information (email address, phone number, mailing address)</li>
-            <li>Date of birth</li>
-            <li>Gender</li>
-            <li>Insurance information</li>
-            <li>Payment details</li>
-          </ul>
+        <div className="privacy-policy-content scrollable" onScroll={handleScroll}>
+          <section className="policy-section">
+            <h2>1. Introduction</h2>
+            <p>Welcome to MediQ. This Privacy Policy explains how we collect, use, and protect your information.</p>
+          </section>
 
-          <h3>2.2 Health Information</h3>
-          <p>We may collect health-related information, including:</p>
-          <ul>
-            <li>Medical history</li>
-            <li>Current health conditions</li>
-            <li>Medications</li>
-            <li>Treatment plans</li>
-            <li>Activity and health metrics</li>
-            <li>Appointment information</li>
-          </ul>
+          <section className="policy-section">
+            <h2>2. Information We Collect</h2>
+            <ul className="info-list">
+              <li><i className="bi bi-person me-2"></i>Personal Information</li>
+              <li><i className="bi bi-journal-medical me-2"></i>Health Information</li>
+              <li><i className="bi bi-globe me-2"></i>Technical Information</li>
+            </ul>
+          </section>
 
-          <h3>2.3 Technical Information</h3>
-          <p>When you use our website, we automatically collect:</p>
-          <ul>
-            <li>IP address</li>
-            <li>Browser type</li>
-            <li>Device information</li>
-            <li>Usage data</li>
-            <li>Cookies and similar tracking technologies</li>
-          </ul>
-        </section>
+          <section className="policy-section">
+            <h2>3. Data Security</h2>
+            <div className="alert alert-info">
+              <i className="bi bi-shield-lock-fill me-2"></i>
+              <p>We implement security measures to protect your information as required by HIPAA.</p>
+            </div>
+          </section>
 
-        <section>
-          <h2>3. How We Use Your Information</h2>
-          <p>We use your information for the following purposes:</p>
-          <ul>
-            <li>To provide and maintain our services</li>
-            <li>To process appointments and reminders</li>
-            <li>To monitor and improve health outcomes</li>
-            <li>To communicate with you about your health</li>
-            <li>To improve our website and services</li>
-            <li>To process payments</li>
-            <li>To comply with legal obligations</li>
-          </ul>
-        </section>
+          <section className="policy-section">
+            <h2>4. Contact Us</h2>
+            <div className="contact-info">
+              <p><i className="bi bi-envelope me-2"></i>privacy@mediq.io</p>
+              <p><i className="bi bi-telephone me-2"></i>(800) 555-1234</p>
+            </div>
+          </section>
+        </div>
 
-        <section>
-          <h2>4. HIPAA Compliance</h2>
-          <p>
-            MediQ is committed to complying with the Health Insurance Portability and 
-            Accountability Act (HIPAA). We implement physical, technical, and administrative 
-            safeguards to protect your health information as required by HIPAA.
-          </p>
-        </section>
-
-        <section>
-          <h2>5. Data Sharing and Disclosure</h2>
-          
-          <h3>5.1 Healthcare Providers</h3>
-          <p>
-            With your consent, we may share your health information with healthcare 
-            providers involved in your care.
-          </p>
-
-          <h3>5.2 Service Providers</h3>
-          <p>
-            We may share information with third-party vendors who help us operate our 
-            website and services, such as hosting providers, payment processors, and 
-            analytics services. These providers are contractually obligated to protect 
-            your information.
-          </p>
-
-          <h3>5.3 Legal Requirements</h3>
-          <p>
-            We may disclose your information when required by law, such as in response 
-            to a court order, subpoena, or other legal process.
-          </p>
-        </section>
-
-        <section>
-          <h2>6. Data Security</h2>
-          <p>
-            We implement appropriate security measures to protect your personal and health 
-            information from unauthorized access, alteration, disclosure, or destruction. 
-            However, no method of transmission over the Internet or electronic storage is 
-            100% secure.
-          </p>
-        </section>
-
-        <section>
-          <h2>7. Your Rights</h2>
-          <p>Depending on your location, you may have the right to:</p>
-          <ul>
-            <li>Access your personal information</li>
-            <li>Correct inaccurate information</li>
-            <li>Delete your information</li>
-            <li>Restrict or object to processing</li>
-            <li>Data portability</li>
-            <li>Withdraw consent</li>
-          </ul>
-          <p>
-            To exercise these rights, please contact us using the information in Section 11.
-          </p>
-        </section>
-
-        <section>
-          <h2>8. Children's Privacy</h2>
-          <p>
-            Our services are not intended for individuals under the age of 18 without 
-            parental consent. We do not knowingly collect information from children under 
-            18 without verifiable parental consent.
-          </p>
-        </section>
-
-        <section>
-          <h2>9. Cookies and Tracking Technologies</h2>
-          <p>
-            We use cookies and similar tracking technologies to enhance your experience 
-            on our website. You can manage your cookie preferences through your browser 
-            settings.
-          </p>
-        </section>
-
-        <section>
-          <h2>10. Changes to This Privacy Policy</h2>
-          <p>
-            We may update this Privacy Policy from time to time. We will notify you of 
-            any changes by posting the new Privacy Policy on this page and updating the 
-            "Last Updated" date.
-          </p>
-        </section>
-
-        <section>
-          <h2>11. Contact Us</h2>
-          <p>
-            If you have any questions or concerns about this Privacy Policy, please 
-            contact us at:
-          </p>
-          <div className="contact-info">
-            <p><strong>MediQ</strong></p>
-            <p>Email: privacy@mediq.io</p>
-            <p>Address: [Your Physical Address]</p>
-            <p>Phone: [Your Phone Number]</p>
+        <div className="accept-controls">
+          <div className="form-check">
+            <input 
+              className="form-check-input" 
+              type="checkbox" 
+              id="privacyAgreement" 
+              checked={agree} 
+              onChange={(e) => setAgree(e.target.checked)} 
+            />
+            <label className="form-check-label" htmlFor="privacyAgreement">
+              I have read and agree to the Privacy Policy
+            </label>
           </div>
-        </section>
-
-        <section>
-          <h2>12. Consent</h2>
-          <p>
-            By using our website and services, you consent to this Privacy Policy.
-          </p>
-        </section>
+          
+          <div className="action-buttons">
+            <button className="btn btn-secondary me-2" onClick={onClose}>Cancel</button>
+            <button 
+              className={`btn btn-primary ${(!agree || !scrolledToBottom) ? 'disabled' : ''}`}
+              onClick={handleAccept} 
+              disabled={!agree || !scrolledToBottom}
+            >
+              Accept & Continue
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="accept-controls">
-        <label>
-          <input 
-            type="checkbox" 
-            checked={agree} 
-            onChange={(e) => setAgree(e.target.checked)} 
-          /> I agree to the terms and conditions
-        </label>
-        <button 
-          onClick={handleAccept} 
-          disabled={!agree || !scrolledToBottom}
-          style={{
-            opacity: (!agree || !scrolledToBottom) ? 0.5 : 1
-          }}
-        >
-          Accept & Continue
-        </button>
+      <div className="position-fixed bottom-0 end-0 p-3" style={{ zIndex: 11 }}>
+        <div id="privacyToast" className="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div className="toast-header">
+            <i className="bi bi-exclamation-circle-fill me-2 text-danger"></i>
+            <strong className="me-auto">Error</strong>
+            <button type="button" className="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div className="toast-body" id="privacyToastMessage">
+            Please scroll through and agree to the Privacy Policy to continue.
+          </div>
+        </div>
       </div>
     </div>
   );

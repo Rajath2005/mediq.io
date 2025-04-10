@@ -40,10 +40,16 @@ const App = () => {
   }
 
   if (!privacyAccepted) {
-    return <PrivacyPolicy onAccept={() => {
-      localStorage.setItem('privacyAccepted', 'true');
-      setPrivacyAccepted(true);
-    }} />;
+    return <PrivacyPolicy 
+      isOpen={true} 
+      onAccept={() => {
+        setPrivacyAccepted(true);
+      }} 
+      onClose={() => {
+        // We don't want to close it if it's not accepted
+        // But we need to provide this prop
+      }}
+    />;
   }
 
   return (
