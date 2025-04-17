@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import Contact from './pages/Contact';
-import AboutUs from './components/About'; // Updated import path for AboutUs
+import AboutUs from './pages/AboutUs'; // Updated import path for AboutUs
 import ServicesPage from './pages/ServicesPage';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
@@ -57,7 +57,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<><Hero /><ServicesSection /></>} />
-          <Route path="/about" element={<><Hero /><AboutUs /></>} /> {/* Added Hero to AboutUs */}
+          <Route path="/about" element={<AboutUs />} /> {/* Added Hero to AboutUs */}
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
