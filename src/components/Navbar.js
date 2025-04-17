@@ -87,9 +87,9 @@ const Navbar = () => {
                   <Link className="dropdown-item" to="/another-action" onClick={() => setIsNavExpanded(false)}>Another action</Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/book-appointment" onClick={() => setIsNavExpanded(false)}>
-                    Appointment to Doctors
-                  </Link>
+                <Link className="dropdown-item" to="/hospitals" onClick={() => setIsNavExpanded(false)}>
+                    Book Appointment
+                </Link>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
