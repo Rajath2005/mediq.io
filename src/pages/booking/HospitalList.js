@@ -23,6 +23,13 @@ const hospitals = [
     description: "World-class medical care and surgical expertise",
     location: "Gurugram"
   },
+  { 
+    id: "Ayurveda", 
+    name: "Medanta Hospital",
+    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958077/hospital-building-illustration-medical-clinic-isolated-on-white-background-vector_qxf2xc.jpg", // Add actual image URL
+    description: "World-class medical care and surgical expertise",
+    location: "Gurugram"
+  },
 ];
 
 const HospitalList = () => {

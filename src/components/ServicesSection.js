@@ -10,18 +10,37 @@ import {
   faChartLine,
   faCommentDots
 } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const ServicesSection = () => {
+  const navigate = useNavigate();
+
+  const serviceRoutes = {
+    "Health Monitoring": "/health-monitor",
+    "Appointment Scheduling": "/hospitals", // Changed from "/HospitalList" to "/hospitals"
+    "Prescription Management": "/prescription-management",
+    "Emergency Assistance": "/emergency-service",
+    "Health Analytics": "/health-analytics",
+    "Doctor Chat": "/doctor-chat"
+  };
+
+  const handleServiceClick = (title) => {
+    const route = serviceRoutes[title];
+    if (route) {
+      navigate(route);
+    }
+  };
+
   const services = [
-    { 
-      icon: faHeartbeat, 
-      title: "Health Monitoring", 
-      description: "Real-time tracking of vital health metrics and personalized insights to help you stay healthy." 
-    },
     { 
       icon: faCalendarAlt, 
       title: "Appointment Scheduling", 
       description: "Easily schedule appointments with doctors and specialists, manage reminders, and stay organized." 
+    },
+    { 
+      icon: faHeartbeat, 
+      title: "Health Monitoring", 
+      description: "Real-time tracking of vital health metrics and personalized insights to help you stay healthy." 
     },
     { 
       icon: faPrescription, 
@@ -53,7 +72,14 @@ const ServicesSection = () => {
       <div className="row">
         {services.map((service, index) => (
           <div className="column" key={index}>
-            <div className="card animate__animated animate__fadeInUp" style={{ animationDelay: `${index * 0.2}s` }}>
+            <div 
+              className="card animate__animated animate__fadeInUp" 
+              style={{ 
+                animationDelay: `${index * 0.2}s`,
+                cursor: 'pointer'
+              }}
+              onClick={() => handleServiceClick(service.title)}
+            >
               <div className="icon-wrapper animate__animated animate__pulse animate__infinite">
                 <FontAwesomeIcon icon={service.icon} />
               </div>
