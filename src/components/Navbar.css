@@ -287,3 +287,44 @@ body.dark-mode ::-webkit-scrollbar-track {
 body.dark-mode ::-webkit-scrollbar-thumb {
   background: var(--dark-text-secondary);
 }
+
+/* Dropdown Styles */
+.nav-item.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  min-width: 200px;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+}
+
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+.nav-link.dropdown-toggle {
+  cursor: pointer;
+  user-select: none;
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+}
