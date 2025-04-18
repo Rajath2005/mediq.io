@@ -3,12 +3,12 @@ import './ServicesSection.css';
 import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faHeartbeat, 
   faCalendarAlt, 
   faPrescription, 
   faAmbulance,
   faChartLine,
-  faCommentDots
+  faCommentDots,
+  faLeaf // Add this new import
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +21,8 @@ const ServicesSection = () => {
     "Prescription Management": "/prescription-management",
     "Emergency Assistance": "/emergency-service",
     "Health Analytics": "/health-analytics",
-    "Doctor Chat": "/doctor-chat"
+    "Doctor Chat": "/doctor-chat",
+    "Ayurvedic Medicine": "/search-medicines" // Add new route
   };
 
   const handleServiceClick = (title) => {
@@ -37,10 +38,10 @@ const ServicesSection = () => {
       title: "Appointment Scheduling", 
       description: "Easily schedule appointments with doctors and specialists, manage reminders, and stay organized." 
     },
-    { 
-      icon: faHeartbeat, 
-      title: "Health Monitoring", 
-      description: "Real-time tracking of vital health metrics and personalized insights to help you stay healthy." 
+    {
+      icon: faLeaf,
+      title: "Ayurvedic Medicine",
+      description: "Discover traditional Ayurvedic remedies and holistic healing approaches for natural wellness."
     },
     { 
       icon: faPrescription, 
@@ -61,6 +62,11 @@ const ServicesSection = () => {
       icon: faCommentDots,
       title: "Doctor Chat",
       description: "Secure and convenient communication with your healthcare providers for questions, consultations, and support."
+    },
+    {
+      icon: faLeaf,
+      title: "Ayurvedic Medicine",
+      description: "Discover traditional Ayurvedic remedies and holistic healing approaches for natural wellness."
     }
   ];
 
