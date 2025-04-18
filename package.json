@@ -34,7 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build --message \"Deploy to GitHub Pages\" --repo https://github.com/Rajath2005/mediq.io.git",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
