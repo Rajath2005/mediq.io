@@ -84,9 +84,6 @@ const Navbar = () => {
                   <Link className="dropdown-item" to="/search-medicines" onClick={() => setIsNavExpanded(false)}>Search Ayurvedic Medicines</Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/another-action" onClick={() => setIsNavExpanded(false)}>Another action</Link>
-                </li>
-                <li>
                 <Link className="dropdown-item" to="/hospitals" onClick={() => setIsNavExpanded(false)}>
                     Book Appointment
                 </Link>
