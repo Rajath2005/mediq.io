@@ -1,41 +1,109 @@
+/* Search Bar Container */
 .search-bar-container {
-  background: rgba(255, 255, 255, 0.9);
-  padding: 0.7rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  background: linear-gradient(135deg, #fffbf2, #f0f4f8); /* Soft gradient */
+  padding: 1rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
 }
 
 .search-bar-container:hover {
-  transform: translateY(-2px);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
+/* Search Bar Input */
 .search-bar {
   width: 100%;
-  padding: 1rem 1.5rem;
-  border-radius: 0.75rem;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 1.2rem 1.5rem;
+  border-radius: 1rem;
+  border: 2px solid #ddd;
   font-size: 1.125rem;
-  background: white;
+  background: #fff;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
+  outline: none;
 }
 
 .search-bar:focus {
-  outline: none;
   border-color: #38b2ac;
-  box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
+  box-shadow: 0 0 5px 2px rgba(56, 178, 172, 0.3);
 }
 
+/* Search Button - Modern and Interactive */
 .search-button {
   padding: 1rem 2rem;
-  background: #38b2ac;
+  background: linear-gradient(135deg, #38b2ac, #2c9290); /* Gradient background */
   color: white;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 50px; /* More rounded for modern look */
   font-weight: 600;
-  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 5px 15px rgba(56, 178, 172, 0.2);
 }
 
 .search-button:hover {
-  background: #2c9290;
+  background: linear-gradient(135deg, #2c9290, #38b2ac); /* Reverse gradient on hover */
+  transform: translateY(-3px); /* Slight lift effect */
+  box-shadow: 0 10px 20px rgba(56, 178, 172, 0.4);
+}
+
+.search-button:active {
+  transform: translateY(1px); /* Slight "press" effect when clicked */
+}
+
+/* Styling for the Flashcard - Sleek and Modern */
+.flashcard {
+  background: #fff;
+  padding: 25px;
+  border-radius: 1.5rem; /* Increased rounding for smoother look */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+  max-width: 450px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #333;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.flashcard:hover {
+  transform: scale(1.05) rotate(2deg); /* Added rotation for a more dynamic hover effect */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  background: #f1f5f8; /* Slight color change on hover */
+}
+
+.flashcard p {
+  font-weight: 600;
+  color: #38b2ac; /* Fresh green color for remedy text */
+  font-size: 1.3em; /* Increased font size for emphasis */
+  line-height: 1.5;
+}
+
+.flashcard h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #2c3e50; /* Darker color for title */
+}
+
+.flashcard .remedy-description {
+  font-size: 1.1rem;
+  color: #555; /* Slightly lighter for readability */
+}
+
+/* Adding subtle fade-in effect for the flashcard */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
