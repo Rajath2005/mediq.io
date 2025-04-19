@@ -6,15 +6,18 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import Contact from './pages/Contact';
-import AboutPage from './pages/AboutPage'; // Updated import path for AboutUs
+import AboutUs from './pages/AboutUs';
 import ServicesPage from './pages/ServicesPage';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Profile from "./pages/Profile";
 import Appointments from "./pages/Appointments";
 import Preloader from "./components/Preloader";
-import SearchPage from './pages/SearchPage';
 import PrivacyPolicy from './pages/PrivacyPolicy';
+
+// ✅ New Pages
+import HomeRemediesPage from './pages/HomeRemediesPage'; 
+import SearchPage from './pages/SearchPage'; // ✅ Ayurvedic Medicines search
 
 // Booking pages
 import HospitalList from './pages/booking/HospitalList';
@@ -57,15 +60,19 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" element={<><Hero /><ServicesSection /></>} />
-          <Route path="/about" element={<AboutPage />} /> 
+          <Route path="/about" element={<AboutUs />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/contact" element={<Contact />} />
+          
+          {/* ✅ Remedy & Medicine Search Pages */}
+          <Route path="/home-remedies" element={<HomeRemediesPage />} />
           <Route path="/search-medicines" element={<SearchPage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
           {/* Booking flow */}
           <Route path="/hospitals" element={<HospitalList />} />
