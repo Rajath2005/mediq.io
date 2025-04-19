@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"; // Add useRef import
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
@@ -9,7 +9,6 @@ const Navbar = () => {
   const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
 
   // Simulate login for testing
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -24,27 +23,9 @@ const Navbar = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
-  // Add click outside listener
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserDetails(null);
-  };
-
-  // Add handler to close dropdown
-  const handleDropdownItemClick = () => {
-    setIsDropdownOpen(false);
-    setIsNavExpanded(false);
   };
 
   return (
@@ -58,10 +39,7 @@ const Navbar = () => {
         </Link>
 
         {/* Mobile Emergency Button */}
-        <a
-          href="tel:+911234567890"
-          className="btn btn-danger d-lg-none me-2"
-        >
+        <a href="tel:+911234567890" className="btn btn-danger d-lg-none me-2">
           Emergency
         </a>
 
@@ -91,40 +69,32 @@ const Navbar = () => {
             </li>
 
             {/* Dropdown */}
-            <li className="nav-item dropdown" ref={dropdownRef}>
+            <li className="nav-item dropdown">
               <button
                 className="nav-link dropdown-toggle"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                aria-expanded={isDropdownOpen}
               >
                 Services
               </button>
               <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
                 <li>
-                  <Link 
-                    className="dropdown-item" 
-                    to="/search-medicines" 
-                    onClick={handleDropdownItemClick}
-                  >
+                  <Link className="dropdown-item" to="/search-medicines" onClick={() => setIsNavExpanded(false)}>
                     Search Ayurvedic Medicines
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    className="dropdown-item" 
-                    to="/hospitals" 
-                    onClick={handleDropdownItemClick}
-                  >
+                  <Link className="dropdown-item" to="/home-remedies" onClick={() => setIsNavExpanded(false)}>
+                    Search Home Remedies
+                  </Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/hospitals" onClick={() => setIsNavExpanded(false)}>
                     Book Appointment
                   </Link>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
-                  <Link 
-                    className="dropdown-item" 
-                    to="/something-else" 
-                    onClick={handleDropdownItemClick}
-                  >
+                  <Link className="dropdown-item" to="/something-else" onClick={() => setIsNavExpanded(false)}>
                     Something else here
                   </Link>
                 </li>
@@ -135,10 +105,7 @@ const Navbar = () => {
           {/* Right-side Buttons */}
           <div className="d-flex align-items-center gap-3">
             {/* Desktop Emergency Call Button */}
-            <a
-              href="tel:+911234567890"
-              className="btn btn-danger d-none d-lg-block"
-            >
+            <a href="tel:+911234567890" className="btn btn-danger d-none d-lg-block">
               Emergency Call
             </a>
 
