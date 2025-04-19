@@ -24,6 +24,7 @@ body, #root {
   transform: translateZ(0);
   will-change: transform;
   z-index: -2;
+  transition: background-image 0.3s ease-in-out;
 }
 
 /* Enhanced overlay with gradient */
@@ -89,15 +90,29 @@ body, #root {
 }
 
 /* Dark mode styles */
+body.dark-mode #root::before {
+  background: url('https://res.cloudinary.com/dacpbywfp/image/upload/v1745061858/background-abstract-line-digital-gradient-luxury_483537-2367_nifq3x.avif') no-repeat center center fixed;
+  background-size: cover;
+}
+
 body.dark-mode #root::after {
   background: linear-gradient(
     135deg,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.6) 100%
+    rgba(173, 171, 171, 0.685) 0%,
+    rgba(141, 252, 160, 0.555) 100%
   );
   backdrop-filter: blur(3px);
 }
 
+body.dark-mode footer {
+  background-color: #282c34; /* or your preferred dark mode color */
+  color: #ffffff;
+  transition: all 0.3s ease-in-out;
+}
+
+body.dark-mode footer a {
+  color: #61dafb; /* for links in footer */
+}
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
