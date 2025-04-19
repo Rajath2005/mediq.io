@@ -2,10 +2,13 @@ import React from 'react';
 import SearchBar from '../components/SearchBar';
 import Button from '../components/Button';
 import '../styles/SearchPage.css';
-import 'animate.css'; // ✅ Import here if not in App.js
+import 'animate.css';
 import { FaLeaf, FaSearchPlus, FaBookMedical } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const SearchPage = () => {
+  const navigate = useNavigate();
+  
   const handleSearch = (searchTerm) => {
     // You can implement your search logic here
     console.log('Searching for:', searchTerm);
@@ -13,6 +16,14 @@ const SearchPage = () => {
 
   return (
     <div className="search-page">
+      <div className="mb-4 animate__animated animate__fadeInUp" style={{ position: 'absolute', left: '20px', top: '80px' }}>
+          <button 
+            className="btn btn-outline-success" 
+            onClick={() => navigate(-1)}
+          >
+            Back to Home
+          </button>
+        </div>
       <div className="search-container animate__animated animate__fadeInUp">
         <h1 className="search-title animate__animated animate__fadeInDown animate__delay-1s">
           Discover Ayurvedic Medicines
