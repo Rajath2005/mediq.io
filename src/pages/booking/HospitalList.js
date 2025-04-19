@@ -40,21 +40,23 @@ const HospitalList = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5 px-4">
       <div className="text-center mb-5">
         <h2 className="display-4">Select a Hospital</h2>
         <p className="text-muted">Choose from our network of trusted healthcare providers</p>
       </div>
       
-      <div className="row g-4">
+      <div className="row g-4 justify-content-center">
         {hospitals.map((hospital) => (
-          <div className="col-md-4" key={hospital.id}>
+          <div className="col-12 col-sm-10 col-md-6 col-lg-4" key={hospital.id}>
             <div 
-              className="card h-100 shadow-sm"
+              className="card h-100 shadow-sm mx-auto"
               onClick={() => handleHospitalClick(hospital.id)}
               style={{
                 cursor: "pointer",
                 transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                maxWidth: "400px",
+                width: "100%"
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = "translateY(-5px)";
