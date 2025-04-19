@@ -6,7 +6,7 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import ServicesSection from './components/ServicesSection';
 import Contact from './pages/Contact';
-import AboutUs from './pages/AboutUs';
+import AboutUs from './pages/AboutPage'; // Fixed: Changed from './pages/AboutUs' to './pages/AboutPage'
 import ServicesPage from './pages/ServicesPage';
 import Login from "./components/Login";
 import Signup from "./components/Signup";

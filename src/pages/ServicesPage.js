@@ -1,11 +1,10 @@
 import React from 'react';
+import ServicesSection from '../components/ServicesSection';
 
 const ServicesPage = () => {
   return (
     <div className="container mt-5">
-      <h1>Our Services</h1>
-      <p>Welcome to our comprehensive medical services page.</p>
-      {/* Add your services content here */}
+         <ServicesSection/>
     </div>
   );
 };

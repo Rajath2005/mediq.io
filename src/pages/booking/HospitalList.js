@@ -46,7 +46,7 @@ const HospitalList = () => {
           className="btn btn-outline-success" 
           onClick={() => navigate(-1)}
         >
-         Back to Home
+         Back 
         </button>
       </div>
       <div className="text-center mb-5">
