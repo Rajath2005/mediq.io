@@ -12,9 +12,16 @@
 
 MediQ is a modern, comprehensive healthcare management platform that empowers users to take control of their health journey. Built with React and modern web technologies, it offers an intuitive interface and powerful features for effective health management.
 
+## 🌗 Dark & Light Mode Support
+
+MediQ supports both **Dark Mode** and **Light Mode** to enhance user comfort and accessibility. The interface automatically adapts based on user preferences or system settings.
+
 <div align="center">
-  <img src="src/components/images/image.png" alt="MediQ Dashboard" width="800"/>
+  <img src="src/components/images/light-mode.png" alt="MediQ Light Mode" width="400"/>
+  &nbsp;&nbsp;&nbsp;
+  <img src="src/components/images/dark-mode.png" alt="MediQ Dark Mode" width="400"/>
 </div>
+
 
 ## ✨ Features
 
