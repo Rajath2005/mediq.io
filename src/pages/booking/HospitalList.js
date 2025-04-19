@@ -24,7 +24,7 @@ const hospitals = [
     location: "Gurugram"
   },
   { 
-    id: "Ayurveda", 
+    id: "medanta", 
     name: "Medanta Hospital",
     image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958077/hospital-building-illustration-medical-clinic-isolated-on-white-background-vector_qxf2xc.jpg", // Add actual image URL
     description: "World-class medical care and surgical expertise",
@@ -41,6 +41,14 @@ const HospitalList = () => {
 
   return (
     <div className="container mt-5 px-4">
+      <div className="mb-4" style={{ position: 'absolute', left: '20px', top: '80px' }}>
+        <button 
+          className="btn btn-outline-success" 
+          onClick={() => navigate(-1)}
+        >
+         Back to Home
+        </button>
+      </div>
       <div className="text-center mb-5">
         <h2 className="display-4">Select a Hospital</h2>
         <p className="text-muted">Choose from our network of trusted healthcare providers</p>

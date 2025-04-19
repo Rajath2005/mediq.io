@@ -29,6 +29,9 @@ section.services-section {
   transition: color 0.3s ease;
   opacity: 0;
   animation: fadeIn 0.8s ease-out forwards 0.2s;
+  text-align: center;
+  width: 100%;
+  padding: 0 15px;
 }
 
 .section-heading::after {
@@ -55,6 +58,8 @@ section.services-section {
   box-sizing: border-box;  /* includes padding in width calc */
   transition: all 0.3s ease-in-out;
   perspective: 1000px;
+  text-align: center;
+  width: 100%;
 }
 
 .column {
@@ -80,7 +85,8 @@ section.services-section {
   background: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
   transform-style: preserve-3d;
   backface-visibility: hidden;
 }
@@ -90,6 +96,25 @@ section.services-section {
     #f0f0f0 0%, #f7f7f7 50%, #f0f0f0 100%);
   background-size: 200% 100%;
   animation: cardLoadingSkeleton 1.5s infinite linear;
+}
+
+.card:hover {
+  background-color: #9dfc85e1;
+  transform: translateY(-5px);
+  border-color: transparent;
+  box-shadow: 0 8px 16px rgba(157, 252, 133, 0.3);
+}
+
+.card:hover h3 {
+  color: #2f855a;
+}
+
+.card:hover p {
+  color: #276749;
+}
+
+.card:hover .icon-wrapper {
+  color: #38a169;
 }
 
 h3 {
