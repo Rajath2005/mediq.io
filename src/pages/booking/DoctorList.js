@@ -39,7 +39,7 @@ const doctorData = {
       specialization: "Neurologist",
       experience: "18 years",
       availability: "Mon, Wed, Fri",
-      image: "https://placeholder.com/150",
+      image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1745069264/vaccination-and-injection-male-doctor-in-medical-gown-with-vaccine-vector_gvewen.jpg",
     },
     {
       name: "Dr. Neha Sharma",
