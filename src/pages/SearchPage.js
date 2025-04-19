@@ -16,14 +16,14 @@ const SearchPage = () => {
 
   return (
     <div className="search-page">
-      <div className="mb-4 animate__animated animate__fadeInUp" style={{ position: 'absolute', left: '20px', top: '80px' }}>
-          <button 
-            className="btn btn-outline-success" 
-            onClick={() => navigate(-1)}
-          >
-            Back to Home
-          </button>
-        </div>
+      <div className="mb-3 mt-2 me-auto animate__animated animate__fadeInUp" style={{ padding: '0 20px' }}>
+        <button 
+          className="btn btn-outline-success" 
+          onClick={() => navigate(-1)}
+        >
+          Back to Home
+        </button>
+      </div>
       <div className="search-container animate__animated animate__fadeInUp">
         <h1 className="search-title animate__animated animate__fadeInDown animate__delay-1s">
           Discover Ayurvedic Medicines
