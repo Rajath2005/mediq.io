@@ -17,9 +17,9 @@ MediQ is a modern, comprehensive healthcare management platform that empowers us
 MediQ supports both **Dark Mode** and **Light Mode** to enhance user comfort and accessibility. The interface automatically adapts based on user preferences or system settings.
 
 <div align="center">
-  <img src="src/components/images/light-mode.png" alt="MediQ Light Mode" width="400"/>
+  <img src="src/components/images/light.jpg" alt="MediQ Light Mode" width="400"/>
   &nbsp;&nbsp;&nbsp;
-  <img src="src/components/images/dark-mode.png" alt="MediQ Dark Mode" width="400"/>
+  <img src="src/components/images/dark.jpg" alt="MediQ Dark Mode" width="400"/>
 </div>
 
 
