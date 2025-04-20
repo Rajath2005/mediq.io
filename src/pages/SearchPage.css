@@ -1,0 +1,127 @@
+/* Enhanced SearchBar styles */
+
+.search-box-container {
+  display: flex;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  border-radius: 50px;
+  overflow: hidden;
+  background: white;
+  padding: 6px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.search-box-container:focus-within {
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.search-bar {
+  flex: 1;
+  padding: 16px 25px;
+  font-size: 1.1rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.search-bar::placeholder {
+  color: #b2bec3;
+  font-weight: 400;
+}
+
+.search-button {
+  padding: 14px 30px;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+  color: white;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-button:hover {
+  background: linear-gradient(135deg, #5d4de6, #8f7fff);
+  box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+}
+
+.search-button:disabled {
+  background: #dfe6e9;
+  color: #b2bec3;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.search-icon {
+  font-size: 1.2rem;
+}
+
+/* Search Header Container */
+.search-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 20px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.search-title {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.search-subtitle {
+  color: rgba(255,255,255,0.85);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+/* Pulse animation for the search button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(108, 92, 231, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(108, 92, 231, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(108, 92, 231, 0);
+  }
+}
+
+.search-button.animate {
+  animation: pulse 1.5s infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-box-container {
+    flex-direction: column;
+    border-radius: 20px;
+    padding: 10px;
+  }
+  
+  .search-bar {
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .search-button {
+    width: 100%;
+    border-radius: 15px;
+    justify-content: center;
+  }
+}
