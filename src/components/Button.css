@@ -1,7 +1,7 @@
 :root {
-  --glow-color: rgb(72, 191, 145);
+  --glow-color: rgba(72, 191, 145, 0.582);
   --glow-spread-color: rgba(72, 191, 145, 0.233);
-  --enhanced-glow-color: rgb(42, 44, 44);
+  --enhanced-glow-color: rgba(42, 44, 44, 0.603);
   --btn-color: rgb(255, 255, 255);
 }
 
