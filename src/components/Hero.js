@@ -1,328 +1,204 @@
-.hero-section {
-  width: 100%;
-  min-height: 85vh;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
+import React, { useState, useEffect } from "react";
+import './Hero.css';
+import 'animate.css';
+import heroImage from './images/hero.jpeg';
+import { Link } from "react-router-dom";
+import Button from '../components/Button';
+import { FaSearch, FaImage } from "react-icons/fa";
 
-.hero-container {
-  position: relative;
-  z-index: 2;
-}
+const HeroSection = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [remedies, setRemedies] = useState([]);
+  const [results, setResults] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
+  const [imageErrors, setImageErrors] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [searchFocus, setSearchFocus] = useState(false);
+  const [hoveredTag, setHoveredTag] = useState(null);
 
-.hero-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  height: auto;
-}
+  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/images/";
 
-.hero-left {
-  max-width: 650px;
-  animation: fadeInLeft 1s ease-out;
-}
+  useEffect(() => {
+    fetch("https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/ayur-med.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setRemedies(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching remedies:", err);
+        setLoading(false);
+      });
+  }, []);
 
-.hero-title {
-  font-size: clamp(2.5rem, 5vw, 3.8rem);
-  font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 1.2rem;
-  background: linear-gradient(45deg, #1a1a1a, #4a4a4a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: -0.02em;
-}
+  const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim() || "";
 
-.hero-description {
-  font-size: 1.3rem;
-  line-height: 1.5;
-  margin-bottom: 2rem;
-  color: #2d2d2d;
-}
+  const getImageUrl = (name) =>
+    `${imageBaseUrl}${encodeURIComponent(name.toLowerCase().replace(/\s+/g, "-"))}.jpg`;
 
-.search-bar-container {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 0.7rem;
-  border-radius: 1.2rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
+  const handleSearch = () => {
+    if (!searchTerm.trim()) {
+      setResults([]);
+      setRecommendations([]);
+      return;
+    }
 
-.search-bar-container:hover {
-  transform: translateY(-2px);
-}
+    const term = normalize(searchTerm);
+    const matches = remedies.filter((item) =>
+      normalize(item.name_of_medicine).includes(term)
+    );
 
-.search-bar {
-  width: 100%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-  background: white;
-  transition: all 0.3s ease;
-}
+    if (matches.length > 0) {
+      setResults(matches);
+      setRecommendations([]);
+      setImageErrors({});
+    } else {
+      const suggestions = findSimilarMedicines(searchTerm);
+      setResults([{ error: `No remedy found for "${searchTerm}".` }]);
+      setRecommendations(suggestions);
+    }
+  };
 
-.search-bar:focus {
-  outline: none;
-  border-color: #38b2ac;
-  box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
-}
+  const findSimilarMedicines = (term) => {
+    const base = normalize(term).substring(0, 3);
+    return remedies
+      .filter((item) => normalize(item.name_of_medicine).includes(base))
+      .map((item) => item.name_of_medicine)
+      .filter((v, i, a) => a.indexOf(v) === i) // unique
+      .slice(0, 5);
+  };
 
-.search-results {
-  position: relative;
-  margin-top: 10px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  min-height: 100px;
-  max-height: 400px;
-  overflow-y: auto;
-  white-space: pre-line;
-  line-height: 1.6;
-}
+  const handleRecommendationClick = (medicine) => {
+    setSearchTerm(medicine);
+    const match = remedies.filter((item) =>
+      normalize(item.name_of_medicine) === normalize(medicine)
+    );
+    setResults(match);
+    setRecommendations([]);
+    setImageErrors({});
+  };
 
-.search-results-card {
-  border: 1px solid #eee;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  background-color: #f8f9fa;
-}
+  return (
+    <div className="hero-section">
+      <div className="hero-container">
+        <div className="hero-left">
+          <h1 className="hero-title animate__animated animate__fadeInDown">
+            Your Journey to Natural Wellness Starts Here
+          </h1>
+          <p className="hero-description animate__animated animate__fadeInUp animate__delay-1s">
+            Discover the ancient wisdom of Ayurveda combined with modern science.
+            Find the perfect natural remedies for your well-being.
+          </p>
 
-.medicine-name {
-  font-weight: bold;
-  color: #2c3e50;
-  font-size: 18px;
-  margin-bottom: 10px;
-}
+          <div className="search-bar-container animate__animated animate__fadeIn animate__delay-1s">
+            <input
+              type="text"
+              placeholder="Search for Ayurvedic medicines..."
+              value={searchTerm}
+              onChange={(e) => {
+                const value = e.target.value;
+                setSearchTerm(value);
+                if (value.length >= 2) {
+                  setRecommendations(findSimilarMedicines(value));
+                } else {
+                  setRecommendations([]);
+                }
+              }}
+              onFocus={() => setSearchFocus(true)}
+              onBlur={() => setSearchFocus(false)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              className="search-bar"
+              style={{
+                border: '1px solid #ccc',
+                borderRadius: '4px',
+                boxShadow: searchFocus ? '0 0 0 2px rgba(108, 92, 231, 0.2)' : 'none',
+                transition: 'all 0.3s ease'
+              }}
+            />
+            <button className="search-button" onClick={handleSearch}>
+              <FaSearch /> Search
+            </button>
 
-.medicine-details {
-  color: #34495e;
-  margin: 5px 0;
-}
+            {/* 💡 Suggestions */}
+            {recommendations.length > 0 && (
+              <div className="recommendations-container">
+                <p className="recommendation-header">Suggestions:</p>
+                <div className="recommendation-tags">
+                  {recommendations.map((med, index) => (
+                    <span
+                      key={index}
+                      onClick={() => handleRecommendationClick(med)}
+                      onMouseEnter={() => setHoveredTag(index)}
+                      onMouseLeave={() => setHoveredTag(null)}
+                      className="recommendation-tag"
+                      style={{
+                        backgroundColor:
+                          hoveredTag === index ? '#5649c0' : '#6c5ce7',
+                        transform: hoveredTag === index ? 'translateY(-2px)' : 'none',
+                      }}
+                    >
+                      {med}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
-.hero-right {
-  position: relative;
-  height: auto;
-  animation: fadeInRight 1s ease-out;
-}
+          {/* Search Results */}
+          {!loading && results.length > 0 && (
+            <div className="search-results animate__animated animate__fadeIn">
+              {results.map((item, index) =>
+                item.error ? (
+                  <p key={index} className="text-danger">{item.error}</p>
+                ) : (
+                  <div key={index} className="search-results-card">
+                    <h3 className="medicine-name">{item.name_of_medicine}</h3>
+                    {!imageErrors[item.name_of_medicine] ? (
+                      <img
+                        src={getImageUrl(item.name_of_medicine)}
+                        alt={item.name_of_medicine}
+                        className="medicine-image"
+                        onError={() =>
+                          setImageErrors((prev) => ({
+                            ...prev,
+                            [item.name_of_medicine]: true,
+                          }))
+                        }
+                      />
+                    ) : (
+                      <div className="fallback-image">
+                        <FaImage size={32} />
+                        <span>Image not available</span>
+                      </div>
+                    )}
+                    <p><strong>Indications:</strong> {item.main_indications}</p>
+                    <p><strong>Dose:</strong> {item.dose}</p>
+                    <p><strong>Pack Size:</strong> {item.dispensing_pack_size}</p>
+                    <p><strong>Class:</strong> {item.class}</p>
+                    <p><strong>Reference:</strong> {item.reference_text}</p>
+                  </div>
+                )
+              )}
+            </div>
+          )}
 
-.hero-image {
-  width: 100%;
-  height: 550px;
-  object-fit: cover;
-  border-radius: 2rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
-}
+          <div className="button-container d-flex gap-4 mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+            <Link to="/login">
+              <Button className="contact-submit-button" type="button" text="Login" />
+            </Link>
+            <Link to="/signup">
+              <Button className="contact-submit-button" type="button" text="Signup" />
+            </Link>
+          </div>
+        </div>
 
-.hero-image:hover {
-  transform: scale(1.02);
-}
+        <div className="hero-right animate__animated animate__fadeInRight animate__delay-1s">
+          <img src={heroImage} alt="Ayurvedic Medicines" className="hero-image" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
-.button-container {
-  display: flex;
-  gap: 1rem;
-  margin-top: 20px;
-  position: relative;
-  z-index: 5;
-}
-
-.button-container a {
-  text-decoration: none;
-}
-
-.button {
-  padding: 1rem 2.2rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.button-login {
-  background: rgba(255, 255, 255, 0.664);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  color: rgb(0, 0, 0);
-}
-.button-login:hover {
-  background: rgba(25, 208, 240, 0.87);
-}
-
-.button-signup {
-  background: white;
-  color: #38b2ac;
-}
-.button-signup:hover {
-  background: #34d64aa4;
-  color: white;
-}
-
-/* Add animations */
-@keyframes fadeInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeInRight {
-  from {
-    opacity: 0;
-    transform: translateX(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-section {
-    min-height: 80vh;
-    padding: 1rem;
-    text-align: left;
-  }
-
-  .hero-container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 2rem;
-    padding: 1rem;
-  }
-
-  .hero-title {
-    font-size: 2.3rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-    padding: 0 0.5rem;
-    background: linear-gradient(45deg, #000000, #333333);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    word-wrap: break-word;
-    hyphens: auto;
-  }
-
-  .hero-description {
-    font-size: 1.1rem;
-  }
-
-  .hero-right {
-    display: none;
-  }
-
-  .button-container {
-    justify-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .button-container a {
-    width: 100%;
-  }
-
-  .contact-submit-button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 2rem;
-    line-height: 1.3;
-  }
-}
-/* Recommendations / Suggestions */
-.recommendations-container {
-  margin-top: 12px;
-  padding: 10px 15px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-}
-
-.recommendation-header {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-
-.recommendation-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.recommendation-tag {
-  display: inline-block;
-  padding: 6px 12px;
-  background-color: #6c5ce7;
-  color: white;
-  border-radius: 20px;
-  font-size: 14px;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(108, 92, 231, 0.2);
-}
-
-/* Search Result Card Improvements */
-.search-results {
-  margin-top: 20px;
-  padding: 20px;
-}
-
-.search-results-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  margin-bottom: 1rem;
-  transition: transform 0.2s ease;
-}
-
-.search-results-card:hover {
-  transform: translateY(-2px);
-}
-
-/* Image Styling */
-.medicine-image {
-  width: 100%;
-  max-width: 250px;
-  border-radius: 10px;
-  margin: 10px 0;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-  object-fit: cover;
-}
-
-/* Fallback when image fails */
-.fallback-image {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #f0f0f0;
-  padding: 12px;
-  border-radius: 10px;
-  color: #777;
-  font-size: 14px;
-  justify-content: center;
-}
+export default HeroSection;
