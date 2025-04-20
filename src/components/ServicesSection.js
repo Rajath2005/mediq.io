@@ -4,11 +4,11 @@ import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faCalendarAlt, 
-  faPrescription, 
   faAmbulance,
   faChartLine,
   faCommentDots,
-  faLeaf // Add this new import
+  faLeaf,
+  faFlask // Change this from faMortar to faFlask
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,8 +17,8 @@ const ServicesSection = () => {
 
   const serviceRoutes = {
     "Health Monitoring": "/health-monitor",
-    "Appointment Scheduling": "/hospitals", // Changed from "/HospitalList" to "/hospitals"
-    "Prescription Management": "/prescription-management",
+    "Appointment Scheduling": "/hospitals", 
+    "Home Remedies": "/home-remedies", 
     "Emergency Assistance": "/emergency-service",
     "Health Analytics": "/health-analytics",
     "Doctor Chat": "/doctor-chat",
@@ -44,9 +44,9 @@ const ServicesSection = () => {
       description: "Discover traditional Ayurvedic remedies and holistic healing approaches for natural wellness."
     },
     { 
-      icon: faPrescription, 
-      title: "Prescription Management", 
-      description: "Manage your prescriptions, set reminders, and access important medication information." 
+      icon: faFlask, 
+      title: "Home Remedies", 
+      description: "Access traditional home remedies, natural healing methods, and wellness tips for common ailments." 
     },
     { 
       icon: faAmbulance, 
