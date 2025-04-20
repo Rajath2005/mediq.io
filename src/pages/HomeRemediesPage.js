@@ -1,14 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/SearchPage.css';
 import 'animate.css';
 import { FaLeaf, FaSearchPlus, FaBookMedical } from 'react-icons/fa';
-import SearchBar from '../components/SearchBar'; // This includes the fetch + flashcard
 
 const HomeRemediesPage = () => {
-  const handleSearch = (term) => {
-    console.log("Searched term:", term);
-    // You can handle analytics or suggestions here
-  };
+  const [searchTerm, setSearchTerm] = useState('');
+  const [remedies, setRemedies] = useState([]);
+  const [results, setResults] = useState([]);
+
+  // Fetch data from GitHub remedies.json
+  useEffect(() => {
+    fetch('https://raw.githubusercontent.com/sanath00007/ayurveda-api/main/remedies.json')
+      .then(res => res.json())
+      .then(data => setRemedies(data))
+      .catch(err => {
+        console.error('Error fetching remedies:', err);
+        setResults([{ error: 'Error fetching data.' }]);
+      });
+  }, []);
+
+  // Normalize string
+  const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim();
+
+  // Search logic on input
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setResults([]);
+      return;
+    }
+
+    const search = normalize(searchTerm);
+    const match = remedies.find(item =>
+      normalize(item.condition).includes(search)
+    );
+
+    if (match) {
+      setResults([match]);
+    } else {
+      setResults([{ error: 'No remedy found.' }]);
+    }
+  }, [searchTerm, remedies]);
 
   return (
     <div className="search-page">
@@ -20,12 +51,36 @@ const HomeRemediesPage = () => {
           Discover natural Ayurvedic remedies for common ailments and wellness
         </p>
 
-        {/* Search bar with live remedy result */}
+        {/* Search input */}
         <div className="search-box-container">
-          <SearchBar onSearch={handleSearch} />
+          <input
+            type="text"
+            placeholder="Search by condition, e.g. headache"
+            className="search-bar"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
 
-        {/* Optional: Ayurvedic Feature Highlights */}
+        {/* Result */}
+        {results.length > 0 && (
+          <div className="results-container">
+            {results.map((item, index) => (
+              <div key={index} className="flashcard">
+                {item.error ? (
+                  <p>{item.error}</p>
+                ) : (
+                  <>
+                    <h3>{item.condition}</h3>
+                    <p className="remedy-description"><strong>Remedy:</strong> {item.remedy}</p>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Ayurvedic highlights */}
         <div className="features-grid">
           <div className="feature-card animate__animated animate__fadeInUp animate__delay-3s">
             <FaLeaf className="feature-icon" />
