@@ -16,7 +16,22 @@ const HeroSection = () => {
   const [searchFocus, setSearchFocus] = useState(false);
   const [hoveredTag, setHoveredTag] = useState(null);
 
-  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/images/";
+  // Update imageBaseUrl to point to repository root
+  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/";
+
+  // Modified getImageUrl function
+  const getImageUrl = (medicine) => {
+    if (!medicine) return null;
+    
+    // If the medicine object has an image property, use it directly
+    if (medicine.image) {
+      return `${imageBaseUrl}${medicine.image}`;
+    }
+    
+    // Fallback: construct URL from medicine name
+    const formattedName = medicine.name_of_medicine?.toLowerCase().replace(/\s+/g, '-');
+    return `${imageBaseUrl}images/${encodeURIComponent(formattedName)}.jpg`;
+  };
 
   useEffect(() => {
     fetch("https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/ayur-med.json")
@@ -32,9 +47,6 @@ const HeroSection = () => {
   }, []);
 
   const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim() || "";
-
-  const getImageUrl = (name) =>
-    `${imageBaseUrl}${encodeURIComponent(name.toLowerCase().replace(/\s+/g, "-"))}.jpg`;
 
   const handleSearch = () => {
     if (!searchTerm.trim()) {
@@ -156,7 +168,7 @@ const HeroSection = () => {
                     <h3 className="medicine-name">{item.name_of_medicine}</h3>
                     {!imageErrors[item.name_of_medicine] ? (
                       <img
-                        src={getImageUrl(item.name_of_medicine)}
+                        src={getImageUrl(item)}
                         alt={item.name_of_medicine}
                         className="medicine-image"
                         onError={() =>

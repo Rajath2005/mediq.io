@@ -16,8 +16,8 @@ const SearchPage = () => {
   const [searchFocus, setSearchFocus] = useState(false);
   const [imageErrors, setImageErrors] = useState({});
 
-  // Direct raw content URL for GitHub images
-  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/images/";
+  // Update the image base URL to point to the correct GitHub repository path
+  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/";
 
   // Fetch remedies from GitHub
   useEffect(() => {
@@ -67,15 +67,18 @@ const SearchPage = () => {
       });
   };
 
-  // Generate image URL for a medicine
-  const getImageUrl = (medicineName) => {
-    if (!medicineName) return null;
+  // Modified getImageUrl function
+  const getImageUrl = (medicine) => {
+    if (!medicine) return null;
     
-    // Format the filename (replace spaces with hyphens, lowercase)
-    const formattedName = medicineName.toLowerCase().replace(/\s+/g, '-');
+    // If the medicine object has an image property, use it directly
+    if (medicine.image) {
+      return `${imageBaseUrl}${medicine.image}`;
+    }
     
-    // Debug the URL being created
-    const imageUrl = `${imageBaseUrl}${encodeURIComponent(formattedName)}.jpg`;
+    // Fallback: construct URL from medicine name
+    const formattedName = medicine.name_of_medicine?.toLowerCase().replace(/\s+/g, '-');
+    const imageUrl = `${imageBaseUrl}images/${encodeURIComponent(formattedName)}.jpg`;
     console.log("Generated image URL:", imageUrl);
     
     return imageUrl;
@@ -396,7 +399,7 @@ const SearchPage = () => {
                     {/* Medicine Image */}
                     {!imageErrors[item.name_of_medicine] ? (
                       <img 
-                        src={getImageUrl(item.name_of_medicine)}
+                        src={getImageUrl(item)}
                         alt={item.name_of_medicine}
                         style={medicineImageStyle}
                         onError={() => handleImageError(item.name_of_medicine)}
