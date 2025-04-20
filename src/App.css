@@ -151,3 +151,89 @@ section {
   position: relative;
   z-index: 1;
 }
+
+/* Responsive Design Improvements */
+@media screen and (max-width: 768px) {
+  .App {
+    padding: 0 15px;
+  }
+
+  .app-container {
+    padding: 0;
+    width: 100%;
+  }
+
+  #root::before {
+    background-attachment: scroll; /* Better mobile performance */
+  }
+
+  #root::after {
+    backdrop-filter: blur(2.5px);
+  }
+
+  .App-header {
+    min-height: auto;
+    padding: 40px 20px;
+  }
+
+  .App-logo {
+    height: 25vmin;
+  }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+  .app-container {
+    padding: 0 10px;
+  }
+
+  .services-section {
+    margin: 20px 0;
+    padding: 15px;
+  }
+
+  .App-header {
+    padding: 30px 15px;
+    font-size: calc(8px + 2vmin);
+  }
+}
+
+/* Tablet devices */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .app-container {
+    padding: 0 20px;
+  }
+
+  .services-section {
+    margin: 30px 0;
+  }
+}
+
+/* Landscape mobile orientation */
+@media screen and (max-height: 480px) and (orientation: landscape) {
+  .App-header {
+    min-height: auto;
+    padding: 20px;
+  }
+
+  .App-logo {
+    height: 20vmin;
+  }
+}
+
+/* High-DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  #root::after {
+    backdrop-filter: blur(3px);
+  }
+}
+
+/* Better touch interactions */
+@media (hover: none) and (pointer: coarse) {
+  button, 
+  a {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px;
+  }
+}
