@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
+import 'animate.css';
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  
+  // Ref to track clicks outside the dropdown
+  const dropdownRef = useRef(null);
 
   // Simulate login for testing
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -23,9 +27,29 @@ const Navbar = () => {
     localStorage.setItem("darkMode", darkMode);
   }, [darkMode]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUserDetails(null);
+  };
+
+  // Close both navbar and dropdown when selecting a service
+  const handleServiceSelection = () => {
+    setIsDropdownOpen(false);
+    setIsNavExpanded(false);
   };
 
   return (
@@ -34,12 +58,12 @@ const Navbar = () => {
 
         {/* Logo & Brand */}
         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavExpanded(false)}>
-          <img src={logo} alt="Logo" className="navbar-logo me-2" />
+          <img src={logo} alt="Logo" className="navbar-logo me-2 animate__animated animate__pulse" />
           MediQ
         </Link>
 
         {/* Mobile Emergency Button */}
-        <a href="tel:+911234567890" className="btn btn-danger d-lg-none me-2">
+        <a href="tel:+911234567890" className="btn btn-danger d-lg-none me-2 ">
           Emergency
         </a>
 
@@ -56,7 +80,7 @@ const Navbar = () => {
         </button>
 
         {/* Navbar Links */}
-        <div className={`collapse navbar-collapse ${isNavExpanded ? 'show' : ''}`} id="navbarSupportedContent">
+        <div className={`collapse navbar-collapse ${isNavExpanded ? 'show animate__animated animate__fadeIn' : ''}`} id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <Link className="nav-link active" to="/" onClick={() => setIsNavExpanded(false)}>Home</Link>
@@ -69,32 +93,32 @@ const Navbar = () => {
             </li>
 
             {/* Dropdown */}
-            <li className="nav-item dropdown">
+            <li className="nav-item dropdown" ref={dropdownRef}>
               <button
                 className="nav-link dropdown-toggle"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
                 Services
               </button>
-              <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+              <ul className={`dropdown-menu ${isDropdownOpen ? "show animate__animated animate__fadeIn" : ""}`}>
                 <li>
-                  <Link className="dropdown-item" to="/search-medicines" onClick={() => setIsNavExpanded(false)}>
+                  <Link className="dropdown-item" to="/search-medicines" onClick={handleServiceSelection}>
                     Search Ayurvedic Medicines
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/home-remedies" onClick={() => setIsNavExpanded(false)}>
+                  <Link className="dropdown-item" to="/home-remedies" onClick={handleServiceSelection}>
                     Search Home Remedies
                   </Link>
                 </li>
                 <li>
-                  <Link className="dropdown-item" to="/hospitals" onClick={() => setIsNavExpanded(false)}>
+                  <Link className="dropdown-item" to="/hospitals" onClick={handleServiceSelection}>
                     Book Appointment
                   </Link>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
-                  <Link className="dropdown-item" to="/something-else" onClick={() => setIsNavExpanded(false)}>
+                  <Link className="dropdown-item" to="/something-else" onClick={handleServiceSelection}>
                     Something else here
                   </Link>
                 </li>
@@ -105,14 +129,14 @@ const Navbar = () => {
           {/* Right-side Buttons */}
           <div className="d-flex align-items-center gap-3">
             {/* Desktop Emergency Call Button */}
-            <a href="tel:+911234567890" className="btn btn-danger d-none d-lg-block">
+            <a href="tel:+911234567890" className="btn btn-danger d-none d-lg-block animate__animated animate__pulse animate__infinite animate__slow">
               Emergency Call
             </a>
 
             {!isAuthenticated ? (
               <>
-                <Link to="/signup" className="btn btn-outline-success" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
-                <Link to="/login" className="btn btn-outline-info" onClick={() => setIsNavExpanded(false)}>Log In</Link>
+                <Link to="/signup" className="btn btn-outline-success mobile-full-width" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
+                <Link to="/login" className="btn btn-outline-info mobile-full-width" onClick={() => setIsNavExpanded(false)}>Log In</Link>
               </>
             ) : (
               <UserProfileDropdown
@@ -123,8 +147,8 @@ const Navbar = () => {
             )}
 
             {/* Dark Mode Toggle */}
-            <button className="btn btn-outline-dark" onClick={() => setDarkMode(!darkMode)}>
-              {darkMode ? <FaSun /> : <FaMoon />}
+            <button className="btn btn-outline-dark mobile-icon-btn" onClick={() => setDarkMode(!darkMode)}>
+              {darkMode ? <FaSun className="animate__animated animate__rotateIn" /> : <FaMoon className="animate__animated animate__rotateIn" />}
             </button>
           </div>
         </div>

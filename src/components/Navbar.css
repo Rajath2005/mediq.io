@@ -374,3 +374,123 @@ body.dark-mode ::-webkit-scrollbar-thumb {
   border: none;
   padding: 0.5rem 1rem;
 }
+
+/* Additional CSS for improved mobile experience - Add these to your Navbar.css file */
+
+/* Mobile-specific enhancements */
+@media (max-width: 768px) {
+  /* Make buttons more touch-friendly */
+  .navbar .btn {
+    padding: 0.8rem 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Give more contrast to dropdown items */
+  .dropdown-item {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.3rem;
+    border-left: 3px solid transparent;
+  }
+  
+  .dropdown-item:hover, .dropdown-item:active {
+    border-left: 3px solid var(--light-accent);
+    transform: translateX(5px);
+  }
+  
+  body.dark-mode .dropdown-item:hover, 
+  body.dark-mode .dropdown-item:active {
+    border-left: 3px solid var(--dark-accent);
+  }
+  
+  /* Improve mobile nav items */
+  .navbar-nav .nav-item {
+    margin-bottom: 0.3rem;
+  }
+  
+  .navbar-nav .nav-link {
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Mobile button styles */
+  .mobile-full-width {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5rem;
+  }
+  
+  .mobile-icon-btn {
+    padding: 0.7rem;
+    border-radius: 50%;
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+  }
+  
+  /* Emergency button animation */
+  @media (max-width: 768px) {
+    .btn-danger {
+      box-shadow: 0 0 10px rgba(220, 53, 69, 0.5);
+    }
+  }
+  
+  /* Improved collapse animation */
+  .navbar-collapse.show {
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 1rem;
+    border-radius: 12px;
+    margin-top: 0.8rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  body.dark-mode .navbar-collapse.show {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Add a slight gesture hint for horizontal scrolling */
+  .navbar-collapse.show:after {
+    content: '';
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    width: 40px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--light-text-secondary));
+    border-radius: 2px;
+    opacity: 0.5;
+  }
+  
+  body.dark-mode .navbar-collapse.show:after {
+    background: linear-gradient(90deg, transparent, var(--dark-text-secondary));
+  }
+  
+  /* Better dropdown visibility on mobile */
+  .dropdown-menu.show {
+    opacity: 1;
+    transform: translateY(0);
+    margin-left: 1rem;
+    width: calc(100% - 2rem);
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Improved focus states for accessibility */
+.nav-link:focus, .dropdown-item:focus, .btn:focus {
+  outline: 2px solid var(--light-accent);
+  outline-offset: 2px;
+}
+
+body.dark-mode .nav-link:focus, 
+body.dark-mode .dropdown-item:focus, 
+body.dark-mode .btn:focus {
+  outline: 2px solid var(--dark-accent);
+}
