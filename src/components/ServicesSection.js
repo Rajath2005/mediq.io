@@ -52,21 +52,6 @@ const ServicesSection = () => {
       icon: faAmbulance, 
       title: "Emergency Assistance", 
       description: "Quick access to emergency services and support when you need it most." 
-    },
-    {
-      icon: faChartLine,
-      title: "Health Analytics",
-      description: "Detailed analysis of your health data, providing trends and actionable insights for better health management."
-    },
-    {
-      icon: faCommentDots,
-      title: "Doctor Chat",
-      description: "Secure and convenient communication with your healthcare providers for questions, consultations, and support."
-    },
-    {
-      icon: faLeaf,
-      title: "Ayurvedic Medicine",
-      description: "Discover traditional Ayurvedic remedies and holistic healing approaches for natural wellness."
     }
   ];
 
