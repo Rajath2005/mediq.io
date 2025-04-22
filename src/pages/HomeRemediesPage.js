@@ -43,11 +43,11 @@ const HomeRemediesPage = () => {
 
   return (
     <div className="search-page">
-      <div className="search-container animate__animated animate__fadeInUp">
-        <h1 className="search-title animate__animated animate__fadeInDown animate__delay-1s">
+      <div className="search-container">
+        <h1 className="search-title animate__animated animate__fadeInDown">
           Search Home Remedies
         </h1>
-        <p className="search-subtitle animate__animated animate__fadeIn animate__delay-2s">
+        <p className="search-subtitle animate__animated animate__fadeIn animate__delay-1s">
           Discover natural Ayurvedic remedies for common ailments and wellness
         </p>
 
@@ -82,17 +82,17 @@ const HomeRemediesPage = () => {
 
         {/* Ayurvedic highlights */}
         <div className="features-grid">
-          <div className="feature-card animate__animated animate__fadeInUp animate__delay-3s">
+          <div className="feature-card animate__animated animate__fadeInDown animate__delay-2s">
             <FaLeaf className="feature-icon" />
             <h3>Natural Healing</h3>
             <p>Explore safe, time-tested herbal remedies.</p>
           </div>
-          <div className="feature-card animate__animated animate__fadeInUp animate__delay-4s">
+          <div className="feature-card animate__animated animate__fadeInDown animate__delay-3s">
             <FaSearchPlus className="feature-icon" />
             <h3>Quick Search</h3>
             <p>Find remedies by just typing your symptoms.</p>
           </div>
-          <div className="feature-card animate__animated animate__fadeInUp animate__delay-5s">
+          <div className="feature-card animate__animated animate__fadeInDown animate__delay-4s">
             <FaBookMedical className="feature-icon" />
             <h3>Ancient Wisdom</h3>
             <p>Rooted in centuries-old Ayurvedic texts.</p>
