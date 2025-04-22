@@ -106,11 +106,13 @@ const Navbar = () => {
                     Search Ayurvedic Medicines
                   </Link>
                 </li>
+                <li><hr className="dropdown-divider" /></li>
                 <li>
                   <Link className="dropdown-item" to="/home-remedies" onClick={handleServiceSelection}>
                     Search Home Remedies
                   </Link>
                 </li>
+                <li><hr className="dropdown-divider" /></li>
                 <li>
                   <Link className="dropdown-item" to="/hospitals" onClick={handleServiceSelection}>
                     Book Appointment
@@ -118,7 +120,7 @@ const Navbar = () => {
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
-                  <Link className="dropdown-item" to="/medical-shops" onClick={handleServiceSelection}>
+                  <Link className="dropdown-item" to="/ayurvedic-shops" onClick={handleServiceSelection}>
                   Ayurvedic Medical Shops 
                   </Link>
                 </li>
