@@ -15,7 +15,7 @@ import Appointments from "./pages/Appointments";
 import Preloader from "./components/Preloader";
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Ayurveda_medicals from "./components/Ayurveda_medicals";
-
+import SuggestShopForm from "./components/SuggestShopForm"; // ✅ Suggest Shop Form
 // ✅ New Pages
 import HomeRemediesPage from './pages/HomeRemediesPage'; 
 import SearchPage from './pages/SearchPage'; // ✅ Ayurvedic Medicines search
