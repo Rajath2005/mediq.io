@@ -70,6 +70,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           {/* eslint-disable-next-line react/jsx-pascal-case */}
           <Route path="/ayurvedic-shops" element={<Ayurveda_medicals />} />
+          <Route path="/suggest-shop" element={<SuggestShopForm />} />
           {/* ✅ Remedy & Medicine Search Pages */}
           <Route path="/home-remedies" element={<HomeRemediesPage />} />
           <Route path="/search-medicines" element={<SearchPage />} />
