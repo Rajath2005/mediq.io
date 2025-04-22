@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import Appointments from "./pages/Appointments";
 import Preloader from "./components/Preloader";
 import PrivacyPolicy from './pages/PrivacyPolicy';
+import Ayurveda_medicals from "./components/Ayurveda_medicals";
 
 // ✅ New Pages
 import HomeRemediesPage from './pages/HomeRemediesPage'; 
@@ -67,7 +68,8 @@ const App = () => {
           <Route path="/profile" element={<Profile />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/contact" element={<Contact />} />
-          
+          {/* eslint-disable-next-line react/jsx-pascal-case */}
+          <Route path="/ayurvedic-shops" element={<Ayurveda_medicals />} />
           {/* ✅ Remedy & Medicine Search Pages */}
           <Route path="/home-remedies" element={<HomeRemediesPage />} />
           <Route path="/search-medicines" element={<SearchPage />} />

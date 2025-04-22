@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+/* eslint-disable-next-line no-unused-vars */
 import { FaDirections, FaPhone, FaClock, FaStar, FaHeart, FaBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./AyurvedicShops.css";

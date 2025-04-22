@@ -5,10 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faCalendarAlt, 
   faAmbulance,
-  faChartLine,
-  faCommentDots,
   faLeaf,
-  faFlask // Change this from faMortar to faFlask
+  faFlask,
+  faStore
 } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +21,8 @@ const ServicesSection = () => {
     "Emergency Assistance": "/emergency-service",
     "Health Analytics": "/health-analytics",
     "Doctor Chat": "/doctor-chat",
-    "Ayurvedic Medicine": "/search-medicines" // Add new route
+    "Ayurvedic Medicine": "/search-medicines",
+    "AyurvedicShops": "/ayurvedic-shops"
   };
 
   const handleServiceClick = (title) => {
@@ -52,6 +52,11 @@ const ServicesSection = () => {
       icon: faAmbulance, 
       title: "Emergency Assistance", 
       description: "Quick access to emergency services and support when you need it most." 
+    },
+    { 
+      icon: faStore, 
+      title: "AyurvedicShops", 
+      description: "Find nearby Ayurvedic shops and stores for traditional medicine and wellness products." 
     }
   ];
 
