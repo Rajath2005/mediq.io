@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/mediq.io/static/css/main.3e8b9999.css",
-    "main.js": "/mediq.io/static/js/main.26a91253.js",
+    "main.css": "/mediq.io/static/css/main.eb8e6624.css",
+    "main.js": "/mediq.io/static/js/main.7ec45a96.js",
     "static/js/453.c981a88f.chunk.js": "/mediq.io/static/js/453.c981a88f.chunk.js",
     "static/media/Rithesh.jpeg": "/mediq.io/static/media/Rithesh.ae4e18c245b718c892d4.jpeg",
     "static/media/hero.jpeg": "/mediq.io/static/media/hero.9fea1b396855a68cb95b.jpeg",
@@ -12,12 +12,12 @@
     "static/media/sheethal.jpg": "/mediq.io/static/media/sheethal.e377693379f0a8bd6f9e.jpg",
     "static/media/github.png": "/mediq.io/static/media/github.6fd7c5c394daa62543dd.png",
     "index.html": "/mediq.io/index.html",
-    "main.3e8b9999.css.map": "/mediq.io/static/css/main.3e8b9999.css.map",
-    "main.26a91253.js.map": "/mediq.io/static/js/main.26a91253.js.map",
+    "main.eb8e6624.css.map": "/mediq.io/static/css/main.eb8e6624.css.map",
+    "main.7ec45a96.js.map": "/mediq.io/static/js/main.7ec45a96.js.map",
     "453.c981a88f.chunk.js.map": "/mediq.io/static/js/453.c981a88f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3e8b9999.css",
-    "static/js/main.26a91253.js"
+    "static/css/main.eb8e6624.css",
+    "static/js/main.7ec45a96.js"
   ]
 }
