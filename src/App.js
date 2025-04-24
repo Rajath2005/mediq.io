@@ -19,7 +19,7 @@ import SuggestShopForm from "./components/SuggestShopForm"; // ✅ Suggest Shop 
 // ✅ New Pages
 import HomeRemediesPage from './pages/HomeRemediesPage'; 
 import SearchPage from './pages/SearchPage'; // ✅ Ayurvedic Medicines search
-
+import NearbyHospitals from "./components/NearbyHospital";
 // Booking pages
 import HospitalList from './pages/booking/HospitalList';
 import DoctorList from './pages/booking/DoctorList';
@@ -72,6 +72,7 @@ const App = () => {
           <Route path="/ayurvedic-shops" element={<Ayurveda_medicals />} />
           <Route path="/suggest-shop" element={<SuggestShopForm />} />
           {/* ✅ Remedy & Medicine Search Pages */}
+          <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
           <Route path="/home-remedies" element={<HomeRemediesPage />} />
           <Route path="/search-medicines" element={<SearchPage />} />
           
