@@ -33,6 +33,41 @@ body.dark-mode {
   color: var(--dark-text-primary);
 }
 
+/* Dark Mode Styles */
+body.dark-mode .navbar {
+  background-color: var(--dark-bg-primary) !important;
+}
+
+body.dark-mode .navbar-brand {
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode .nav-link {
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode .nav-link:hover {
+  color: var(--dark-accent);
+}
+
+body.dark-mode .dropdown-menu {
+  background-color: var(--dark-bg-secondary);
+  border-color: var(--dark-border);
+}
+
+body.dark-mode .dropdown-item {
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode .dropdown-item:hover {
+  background-color: var(--dark-accent);
+  color: var(--dark-bg-primary);
+}
+
+body.dark-mode .dropdown-divider {
+  border-color: var(--dark-border);
+}
+
 /* ------------------ */
 /* ENHANCED NAVBAR STYLES */
 /* ------------------ */

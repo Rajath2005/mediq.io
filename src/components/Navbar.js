@@ -183,7 +183,10 @@ const Navbar = () => {
             )}
 
             {/* Dark Mode Toggle */}
-            <button className="btn btn-outline-dark mobile-icon-btn" onClick={toggleDarkMode}>
+            <button 
+              className={`btn ${darkMode ? 'btn-outline-light' : 'btn-outline-dark'} mobile-icon-btn`} 
+              onClick={toggleDarkMode}
+            >
               {darkMode ? <FaSun className="animate__animated animate__rotateIn" /> : <FaMoon className="animate__animated animate__rotateIn" />}
             </button>
           </div>
