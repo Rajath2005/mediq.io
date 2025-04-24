@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Star, ChevronRight, Search, Loader } from 'lucide-react';
+// Import the CSS file
+// In your actual project, adjust the path as needed
+// import './nearby-hospitals.css';
 
 // Mock data for demonstration purposes
 // In a real implementation, this would come from Google Maps API
@@ -77,93 +80,90 @@ export default function NearbyHospitals() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="bg-blue-600 p-6 text-white">
-        <h2 className="text-2xl font-bold">Nearby Hospitals</h2>
-        <p className="opacity-90">Find emergency services and medical facilities near you</p>
+    <div className="nearby-hospitals-container">
+      <div className="header-section">
+        <h2>Nearby Hospitals</h2>
+        <p>Find emergency services and medical facilities near you</p>
       </div>
       
-      <div className="p-4 border-b border-gray-200 flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-grow">
-          <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+      <div className="search-section">
+        <div className="search-input-container">
+          <Search />
           <input 
             type="text" 
             placeholder="Search by name or location" 
-            className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="search-input"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)} 
           />
         </div>
-        <div className="flex items-center">
+        <div className="emergency-filter">
           <input 
             type="checkbox" 
             id="emergency-filter" 
-            className="mr-2"
             checked={filterEmergency}
             onChange={() => setFilterEmergency(!filterEmergency)} 
           />
-          <label htmlFor="emergency-filter" className="text-gray-700">Emergency Services Only</label>
+          <label htmlFor="emergency-filter">Emergency Services Only</label>
         </div>
       </div>
       
-      <div className="flex flex-col lg:flex-row h-full">
-        <div className="lg:w-1/2 h-96 lg:h-auto bg-gray-100 p-4 overflow-auto">
+      <div className="hospitals-wrapper">
+        <div className="hospitals-list">
           {loading ? (
-            <div className="flex items-center justify-center h-full">
-              <Loader className="w-8 h-8 text-blue-600 animate-spin" />
-              <span className="ml-2 text-gray-600">Finding nearby hospitals...</span>
+            <div className="loading-state">
+              <Loader className="loading-spinner" />
+              <span>Finding nearby hospitals...</span>
             </div>
           ) : filteredHospitals.length === 0 ? (
-            <div className="flex items-center justify-center h-full text-gray-500">
+            <div className="empty-state">
               No hospitals found matching your criteria
             </div>
           ) : (
-            <div className="space-y-4">
+            <div>
               {filteredHospitals.map(hospital => (
                 <div 
                   key={hospital.id} 
-                  className={`p-4 border rounded-lg cursor-pointer transition-all ${selectedHospital === hospital.id ? 'bg-blue-50 border-blue-400' : 'border-gray-200 hover:bg-gray-50'}`}
+                  className={`hospital-card ${selectedHospital === hospital.id ? 'selected' : ''}`}
                   onClick={() => setSelectedHospital(hospital.id)}
                 >
-                  <div className="flex justify-between items-start">
+                  <div className="hospital-card-header">
                     <div>
-                      <h3 className="font-bold text-lg text-gray-800">{hospital.name}</h3>
-                      <div className="flex items-center text-gray-600 mt-1">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        <span className="text-sm">{hospital.distance} • {hospital.address}</span>
+                      <h3 className="hospital-name">{hospital.name}</h3>
+                      <div className="hospital-location">
+                        <MapPin />
+                        <span>{hospital.distance} • {hospital.address}</span>
                       </div>
                     </div>
-                    <div className="flex items-center">
-                      <div className="bg-gray-100 px-2 py-1 rounded text-sm text-gray-700 flex items-center">
-                        <Star className="w-4 h-4 text-yellow-500 mr-1" />
-                        {hospital.rating}
-                      </div>
+                    <div className="hospital-rating">
+                      <Star />
+                      {hospital.rating}
                     </div>
                   </div>
                   
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="badges-container">
                     {hospital.emergency && (
-                      <span className="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded">
+                      <span className="badge badge-emergency">
                         Emergency
                       </span>
                     )}
-                    <span className={`text-xs font-medium px-2 py-1 rounded ${hospital.openNow ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                    <span className={`badge ${hospital.openNow ? 'badge-open' : 'badge-closed'}`}>
                       {hospital.openNow ? 'Open Now' : 'Closed'}
                     </span>
                   </div>
                   
-                  <div className="mt-3 flex justify-between items-center">
+                  <div className="hospital-card-footer">
                     <button 
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center"
+                      className="call-button"
                       onClick={(e) => {
                         e.stopPropagation();
                         handleCallNow(hospital.phone);
                       }}
                     >
-                      <Phone className="w-4 h-4 mr-2" />
+                      <Phone />
                       Call Now
                     </button>
-                    <ChevronRight className="w-5 h-5 text-blue-600" />
+                    <ChevronRight className="chevron-icon" />
                   </div>
                 </div>
               ))}
@@ -171,44 +171,44 @@ export default function NearbyHospitals() {
           )}
         </div>
         
-        <div className="lg:w-1/2 p-6 bg-white">
+        <div className="hospital-details">
           {selectedHospital ? (
             <>
               {hospitals.filter(h => h.id === selectedHospital).map(hospital => (
-                <div key={hospital.id} className="space-y-6">
-                  <div>
-                    <h2 className="text-2xl font-bold text-gray-800">{hospital.name}</h2>
-                    <div className="flex items-center mt-2">
-                      <Star className="w-5 h-5 text-yellow-500 mr-1" />
-                      <span className="font-medium">{hospital.rating}</span>
-                      <span className="mx-2">•</span>
-                      <span className={`text-sm ${hospital.openNow ? 'text-green-600' : 'text-red-600'}`}>
+                <div key={hospital.id}>
+                  <div className="hospital-detail-header">
+                    <h2 className="hospital-detail-name">{hospital.name}</h2>
+                    <div className="hospital-detail-ratings">
+                      <Star />
+                      <span className="rating-value">{hospital.rating}</span>
+                      <span>•</span>
+                      <span className={hospital.openNow ? 'open-status' : 'closed-status'}>
                         {hospital.openNow ? 'Open Now' : 'Currently Closed'}
                       </span>
                     </div>
                   </div>
                   
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <h3 className="font-medium text-gray-900 mb-3">Contact Information</h3>
-                    <div className="space-y-3">
-                      <div className="flex items-start">
-                        <Phone className="w-5 h-5 text-blue-600 mr-3 mt-0.5" />
+                  <div className="info-card">
+                    <h3>Contact Information</h3>
+                    <div>
+                      <div className="contact-item">
+                        <Phone />
                         <div>
-                          <p className="font-medium">{hospital.phone}</p>
+                          <p className="contact-detail">{hospital.phone}</p>
                           <button 
-                            className="text-blue-600 text-sm font-medium hover:underline mt-1"
+                            className="action-link"
                             onClick={() => handleCallNow(hospital.phone)}
                           >
                             Call Now
                           </button>
                         </div>
                       </div>
-                      <div className="flex items-start">
-                        <MapPin className="w-5 h-5 text-blue-600 mr-3 mt-0.5" />
+                      <div className="contact-item">
+                        <MapPin />
                         <div>
                           <p>{hospital.address}</p>
-                          <p className="text-sm text-gray-600 mt-1">{hospital.distance} from your location</p>
-                          <button className="text-blue-600 text-sm font-medium hover:underline mt-1">
+                          <p>{hospital.distance} from your location</p>
+                          <button className="action-link">
                             Get Directions
                           </button>
                         </div>
@@ -216,41 +216,39 @@ export default function NearbyHospitals() {
                     </div>
                   </div>
                   
-                  <div>
-                    <h3 className="font-medium text-gray-900 mb-3">Available Services</h3>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="services-section">
+                    <h3>Available Services</h3>
+                    <div className="service-tags">
                       {hospital.services.map((service, idx) => (
-                        <span key={idx} className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm">
+                        <span key={idx} className="service-tag">
                           {service}
                         </span>
                       ))}
                     </div>
                   </div>
                   
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h3 className="font-medium text-blue-800 flex items-center">
-                      <Clock className="w-5 h-5 mr-2" />
+                  <div className="emergency-card">
+                    <h3>
+                      <Clock />
                       Emergency Response
                     </h3>
-                    <p className="text-blue-700 mt-2">
+                    <p>
                       In case of emergency, call {hospital.phone} for immediate assistance. 
                       Their ambulance service is available 24/7.
                     </p>
                   </div>
                   
-                  <div className="h-48 bg-gray-200 rounded-lg overflow-hidden">
-                    <div className="w-full h-full flex items-center justify-center text-gray-500">
-                      Google Maps would display here with hospital location
-                    </div>
+                  <div className="map-container">
+                    Google Maps would display here with hospital location
                   </div>
                 </div>
               ))}
             </>
           ) : (
-            <div className="flex items-center justify-center h-full flex-col text-gray-500">
-              <MapPin className="w-12 h-12 mb-4 text-blue-400" />
-              <p className="text-lg">Select a hospital to view details</p>
-              <p className="text-center mt-2 text-sm max-w-md">
+            <div className="empty-details">
+              <MapPin />
+              <p>Select a hospital to view details</p>
+              <p>
                 Get detailed information about facilities, services, and emergency contact numbers
               </p>
             </div>

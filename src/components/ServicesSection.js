@@ -18,7 +18,7 @@ const ServicesSection = () => {
     "Health Monitoring": "/health-monitor",
     "Appointment Scheduling": "/hospitals", 
     "Home Remedies": "/home-remedies", 
-    "Emergency Assistance": "/emergency-service",
+    "Emergency Assistance": "/nearby-hospitals",
     "Health Analytics": "/health-analytics",
     "Doctor Chat": "/doctor-chat",
     "Ayurvedic Medicine": "/search-medicines",
