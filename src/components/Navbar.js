@@ -4,28 +4,62 @@ import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
+import { useTheme } from '../contexts/ThemeContext';
+import { supabase } from "../supabaseClient";
 import 'animate.css';
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
+  const { darkMode, toggleDarkMode } = useTheme();
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  
-  // Ref to track clicks outside the dropdown
   const dropdownRef = useRef(null);
 
-  // Simulate login for testing
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [userDetails, setUserDetails] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    profileImage: null,
-  });
+  // Real authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
 
+  // Check auth status on mount
   useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const metadata = session.user.user_metadata || {};
+        const displayName = metadata.full_name || 
+          `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
+          session.user.email.split('@')[0];
+        
+        setIsAuthenticated(true);
+        setUserDetails({
+          name: displayName,
+          email: session.user.email,
+          profileImage: metadata.avatar_url
+        });
+      }
+    };
+    
+    checkAuth();
+
+    // Subscribe to auth changes
+    const { subscription } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setIsAuthenticated(!!session);
+      if (session) {
+        const metadata = session.user.user_metadata || {};
+        const displayName = metadata.full_name || 
+          `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
+          session.user.email.split('@')[0];
+
+        setUserDetails({
+          name: displayName,
+          email: session.user.email,
+          profileImage: metadata.avatar_url
+        });
+      } else {
+        setUserDetails(null);
+      }
+    });
+
+    return () => subscription?.unsubscribe();
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -41,12 +75,12 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setIsAuthenticated(false);
     setUserDetails(null);
   };
 
-  // Close both navbar and dropdown when selecting a service
   const handleServiceSelection = () => {
     setIsDropdownOpen(false);
     setIsNavExpanded(false);
@@ -149,7 +183,7 @@ const Navbar = () => {
             )}
 
             {/* Dark Mode Toggle */}
-            <button className="btn btn-outline-dark mobile-icon-btn" onClick={() => setDarkMode(!darkMode)}>
+            <button className="btn btn-outline-dark mobile-icon-btn" onClick={toggleDarkMode}>
               {darkMode ? <FaSun className="animate__animated animate__rotateIn" /> : <FaMoon className="animate__animated animate__rotateIn" />}
             </button>
           </div>

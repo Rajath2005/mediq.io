@@ -1,43 +1,133 @@
+// src/components/Login.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [resetSent, setResetSent] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Add login logic here
+    setError(null);
+    setLoading(true);
+
+    try {
+      const { data: { user }, error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (loginError) throw loginError;
+
+      // Fetch the user's profile data after successful login
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        throw profileError;
+      }
+
+      // Update user metadata with profile information if it exists
+      if (profileData) {
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: {
+            full_name: profileData.full_name,
+            first_name: profileData.first_name,
+            last_name: profileData.last_name
+          }
+        });
+
+        if (updateError) throw updateError;
+      }
+
+      // Redirect to home page with hero section
+      navigate("/#hero");
+      window.scrollTo(0, 0); // Scroll to top to show hero section
+    } catch (error) {
+      setError(error.message);
+      console.error("Login error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!email) {
+      setError("Please enter your email address to reset password");
+      return;
+    }
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      if (error) throw error;
+      setResetSent(true);
+      setError(null);
+      alert("Password reset instructions have been sent to your email.");
+    } catch (error) {
+      setError(error.message);
+      alert("Password reset failed: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-container">
-      <h2>Log In to Your Account</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <h2>Login</h2>
+      {resetSent ? (
+        <div className="success-message">
+          Password reset instructions have been sent to your email.
         </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="button button-login">Log In</button>
-      </form>
-      <p className="auth-link">
-        Don't have an account? <Link to="/signup">Sign Up</Link>
-      </p>
+      ) : (
+        <form onSubmit={handleLogin}>
+          {error && <div className="error-message">{error}</div>}
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
+          <button type="submit" className="button button-login" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
+          <div className="auth-links">
+            <button 
+              type="button" 
+              onClick={handlePasswordReset}
+              className="reset-link"
+              disabled={loading}
+            >
+              Forgot password?
+            </button>
+            <p>
+              Don't have an account? <Link to="/signup">Sign Up</Link>
+            </p>
+          </div>
+        </form>
+      )}
     </div>
   );
 };

@@ -1,21 +1,99 @@
+// src/components/Signup.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 import './Signup.css';
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    // Add signup logic here
+    setError(null);
+    setLoading(true);
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Sign up the user
+      const { data: { user }, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: `${firstName} ${lastName}`.trim(),
+            first_name: firstName,
+            last_name: lastName
+          }
+        }
+      });
+
+      if (signUpError) throw signUpError;
+
+      // Create a profile record
+      if (user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert([
+            {
+              id: user.id,
+              full_name: `${firstName} ${lastName}`.trim(),
+              first_name: firstName,
+              last_name: lastName,
+              email: email
+            }
+          ]);
+
+        if (profileError) throw profileError;
+
+        // Redirect to home page with hero section
+        navigate("/#hero");
+        window.scrollTo(0, 0); // Scroll to top to show hero section
+      }
+
+    } catch (error) {
+      setError(error.message);
+      console.error("Sign up error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-container">
       <h2>Create New Account</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSignUp}>
+        <div className="form-group">
+          <label>First Name</label>
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+            disabled={loading}
+          />
+        </div>
+        <div className="form-group">
+          <label>Last Name</label>
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+            disabled={loading}
+          />
+        </div>
         <div className="form-group">
           <label>Email</label>
           <input
@@ -23,6 +101,7 @@ const Signup = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -32,6 +111,7 @@ const Signup = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
         <div className="form-group">
@@ -41,9 +121,13 @@ const Signup = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            disabled={loading}
           />
         </div>
-        <button type="submit" className="button button-signup">Sign Up</button>
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit" className="button button-signup" disabled={loading}>
+          {loading ? "Signing up..." : "Sign Up"}
+        </button>
       </form>
       <p className="auth-link">
         Already have an account? <Link to="/login">Log In</Link>

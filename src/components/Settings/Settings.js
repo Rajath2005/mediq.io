@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { FaBell, FaLock, FaLanguage, FaMoon } from 'react-icons/fa';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Settings = () => {
+  const { darkMode, toggleDarkMode } = useTheme();
   const [settings, setSettings] = useState({
     notifications: true,
-    darkMode: false,
     language: 'en',
     twoFactorAuth: false
   });
 
   const handleToggle = (setting) => {
+    if (setting === 'darkMode') {
+      toggleDarkMode();
+      return;
+    }
     setSettings(prev => ({
       ...prev,
       [setting]: !prev[setting]
@@ -42,6 +47,26 @@ const Settings = () => {
 
         <div className="setting-card">
           <div className="setting-header">
+            <FaMoon className="icon" />
+            <h5>Dark Mode</h5>
+          </div>
+          <div className="setting-content">
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={darkMode}
+                onChange={() => handleToggle('darkMode')}
+              />
+              <label className="form-check-label">
+                Enable Dark Mode
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div className="setting-card">
+          <div className="setting-header">
             <FaLock className="icon" />
             <h5>Security</h5>
           </div>
@@ -59,8 +84,24 @@ const Settings = () => {
             </div>
           </div>
         </div>
-        
-        {/* Add more settings cards */}
+
+        <div className="setting-card">
+          <div className="setting-header">
+            <FaLanguage className="icon" />
+            <h5>Language</h5>
+          </div>
+          <div className="setting-content">
+            <select 
+              className="form-select" 
+              value={settings.language}
+              onChange={(e) => setSettings(prev => ({...prev, language: e.target.value}))}
+            >
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="kn">Kannada</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   );
