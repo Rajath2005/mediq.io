@@ -158,6 +158,12 @@ const Navbar = () => {
                   Ayurvedic Medical Shops 
                   </Link>
                 </li>
+                <li><hr className="dropdown-divider" /></li>
+                <li>
+                  <Link className="dropdown-item" to="/nearby-hospitals" onClick={handleServiceSelection}>
+                  Nearby Hospitals
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>
