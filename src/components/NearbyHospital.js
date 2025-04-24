@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Star, ChevronRight, Search, Loader } from 'lucide-react';
-// Import the CSS file
-// In your actual project, adjust the path as needed
-// import './nearby-hospitals.css';
+import './NearbyHospital.css';
 
 // Mock data for demonstration purposes
 // In a real implementation, this would come from Google Maps API
