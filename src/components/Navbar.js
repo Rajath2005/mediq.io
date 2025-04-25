@@ -5,6 +5,8 @@ import logo from './images/logo.jpg';
 import { FaMoon, FaSun } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
 import 'animate.css';
+import { useTheme } from '../contexts/ThemeContext';
+ import { supabase } from "../supabaseClient";
 import Swal from 'sweetalert2'; // Ensure SweetAlert2 is installed: npm install sweetalert2
 import { supabase2 } from '../supabaseClient2';
 
@@ -15,18 +17,50 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  // Simulate login for testing
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [userDetails, setUserDetails] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com",
-    profileImage: null,
-  });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
-    document.body.classList.toggle("dark-mode", darkMode);
-    localStorage.setItem("darkMode", darkMode);
-  }, [darkMode]);
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const metadata = session.user.user_metadata || {};
+        const displayName = metadata.full_name || 
+          `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
+          session.user.email.split('@')[0];
+        
+        setIsAuthenticated(true);
+        setUserDetails({
+          name: displayName,
+          email: session.user.email,
+          profileImage: metadata.avatar_url
+        });
+      }
+    };
+    
+    checkAuth();
+
+    // Subscribe to auth changes
+    const { subscription } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setIsAuthenticated(!!session);
+      if (session) {
+        const metadata = session.user.user_metadata || {};
+        const displayName = metadata.full_name || 
+          `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
+          session.user.email.split('@')[0];
+
+        setUserDetails({
+          name: displayName,
+          email: session.user.email,
+          profileImage: metadata.avatar_url
+        });
+      } else {
+        setUserDetails(null);
+      }
+    });
+
+    return () => subscription?.unsubscribe();
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -40,7 +74,8 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
     setIsAuthenticated(false);
     setUserDetails(null);
   };
