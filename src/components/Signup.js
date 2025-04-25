@@ -14,6 +14,25 @@ const Signup = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const handleGoogleSignUp = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+      
+      if (error) throw error;
+    } catch (error) {
+      setError(error.message);
+      console.error("Google signup error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     setError(null);
@@ -73,6 +92,15 @@ const Signup = () => {
   return (
     <div className="auth-container">
       <h2>Create New Account</h2>
+      <button 
+        type="button" 
+        onClick={handleGoogleSignUp}
+        className="google-sign-in-button"
+        disabled={loading}
+      >
+        Sign up with Google
+      </button>
+      <div className="divider">or</div>
       <form onSubmit={handleSignUp}>
         <div className="form-group">
           <label>First Name</label>

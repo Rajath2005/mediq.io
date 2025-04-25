@@ -60,6 +60,25 @@ const Login = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+      
+      if (error) throw error;
+    } catch (error) {
+      setError(error.message);
+      console.error("Google login error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handlePasswordReset = async () => {
     if (!email) {
       setError("Please enter your email address to reset password");
@@ -88,45 +107,56 @@ const Login = () => {
           Password reset instructions have been sent to your email.
         </div>
       ) : (
-        <form onSubmit={handleLogin}>
-          {error && <div className="error-message">{error}</div>}
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
-          <button type="submit" className="button button-login" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+        <>
+          <button 
+            type="button" 
+            onClick={handleGoogleSignIn}
+            className="google-sign-in-button"
+            disabled={loading}
+          >
+            Sign in with Google
           </button>
-          <div className="auth-links">
-            <button 
-              type="button" 
-              onClick={handlePasswordReset}
-              className="reset-link"
-              disabled={loading}
-            >
-              Forgot password?
+          <div className="divider">or</div>
+          <form onSubmit={handleLogin}>
+            {error && <div className="error-message">{error}</div>}
+            <div className="form-group">
+              <label>Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                disabled={loading}
+              />
+            </div>
+            <div className="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                disabled={loading}
+              />
+            </div>
+            <button type="submit" className="button button-login" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
             </button>
-            <p>
-              Don't have an account? <Link to="/signup">Sign Up</Link>
-            </p>
-          </div>
-        </form>
+            <div className="auth-links">
+              <button 
+                type="button" 
+                onClick={handlePasswordReset}
+                className="reset-link"
+                disabled={loading}
+              >
+                Forgot password?
+              </button>
+              <p>
+                Don't have an account? <Link to="/signup">Sign Up</Link>
+              </p>
+            </div>
+          </form>
+        </>
       )}
     </div>
   );
