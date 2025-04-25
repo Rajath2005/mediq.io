@@ -8,7 +8,6 @@ import { FaSearch, FaImage } from "react-icons/fa";
 
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [remedies, setRemedies] = useState([]);
   const [results, setResults] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
@@ -16,54 +15,30 @@ const HeroSection = () => {
   const [loading, setLoading] = useState(true);
   const [searchFocus, setSearchFocus] = useState(false);
   const [hoveredTag, setHoveredTag] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
 
-  // Define supported image extensions
-  const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
-  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/";
+  // Update imageBaseUrl to point to the correct repository path
+  const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/images/";
 
-  // Improved getImageUrl function with better fallbacks
+  // Modified getImageUrl function with better fallback handling
   const getImageUrl = (medicine) => {
     if (!medicine) return null;
     
-    // If the medicine object has an images property from the API
-    if (medicine.images) {
-      // Check if it's not an empty string
-      if (medicine.images.trim() !== '') {
-        return `${imageBaseUrl}${medicine.images}`;
-      }
+    // If the medicine object has an image property that includes the full path
+    if (medicine.image && medicine.image.startsWith('http')) {
+      return medicine.image;
     }
-
-    // Fallback: Try with image property
-    if (medicine.image && medicine.image.trim() !== '') {
+    
+    // If the medicine object has an image property without full path
+    if (medicine.image) {
       return `${imageBaseUrl}${medicine.image}`;
     }
     
-    // Second fallback: Try multiple image formats using the medicine name
+    // Fallback: construct URL from medicine name
     const formattedName = medicine.name_of_medicine?.toLowerCase()
       .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '')
-      .replace(/\/{2,}/g, '/'); // Remove double slashes
-
-    if (!formattedName) return null;
-
-    // Try both direct and assets folder paths
-    const possiblePaths = [
-      'images',
-      'assets/images',
-      'public/images',
-      'src/images'
-    ];
-
-    // Create all possible URL combinations
-    const possibleUrls = possiblePaths.flatMap(path => 
-      IMAGE_EXTENSIONS.map(ext => 
-        `${imageBaseUrl}${path}/${formattedName}.${ext}`
-      )
-    );
-
-    // Return the first URL - browser will try until one works
-    return possibleUrls[0];
+      .replace(/[^a-z0-9-]/g, ''); // Remove special characters
+    
+    return `${imageBaseUrl}${formattedName}.jpg`;
   };
 
   useEffect(() => {
@@ -80,88 +55,53 @@ const HeroSection = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      // Only update recommendations, not search results
-      if (searchTerm.length >= 2) {
-        const suggestions = findSimilarMedicines(searchTerm);
-        setRecommendations(suggestions);
-      } else {
-        setRecommendations([]);
+    // Prefetch and validate images when results change
+    results.forEach(item => {
+      if (!item.error) {
+        const img = new Image();
+        img.src = getImageUrl(item);
+        img.onerror = () => {
+          setImageErrors(prev => ({
+            ...prev,
+            [item.name_of_medicine]: true
+          }));
+        };
       }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
+    });
+  }, [results]);
 
   const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim() || "";
 
-  const handleSearch = async () => {
+  const handleSearch = () => {
     if (!searchTerm.trim()) {
       setResults([]);
       setRecommendations([]);
       return;
     }
 
-    setIsSearching(true);
+    const term = normalize(searchTerm);
+    const matches = remedies.filter((item) =>
+      normalize(item.name_of_medicine).includes(term)
+    );
 
-    try {
-      const term = normalize(searchTerm);
-      
-      // Improved search logic with multiple criteria
-      const matches = remedies.filter((item) => {
-        const medicineName = normalize(item.name_of_medicine);
-        const indications = normalize(item.main_indications);
-        const medicineClass = normalize(item.class);
-
-        return (
-          medicineName.includes(term) ||
-          indications?.includes(term) ||
-          medicineClass?.includes(term)
-        );
-      });
-
-      if (matches.length > 0) {
-        setResults(matches);
-        setRecommendations([]); // Clear recommendations after search
-        setImageErrors({});
-      } else {
-        const suggestions = findSimilarMedicines(searchTerm);
-        setResults([{ 
-          error: `No remedy found for "${searchTerm}". ${
-            suggestions.length > 0 ? 'Check the suggestions below.' : ''
-          }` 
-        }]);
-        setRecommendations(suggestions);
-      }
-    } catch (error) {
-      console.error('Search error:', error);
-      setResults([{ error: 'An error occurred while searching. Please try again.' }]);
-    } finally {
-      setIsSearching(false);
+    if (matches.length > 0) {
+      setResults(matches);
+      setRecommendations([]);
+      setImageErrors({});
+    } else {
+      const suggestions = findSimilarMedicines(searchTerm);
+      setResults([{ error: `No remedy found for "${searchTerm}".` }]);
+      setRecommendations(suggestions);
     }
   };
 
-  // Improved similar medicines search
   const findSimilarMedicines = (term) => {
-    if (!term || term.length < 2) return [];
-    
-    const searchTerm = normalize(term);
-    
+    const base = normalize(term).substring(0, 3);
     return remedies
-      .filter(item => {
-        const name = normalize(item.name_of_medicine);
-        const indications = normalize(item.main_indications);
-        
-        // Check for partial matches in name and indications
-        return (
-          name.includes(searchTerm.substring(0, 3)) ||
-          searchTerm.includes(name.substring(0, 3)) ||
-          indications?.includes(searchTerm.substring(0, 3))
-        );
-      })
-      .map(item => item.name_of_medicine)
-      .filter((v, i, a) => a.indexOf(v) === i) // Remove duplicates
-      .slice(0, 5); // Limit to 5 suggestions
+      .filter((item) => normalize(item.name_of_medicine).includes(base))
+      .map((item) => item.name_of_medicine)
+      .filter((v, i, a) => a.indexOf(v) === i) // unique
+      .slice(0, 5);
   };
 
   const handleRecommendationClick = (medicine) => {
@@ -194,7 +134,11 @@ const HeroSection = () => {
               onChange={(e) => {
                 const value = e.target.value;
                 setSearchTerm(value);
-                // Recommendations will be handled by the useEffect
+                if (value.length >= 2) {
+                  setRecommendations(findSimilarMedicines(value));
+                } else {
+                  setRecommendations([]);
+                }
               }}
               onFocus={() => setSearchFocus(true)}
               onBlur={() => setSearchFocus(false)}
@@ -211,7 +155,7 @@ const HeroSection = () => {
               <FaSearch /> Search
             </button>
 
-            {/* Show recommendations while typing */}
+            {/* 💡 Suggestions */}
             {recommendations.length > 0 && (
               <div className="recommendations-container">
                 <p className="recommendation-header">Suggestions:</p>
@@ -219,11 +163,7 @@ const HeroSection = () => {
                   {recommendations.map((med, index) => (
                     <span
                       key={index}
-                      onClick={() => {
-                        setSearchTerm(med);
-                        setRecommendations([]);
-                        handleSearch(); // Automatically search when clicking a recommendation
-                      }}
+                      onClick={() => handleRecommendationClick(med)}
                       onMouseEnter={() => setHoveredTag(index)}
                       onMouseLeave={() => setHoveredTag(null)}
                       className="recommendation-tag"
@@ -241,7 +181,7 @@ const HeroSection = () => {
             )}
           </div>
 
-          {/* Only show results after searching */}
+          {/* Search Results */}
           {!loading && results.length > 0 && (
             <div className="search-results animate__animated animate__fadeIn">
               {results.map((item, index) =>
@@ -255,12 +195,14 @@ const HeroSection = () => {
                         src={getImageUrl(item)}
                         alt={item.name_of_medicine}
                         className="medicine-image"
-                        onError={() =>
+                        onError={(e) => {
                           setImageErrors((prev) => ({
                             ...prev,
-                            [item.name_of_medicine]: true,
-                          }))
-                        }
+                            [item.name_of_medicine]: true
+                          }));
+                          // Optionally set a fallback image
+                          e.target.style.display = 'none';
+                        }}
                       />
                     ) : (
                       <div className="fallback-image">

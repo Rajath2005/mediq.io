@@ -185,16 +185,16 @@
   .hospital-location {
     display: flex;
     align-items: center;
-    color: #6b7280;
-    font-size: 0.875rem;
-    margin: 4px 0;
+    gap: 6px;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 4px;
   }
   
   .hospital-location svg {
     width: 16px;
     height: 16px;
-    margin-right: 4px;
-    flex-shrink: 0;
+    color: #4b5563;
   }
   
   .hospital-rating {
@@ -452,4 +452,16 @@
     margin: 0;
     font-size: 0.875rem;
     max-width: 300px;
+  }
+
+  .location-error {
+    background-color: #fff3f3;
+    border: 1px solid #ffcdd2;
+    color: #d32f2f;
+    padding: 12px;
+    border-radius: 8px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }

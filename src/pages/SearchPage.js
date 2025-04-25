@@ -16,9 +16,11 @@ const SearchPage = () => {
   const [searchFocus, setSearchFocus] = useState(false);
   const [imageErrors, setImageErrors] = useState({});
 
-  // Image handling configuration
-  const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
+  // Update the image base URL to point to the correct GitHub repository raw path
   const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/";
+
+  // Define supported image extensions
+  const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
 
   // Fetch remedies from GitHub
   useEffect(() => {
@@ -68,52 +70,34 @@ const SearchPage = () => {
       });
   };
 
-  // Improved getImageUrl function
+  // Modified getImageUrl function to handle API image paths correctly
   const getImageUrl = (medicine) => {
     if (!medicine) return null;
     
-    // Handle case where medicine has 'images' property (from API)
-    if (medicine.images && medicine.images.trim() !== '') {
-      // Clean up any double slashes
-      const cleanPath = medicine.images.replace(/\/{2,}/g, '/');
-      return `${imageBaseUrl}${cleanPath}`;
-    }
-    
-    // Handle case where medicine has 'image' property
-    if (medicine.image && medicine.image.trim() !== '') {
-      if (medicine.image.startsWith('http')) {
-        return medicine.image;
+    // If the medicine object has an images property from the API
+    if (medicine.images) {
+      // Check if it's not an empty string
+      if (medicine.images.trim() !== '') {
+        return `${imageBaseUrl}${medicine.images}`;
       }
-      return `${imageBaseUrl}${medicine.image.replace(/\/{2,}/g, '/')}`;
     }
     
     // Fallback: Try multiple image formats using the medicine name
     const formattedName = medicine.name_of_medicine?.toLowerCase()
       .replace(/\s+/g, '-')
       .replace(/[^a-z0-9-]/g, '')
-      .trim();
+      .replace(/\/{2,}/g, '/'); // Remove double slashes
 
     if (!formattedName) return null;
 
-    // Try different paths and formats
-    const possiblePaths = [
-      '',
-      'images/',
-      'assets/images/',
-      'public/images/'
-    ];
-
-    // Generate all possible URLs
-    const possibleUrls = possiblePaths.flatMap(path => 
-      IMAGE_EXTENSIONS.map(ext => 
-        `${imageBaseUrl}${path}${formattedName}.${ext}`
-      )
+    // Create URLs for supported formats
+    const possibleUrls = IMAGE_EXTENSIONS.map(ext => 
+      `${imageBaseUrl}images/${formattedName}.${ext}`
     );
 
-    return possibleUrls[0];
+    return possibleUrls[0]; // Return the first possible URL as fallback
   };
 
-  // Enhanced image error handling with retry mechanism
   const handleImageError = (medicineName) => {
     console.log(`Image failed to load for medicine: ${medicineName}`);
     setImageErrors(prev => ({ ...prev, [medicineName]: true }));

@@ -1,16 +1,19 @@
 import { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Star, ChevronRight, Search, Loader } from 'lucide-react';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import './NearbyHospital.css';
 
-// Mock data for demonstration purposes
-// In a real implementation, this would come from Google Maps API
+// Mock data with coordinates
 const mockHospitals = [
   {
     id: 1,
-    name: "City General Hospital",
-    distance: "1.2 km",
-    address: "123 Main Street, City Center",
-    phone: "+1 555-123-4567",
+    name: "Puttur City Hospital",
+    coordinates: {
+      lat: 12.7637,  // Puttur coordinates
+      lng: 75.2021
+    },
+    address: "APMC ROAD, Puttur, Karnataka 574201",
+    phone: "08251237781",
     emergency: true,
     rating: 4.7,
     openNow: true,
@@ -19,7 +22,10 @@ const mockHospitals = [
   {
     id: 2,
     name: "Community Medical Center",
-    distance: "2.5 km",
+    coordinates: {
+      lat: 12.7640,
+      lng: 75.2030
+    },
     address: "456 Oak Avenue, Downtown",
     phone: "+1 555-987-6543",
     emergency: true,
@@ -30,7 +36,10 @@ const mockHospitals = [
   {
     id: 3,
     name: "Sunshine Hospital & Research",
-    distance: "3.8 km",
+    coordinates: {
+      lat: 12.7650,
+      lng: 75.2040
+    },
     address: "789 Sunshine Blvd, Eastside",
     phone: "+1 555-789-0123",
     emergency: false,
@@ -41,7 +50,10 @@ const mockHospitals = [
   {
     id: 4,
     name: "Riverside Medical Facility",
-    distance: "4.1 km",
+    coordinates: {
+      lat: 12.7660,
+      lng: 75.2050
+    },
     address: "321 River Road, Westside",
     phone: "+1 555-456-7890",
     emergency: true,
@@ -51,20 +63,91 @@ const mockHospitals = [
   }
 ];
 
+const mapContainerStyle = {
+  width: '100%',
+  height: '200px'
+};
+
 export default function NearbyHospitals() {
   const [hospitals, setHospitals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterEmergency, setFilterEmergency] = useState(false);
+  const [userLocation, setUserLocation] = useState(null);
+  const [locationError, setLocationError] = useState(null);
+  const [mapCenter, setMapCenter] = useState(null);
+
+  // Calculate distance between two coordinates in kilometers
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  };
+
+  // Get user's location
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setUserLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        },
+        (error) => {
+          setLocationError("Unable to retrieve your location");
+          console.error("Error getting location:", error);
+        }
+      );
+    } else {
+      setLocationError("Geolocation is not supported by your browser");
+    }
+  }, []);
 
   useEffect(() => {
-    // Simulate API call
+    // Simulate API call and calculate distances
     setTimeout(() => {
-      setHospitals(mockHospitals);
+      const hospitalsWithDistance = mockHospitals.map(hospital => {
+        let distance = "Unknown";
+        if (userLocation) {
+          const distanceInKm = calculateDistance(
+            userLocation.lat,
+            userLocation.lng,
+            hospital.coordinates.lat,
+            hospital.coordinates.lng
+          );
+          distance = distanceInKm.toFixed(1) + " km";
+        }
+        return { ...hospital, distance };
+      });
+
+      // Sort hospitals by distance
+      hospitalsWithDistance.sort((a, b) => {
+        const distA = parseFloat(a.distance);
+        const distB = parseFloat(b.distance);
+        return distA - distB;
+      });
+
+      setHospitals(hospitalsWithDistance);
       setLoading(false);
     }, 1500);
-  }, []);
+  }, [userLocation]);
+
+  useEffect(() => {
+    if (selectedHospital) {
+      const hospital = hospitals.find(h => h.id === selectedHospital);
+      if (hospital) {
+        setMapCenter(hospital.coordinates);
+      }
+    }
+  }, [selectedHospital, hospitals]);
 
   const filteredHospitals = hospitals.filter(hospital => {
     const matchesSearch = hospital.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -77,11 +160,23 @@ export default function NearbyHospitals() {
     window.location.href = `tel:${phone}`;
   };
 
+  const handleGetDirections = (hospital) => {
+    if (userLocation) {
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.lat},${userLocation.lng}&destination=${hospital.coordinates.lat},${hospital.coordinates.lng}`;
+      window.open(url, '_blank');
+    }
+  };
+
   return (
     <div className="nearby-hospitals-container">
       <div className="header-section">
         <h2>Nearby Hospitals</h2>
         <p>Find emergency services and medical facilities near you</p>
+        {locationError && (
+          <div className="location-error">
+            {locationError}
+          </div>
+        )}
       </div>
       
       <div className="search-section">
@@ -206,7 +301,10 @@ export default function NearbyHospitals() {
                         <div>
                           <p>{hospital.address}</p>
                           <p>{hospital.distance} from your location</p>
-                          <button className="action-link">
+                          <button 
+                            className="action-link"
+                            onClick={() => handleGetDirections(hospital)}
+                          >
                             Get Directions
                           </button>
                         </div>
@@ -237,7 +335,15 @@ export default function NearbyHospitals() {
                   </div>
                   
                   <div className="map-container">
-                    Google Maps would display here with hospital location
+                    <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+                      <GoogleMap
+                        mapContainerStyle={mapContainerStyle}
+                        center={mapCenter}
+                        zoom={15}
+                      >
+                        {mapCenter && <Marker position={mapCenter} />}
+                      </GoogleMap>
+                    </LoadScript>
                   </div>
                 </div>
               ))}
