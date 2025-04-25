@@ -19,6 +19,9 @@ const SearchPage = () => {
   // Update the image base URL to point to the correct GitHub repository path
   const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/";
 
+  // Define supported image extensions
+  const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
+
   // Fetch remedies from GitHub
   useEffect(() => {
     fetchData();
@@ -67,25 +70,42 @@ const SearchPage = () => {
       });
   };
 
-  // Modified getImageUrl function
+  // Modified getImageUrl function with better fallbacks
   const getImageUrl = (medicine) => {
     if (!medicine) return null;
     
     // If the medicine object has an image property, use it directly
     if (medicine.image) {
+      // Check if the image path already includes the base URL
+      if (medicine.image.startsWith('http')) {
+        return medicine.image;
+      }
       return `${imageBaseUrl}${medicine.image}`;
     }
     
-    // Fallback: construct URL from medicine name
-    const formattedName = medicine.name_of_medicine?.toLowerCase().replace(/\s+/g, '-');
-    const imageUrl = `${imageBaseUrl}images/${encodeURIComponent(formattedName)}.jpg`;
-    console.log("Generated image URL:", imageUrl);
-    
-    return imageUrl;
+    // Fallback: Try multiple image formats using the medicine name
+    const formattedName = medicine.name_of_medicine?.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, ''); // Remove any special characters
+
+    if (!formattedName) return null;
+
+    // Create URLs for all possible image formats
+    const possibleUrls = IMAGE_EXTENSIONS.map(ext => 
+      `${imageBaseUrl}images/${encodeURIComponent(formattedName)}.${ext}`
+    );
+
+    // Also try in an 'assets' subfolder
+    const assetsUrls = IMAGE_EXTENSIONS.map(ext => 
+      `${imageBaseUrl}assets/images/${encodeURIComponent(formattedName)}.${ext}`
+    );
+
+    // Return all possible URLs as a comma-separated string
+    // The browser will try each URL until one works
+    return [...possibleUrls, ...assetsUrls].join(',');
   };
 
   const handleImageError = (medicineName) => {
-    // Log the error
     console.error(`Image failed to load for medicine: ${medicineName}`);
     setImageErrors(prev => ({ ...prev, [medicineName]: true }));
   };
