@@ -203,4 +203,4 @@ If you find this project helpful, please give it a star ⭐️
 
 ## 📧 Contact
 
-For any queries, reach out to us at support@mediq.io
+For any queries, reach out to us at [support@mediq.io](https://rajath2005.github.io/mediq.io/#/contact)
