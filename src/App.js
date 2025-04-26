@@ -24,7 +24,7 @@ import NearbyHospitals from "./components/NearbyHospital";
 import HospitalList from './pages/booking/HospitalList';
 import DoctorList from './pages/booking/DoctorList';
 import BookAppointment from './pages/booking/BookAppointment';
-
+import EmergencySettingsPage from './pages/EmergencySettingsPage';
 import './App.css';
 
 const App = () => {
@@ -75,7 +75,7 @@ const App = () => {
           <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
           <Route path="/home-remedies" element={<HomeRemediesPage />} />
           <Route path="/search-medicines" element={<SearchPage />} />
-          
+          <Route path="/emergency-settings" element={<EmergencySettingsPage />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
 
           {/* Booking flow */}
