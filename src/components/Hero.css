@@ -1,3 +1,4 @@
+/* Light mode styles */
 .hero-section {
   width: 100%;
   min-height: 85vh;
@@ -251,6 +252,7 @@
     line-height: 1.3;
   }
 }
+
 /* Recommendations / Suggestions */
 .recommendations-container {
   margin-top: 12px;
@@ -325,4 +327,70 @@
   color: #777;
   font-size: 14px;
   justify-content: center;
+}
+
+/* Dark mode styles */
+body.dark-mode .hero-section {
+  background: linear-gradient(to right, rgba(22, 27, 34, 0.9), rgba(33, 38, 45, 0.9));
+  color: #e6edf3;
+}
+
+body.dark-mode .hero-title {
+  color: #58a6ff;
+}
+
+body.dark-mode .hero-description {
+  color: #8b949e;
+}
+
+body.dark-mode .search-bar {
+  background-color: #21262d;
+  border-color: #30363d;
+  color: #c9d1d9;
+}
+
+body.dark-mode .search-bar:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+}
+
+body.dark-mode .search-button {
+  background-color: #238636;
+  color: #ffffff;
+  border-color: #238636;
+}
+
+body.dark-mode .search-button:hover {
+  background-color: #2ea043;
+}
+
+body.dark-mode .search-results-card {
+  background-color: #21262d;
+  border-color: #30363d;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+body.dark-mode .recommendations-container {
+  background-color: #21262d;
+  border-color: #30363d;
+}
+
+body.dark-mode .recommendation-tag {
+  background-color: #238636;
+  color: #ffffff;
+}
+
+body.dark-mode .recommendation-tag:hover {
+  background-color: #2ea043;
+}
+
+body.dark-mode .fallback-image {
+  background-color: #21262d;
+  border-color: #30363d;
+  color: #8b949e;
+}
+
+/* Updated input placeholder color for dark mode */
+body.dark-mode .search-bar::placeholder {
+  color: #8b949e;
 }

@@ -11,6 +11,11 @@
   color: #007bff;
   animation: wave 1.5s infinite;
   margin: 0 2px;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .loading06 span {
+  color: #58a6ff;
 }
 
 .loading06 span:nth-child(1) { animation-delay: 0.1s; }

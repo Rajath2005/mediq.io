@@ -218,3 +218,52 @@ p {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Dark mode styles */
+body.dark-mode .services-section {
+  background: linear-gradient(to right, rgba(22, 27, 34, 0.95), rgba(33, 38, 45, 0.95));
+  color: #e6edf3;
+}
+
+body.dark-mode .section-heading {
+  color: #e6edf3;
+}
+
+body.dark-mode .section-heading::after {
+  background: linear-gradient(90deg, #30363d, #58a6ff);
+}
+
+body.dark-mode .card {
+  background-color: #2d333b;
+  border-color: #30363d;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .card:hover {
+  background-color: #238636;
+  box-shadow: 0 8px 16px rgba(35, 134, 54, 0.3);
+}
+
+body.dark-mode .card h3 {
+  color: #e6edf3;
+}
+
+body.dark-mode .card p {
+  color: #8b949e;
+}
+
+body.dark-mode .card:hover h3,
+body.dark-mode .card:hover p {
+  color: #ffffff;
+}
+
+body.dark-mode .icon-wrapper {
+  background: linear-gradient(145deg, #238636, #2ea043);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(35, 134, 54, 0.3);
+}
+
+body.dark-mode .card:hover .icon-wrapper {
+  background: linear-gradient(145deg, #2ea043, #238636);
+  transform: scale(1.1) rotate(5deg);
+}

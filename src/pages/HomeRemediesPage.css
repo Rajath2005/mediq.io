@@ -12,10 +12,22 @@
   transition: all 0.3s ease;
 }
 
+body.dark-mode .search-bar {
+  background: #2d333b;
+  border-color: #30363d;
+  color: #c9d1d9;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
 .search-bar:focus {
   border-color: #38b2ac;
   box-shadow: 0 0 8px rgba(56, 178, 172, 0.3);
   outline: none;
+}
+
+body.dark-mode .search-bar:focus {
+  border-color: #58a6ff;
+  box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
 }
 
 .flashcard {
@@ -27,28 +39,34 @@
   text-align: left;
   max-width: 500px;
   animation: fadeIn 0.5s ease;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .flashcard {
+  background: #21262d;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  color: #c9d1d9;
 }
 
 .flashcard h3 {
   color: #2c3e50;
   font-size: 1.3rem;
   margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .flashcard h3 {
+  color: #e6edf3;
 }
 
 .flashcard .remedy-description {
   font-size: 1.1rem;
   color: #444;
+  transition: color 0.3s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+body.dark-mode .flashcard .remedy-description {
+  color: #8b949e;
 }
 
 .search-container {
@@ -83,4 +101,47 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.feature-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .feature-card {
+  background: #2d333b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.feature-icon {
+  color: #38b2ac;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .feature-icon {
+  color: #58a6ff;
+}
+
+.feature-card h3 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .feature-card h3 {
+  color: #e6edf3;
+}
+
+.feature-card p {
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .feature-card p {
+  color: #8b949e;
 }

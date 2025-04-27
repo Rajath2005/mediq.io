@@ -26,6 +26,12 @@
   flex-direction: column;
   overflow: hidden;
   animation-duration: 0.3s;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .privacy-policy-container {
+  background-color: #21262d;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .privacy-policy-header {
@@ -35,12 +41,25 @@
   justify-content: space-between;
   align-items: center;
   background-color: #f8f9fa;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .privacy-policy-header {
+  background-color: #2d333b;
+  border-bottom-color: #30363d;
+  color: #e6edf3;
 }
 
 .privacy-policy-content {
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+body.dark-mode .privacy-policy-content {
+  color: #c9d1d9;
 }
 
 .policy-section {
@@ -49,15 +68,8 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.info-list {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.info-list li {
-  margin-bottom: 0.5rem;
-  display: flex;
-  align-items: center;
+body.dark-mode .policy-section {
+  border-bottom-color: #30363d;
 }
 
 .accept-controls {
@@ -67,12 +79,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .accept-controls {
+  background-color: #2d333b;
+  border-top-color: #30363d;
 }
 
 .toast {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .toast {
+  background-color: #21262d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #e6edf3;
 }
 
 @media (max-width: 768px) {

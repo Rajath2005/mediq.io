@@ -1,22 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link} from "react-router-dom";
-//import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
 import 'animate.css';
-//import { useTheme } from '../contexts/ThemeContext';
- import { supabase } from "../supabaseClient";
-import Swal from 'sweetalert2'; // Ensure SweetAlert2 is installed: npm install sweetalert2
+import { useTheme } from '../contexts/ThemeContext';
+import { supabase } from "../supabaseClient";
+import Swal from 'sweetalert2';
 import { supabase2 } from '../supabaseClient2';
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
+  const { darkMode, toggleDarkMode } = useTheme();
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  //const navigate = useNavigate();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
@@ -307,7 +305,7 @@ const Navbar = () => {
             )}
 
             {/* Dark Mode Toggle */}
-            <button className="btn btn-outline-dark mobile-icon-btn" onClick={() => setDarkMode(!darkMode)}>
+            <button className="btn btn-outline-dark mobile-icon-btn" onClick={toggleDarkMode}>
               {darkMode ? <FaSun className="animate__animated animate__rotateIn" /> : <FaMoon className="animate__animated animate__rotateIn" />}
             </button>
           </div>

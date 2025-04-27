@@ -15,8 +15,15 @@ code {
 
 /* Light Mode Styles */
 body {
-  background: linear-gradient(to right, #a8e0ff, #ffffff); /* Light blue to white gradient */
-  color: #333; /* Dark text for contrast */
+  background: linear-gradient(to right, #a8e0ff, #ffffff);
+  color: #333;
+  transition: all 0.3s ease;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+  background: linear-gradient(to right, #1a1e24, #2d333b);
+  color: #e6edf3;
 }
 
 @tailwind components;

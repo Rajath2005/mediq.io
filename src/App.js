@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -56,36 +57,38 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<><Hero /><ServicesSection /></>} />
-          <Route path="/about" element={<AboutUs />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/appointments" element={<Appointments />} />
-          <Route path="/contact" element={<Contact />} />
-          {/* eslint-disable-next-line react/jsx-pascal-case */}
-          <Route path="/ayurvedic-shops" element={<Ayurveda_medicals />} />
-          <Route path="/suggest-shop" element={<SuggestShopForm />} />
-          {/* ✅ Remedy & Medicine Search Pages */}
-          <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
-          <Route path="/home-remedies" element={<HomeRemediesPage />} />
-          <Route path="/search-medicines" element={<SearchPage />} />
-          <Route path="/emergency-settings" element={<EmergencySettingsPage />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
+    <ThemeProvider>
+      <Router>
+        <div className="app-container">
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<><Hero /><ServicesSection /></>} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* eslint-disable-next-line react/jsx-pascal-case */}
+            <Route path="/ayurvedic-shops" element={<Ayurveda_medicals />} />
+            <Route path="/suggest-shop" element={<SuggestShopForm />} />
+            {/* ✅ Remedy & Medicine Search Pages */}
+            <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
+            <Route path="/home-remedies" element={<HomeRemediesPage />} />
+            <Route path="/search-medicines" element={<SearchPage />} />
+            <Route path="/emergency-settings" element={<EmergencySettingsPage />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
 
-          {/* Booking flow */}
-          <Route path="/hospitals" element={<HospitalList />} />
-          <Route path="/hospitals/:hospitalId/doctors" element={<DoctorList />} />
-          <Route path="/book-appointment/:hospitalId/:doctorId" element={<BookAppointment />} />
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+            {/* Booking flow */}
+            <Route path="/hospitals" element={<HospitalList />} />
+            <Route path="/hospitals/:hospitalId/doctors" element={<DoctorList />} />
+            <Route path="/book-appointment/:hospitalId/:doctorId" element={<BookAppointment />} />
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 };
 
