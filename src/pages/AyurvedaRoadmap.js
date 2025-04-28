@@ -1,3 +1,4 @@
+import './AyurvedaRoadmap.css';
 import React, { useState, useEffect } from 'react';
 import { Scroll, BookOpen, Award, Globe, Building, Heart, Book } from 'lucide-react';
 
