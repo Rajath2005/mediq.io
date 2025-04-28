@@ -5,8 +5,7 @@
     background: #fdf6e3;
     position: relative;
     overflow-x: hidden;
-    background-image: linear-gradient(to bottom, rgba(253, 246, 227, 0.8) 0%, rgba(253, 246, 227, 0.9) 100%), 
-                      url('/api/placeholder/1000/1000');
+    background-image: linear-gradient(to bottom, rgba(253, 246, 227, 0.8) 0%, rgba(253, 246, 227, 0.9) 100%);
     background-size: cover;
     background-attachment: fixed;
   }
@@ -79,9 +78,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('/api/placeholder/500/500');
-    background-size: cover;
-    opacity: 0.05;
+    background: rgba(141, 110, 99, 0.05);
     z-index: 0;
   }
   
@@ -229,7 +226,7 @@
   
   /* Modal styling */
   .modal-content {
-    background: #fdf8ed url('/api/placeholder/500/500') !important;
+    background: #fdf8ed !important;
     background-blend-mode: overlay !important;
     background-size: cover !important;
     background-opacity: 0.05 !important;
