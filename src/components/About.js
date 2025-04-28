@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './About.css';
 import logo from './images/logo.jpg';
 
@@ -13,10 +14,13 @@ const AboutUs = () => {
           <p>
             MediQ is your trusted destination for authentic Ayurvedic healthcare solutions. We combine ancient wisdom with modern healthcare practices to provide holistic wellness solutions that benefit your mind, body, and soul.
           </p>
-          <button className="view-more">● VIEW MORE</button>
+          <button className="view-more">
+            <Link to="/ayurveda-roadmap">● VIEW MORE</Link>
+          </button>
         </div>
 
         <div className="about-right">
+          
           <img src={logo} alt="MediQ Logo" />
           <h2>Our Vision</h2>
           <div className="underline"></div>
