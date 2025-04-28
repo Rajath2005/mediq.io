@@ -226,10 +226,9 @@
   
   /* Modal styling */
   .modal-content {
-    background: #fdf8ed !important;
+    background: rgba(253, 248, 237, 0.95) !important;
     background-blend-mode: overlay !important;
     background-size: cover !important;
-    background-opacity: 0.05 !important;
     border-radius: 20px !important;
     border: none !important;
   }
