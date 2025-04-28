@@ -78,6 +78,7 @@ const App = () => {
             <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
             <Route path="/home-remedies" element={<HomeRemediesPage />} />
             <Route path="/search-medicines" element={<SearchPage />} />
+           <Route path="/ayurveda-roadmap" element={<AyurvedaRoadmap />} />
             <Route path="/emergency-settings" element={<EmergencySettingsPage />} />
             <Route path="/privacy" element={<PrivacyPolicy />} />
 
