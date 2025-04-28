@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import "animate.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const BookAppointment = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -35,8 +38,9 @@ const BookAppointment = () => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    try {
-      // Here you would typically make an API call
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
       setSuccess(true);
       alert(`Appointment booked with ${formData.doctor} on ${formData.date} at ${formData.time}`);
       setFormData({
@@ -46,19 +50,16 @@ const BookAppointment = () => {
         date: "",
         time: ""
       });
-    } catch (err) {
-      setError("Failed to book appointment. Please try again.");
-    }
+    }, 2000);
   };
 
-  // Get today's date in YYYY-MM-DD format
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4">Book an Appointment</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">Appointment booked successfully!</div>}
+    <div className="container mt-5 animate__animated animate__fadeIn">
+      <h2 className="mb-4 text-center">Book an Appointment</h2>
+      {error && <div className="alert alert-danger animate__animated animate__shakeX">{error}</div>}
+      {success && <div className="alert alert-success animate__animated animate__fadeIn">Appointment booked successfully!</div>}
       <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
         <div className="mb-3">
           <label className="form-label">Your Name</label>
@@ -132,7 +133,9 @@ const BookAppointment = () => {
           <small className="text-muted">Available times: 9:00 AM - 5:00 PM</small>
         </div>
 
-        <button type="submit" className="btn btn-primary">Book Appointment</button>
+        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+          {loading ? <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> : "Book Appointment"}
+        </button>
       </form>
     </div>
   );
