@@ -170,104 +170,106 @@ export default function AyurvedaRoadmap() {
   };
 
   return (
-    <div className="container-fluid py-5">
-      {/* Decorative floating elements */}
-      <div className="ayurveda-floating-element leaf-1">
-        <svg viewBox="0 0 100 100" fill="#8d6e63">
-          <path d="M50,0 C70,20 80,50 100,50 C80,70 50,80 50,100 C30,80 20,50 0,50 C20,30 50,20 50,0 Z" />
-        </svg>
-      </div>
-      <div className="ayurveda-floating-element leaf-2">
-        <svg viewBox="0 0 100 100" fill="#8d6e63">
-          <path d="M30,10 C60,10 90,40 90,70 C90,85 75,95 60,95 C30,95 10,75 10,45 C10,25 15,10 30,10 Z" />
-        </svg>
-      </div>
-      <div className="ayurveda-floating-element leaf-3">
-        <svg viewBox="0 0 100 100" fill="#8d6e63">
-          <path d="M50,5 C75,5 95,25 95,50 C95,75 75,95 50,95 C25,95 5,75 5,50 C5,25 25,5 50,5 Z M50,25 C60,30 70,40 70,50 C70,60 60,70 50,75 C40,70 30,60 30,50 C30,40 40,30 50,25 Z" />
-        </svg>
-      </div>
-      
-      {/* Add backdrop for modal */}
-      {activeCheckpoint && (
-        <div className="modal-backdrop fade show" onClick={handleCloseModal}></div>
-      )}
-      
-      {/* Modal component */}
-      <DetailModal 
-        checkpoint={activeCheckpoint} 
-        isOpen={!!activeCheckpoint} 
-        onClose={handleCloseModal} 
-      />
-      
-      <div className="container py-4">
-        <h1 className="text-center mb-5">The Journey of Ayurveda</h1>
-        
-        <div className="position-relative roadmap-container">
-          {/* The curvy road - SVG path */}
-          <svg className="position-absolute top-0 start-50 translate-middle-x" 
-               height={roadmapData.length * 300} 
-               width="100">
-            <path 
-              d="M50,0 Q70,150 30,300 Q10,450 70,600 Q90,750 30,900 Q10,1050 70,1200 Q90,1350 30,1500 Q10,1650 50,1800" 
-              stroke="#6c5b3d" 
-              strokeWidth="6" 
-              fill="none" 
-              strokeDasharray="12,8"
-            />
+    <div className="roadmap-wrapper">
+      <div className="container-fluid py-5">
+        {/* Decorative floating elements */}
+        <div className="ayurveda-floating-element leaf-1">
+          <svg viewBox="0 0 100 100" fill="#8d6e63">
+            <path d="M50,0 C70,20 80,50 100,50 C80,70 50,80 50,100 C30,80 20,50 0,50 C20,30 50,20 50,0 Z" />
           </svg>
+        </div>
+        <div className="ayurveda-floating-element leaf-2">
+          <svg viewBox="0 0 100 100" fill="#8d6e63">
+            <path d="M30,10 C60,10 90,40 90,70 C90,85 75,95 60,95 C30,95 10,75 10,45 C10,25 15,10 30,10 Z" />
+          </svg>
+        </div>
+        <div className="ayurveda-floating-element leaf-3">
+          <svg viewBox="0 0 100 100" fill="#8d6e63">
+            <path d="M50,5 C75,5 95,25 95,50 C95,75 75,95 50,95 C25,95 5,75 5,50 C5,25 25,5 50,5 Z M50,25 C60,30 70,40 70,50 C70,60 60,70 50,75 C40,70 30,60 30,50 C30,40 40,30 50,25 Z" />
+          </svg>
+        </div>
+        
+        {/* Add backdrop for modal */}
+        {activeCheckpoint && (
+          <div className="modal-backdrop fade show" onClick={handleCloseModal}></div>
+        )}
+        
+        {/* Modal component */}
+        <DetailModal 
+          checkpoint={activeCheckpoint} 
+          isOpen={!!activeCheckpoint} 
+          onClose={handleCloseModal} 
+        />
+        
+        <div className="container py-4">
+          <h1 className="text-center mb-5">The Journey of Ayurveda</h1>
           
-          {/* Roadmap checkpoints */}
-          <div className="row position-relative">
-            {roadmapData.map((checkpoint, index) => (
-              <div 
-                key={checkpoint.id} 
-                className={`col-12 checkpoint-container mb-5 ${visibleCheckpoints.includes(index) ? 'visible' : ''}`}
-              >
-                <div className={`row g-0 ${checkpoint.position === 'right' ? 'flex-row-reverse' : ''}`}>
-                  <div className="col-md-5 position-relative">
-                    <div 
-                      className={`checkpoint p-4 ${visibleCheckpoints.includes(index) ? `animate__animated ${checkpoint.animationClass}` : ''}`}
-                      onClick={() => handleCheckpointClick(checkpoint)}
-                    >
-                      <div className="checkpoint-content">
-                        <div className="d-flex align-items-center mb-3">
-                          <div className="bg-light p-3 rounded-circle me-3 text-primary">
-                            {checkpoint.icon}
+          <div className="position-relative roadmap-container">
+            {/* The curvy road - SVG path */}
+            <svg className="position-absolute top-0 start-50 translate-middle-x" 
+                 height={roadmapData.length * 300} 
+                 width="100">
+              <path 
+                d="M50,0 Q70,150 30,300 Q10,450 70,600 Q90,750 30,900 Q10,1050 70,1200 Q90,1350 30,1500 Q10,1650 50,1800" 
+                stroke="#6c5b3d" 
+                strokeWidth="6" 
+                fill="none" 
+                strokeDasharray="12,8"
+              />
+            </svg>
+            
+            {/* Roadmap checkpoints */}
+            <div className="row position-relative">
+              {roadmapData.map((checkpoint, index) => (
+                <div 
+                  key={checkpoint.id} 
+                  className={`col-12 checkpoint-container mb-5 ${visibleCheckpoints.includes(index) ? 'visible' : ''}`}
+                >
+                  <div className={`row g-0 ${checkpoint.position === 'right' ? 'flex-row-reverse' : ''}`}>
+                    <div className="col-md-5 position-relative">
+                      <div 
+                        className={`checkpoint p-4 ${visibleCheckpoints.includes(index) ? `animate__animated ${checkpoint.animationClass}` : ''}`}
+                        onClick={() => handleCheckpointClick(checkpoint)}
+                      >
+                        <div className="checkpoint-content">
+                          <div className="d-flex align-items-center mb-3">
+                            <div className="bg-light p-3 rounded-circle me-3 text-primary">
+                              {checkpoint.icon}
+                            </div>
+                            <div>
+                              <h4 className="mb-0">{checkpoint.title}</h4>
+                              <small className="text-muted">{checkpoint.period}</small>
+                            </div>
                           </div>
-                          <div>
-                            <h4 className="mb-0">{checkpoint.title}</h4>
-                            <small className="text-muted">{checkpoint.period}</small>
+                          <p className="mb-0">{checkpoint.shortDescription}</p>
+                          <div className="mt-3 text-end">
+                            <small className="text-primary fw-bold">Click for details</small>
                           </div>
                         </div>
-                        <p className="mb-0">{checkpoint.shortDescription}</p>
-                        <div className="mt-3 text-end">
-                          <small className="text-primary fw-bold">Click for details</small>
-                        </div>
+                      </div>
+                      
+                      {/* Connector line to the road */}
+                      <div className="connector" 
+                        style={{
+                          [checkpoint.position === 'left' ? 'right' : 'left']: '0'
+                        }}
+                      ></div>
+                    </div>
+                    
+                    {/* Circular checkpoint marker */}
+                    <div className="col-md-2 d-flex justify-content-center">
+                      <div 
+                        className={`rounded-circle d-flex align-items-center justify-content-center ${visibleCheckpoints.includes(index) ? 'animate__animated animate__pulse' : ''}`}
+                      >
+                        <div className="text-white fw-bold">{checkpoint.id}</div>
                       </div>
                     </div>
                     
-                    {/* Connector line to the road */}
-                    <div className="connector" 
-                      style={{
-                        [checkpoint.position === 'left' ? 'right' : 'left']: '0'
-                      }}
-                    ></div>
+                    <div className="col-md-5"></div>
                   </div>
-                  
-                  {/* Circular checkpoint marker */}
-                  <div className="col-md-2 d-flex justify-content-center">
-                    <div 
-                      className={`rounded-circle d-flex align-items-center justify-content-center ${visibleCheckpoints.includes(index) ? 'animate__animated animate__pulse' : ''}`}
-                    >
-                      <div className="text-white fw-bold">{checkpoint.id}</div>
-                    </div>
-                  </div>
-                  
-                  <div className="col-md-5"></div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
