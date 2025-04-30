@@ -1,11 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import './UserProfileDropdown.css';
 
-const UserProfileDropdown = ({ isAuthenticated, userDetails, onLogout }) => {
-  if (!isAuthenticated || !userDetails) return null;
+const UserProfileDropdown = ({ isAuthenticated, onLogout }) => {
+  const { user, userProfile } = useAuth();
 
-  const displayName = userDetails.name || userDetails.email;
+  if (!isAuthenticated || !user) return null;
+
+  const displayName = userProfile?.full_name || user.user_metadata?.full_name || user.email;
+  const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url;
 
   return (
     <div className="dropdown">
@@ -16,7 +20,7 @@ const UserProfileDropdown = ({ isAuthenticated, userDetails, onLogout }) => {
         aria-expanded="false"
       >
         <img 
-          src={userDetails.profileImage || '/images/default-avatar.png'}
+          src={avatarUrl || '/images/default-avatar.png'}
           alt="Profile"
           className="profile-image me-2"
           style={{ width: '24px', height: '24px', borderRadius: '50%' }}
@@ -27,14 +31,14 @@ const UserProfileDropdown = ({ isAuthenticated, userDetails, onLogout }) => {
         <li className="dropdown-item-text">
           <div className="d-flex align-items-center px-3 py-2">
             <img 
-              src={userDetails.profileImage || '/images/default-avatar.png'}
+              src={avatarUrl || '/images/default-avatar.png'}
               alt="Profile"
               className="me-2"
               style={{ width: '32px', height: '32px', borderRadius: '50%' }}
             />
             <div>
               <div className="fw-bold">{displayName}</div>
-              <small className="text-muted">{userDetails.email}</small>
+              <small className="text-muted">{user.email}</small>
             </div>
           </div>
         </li>

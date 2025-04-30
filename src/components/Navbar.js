@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
@@ -9,15 +9,16 @@ import { useTheme } from '../contexts/ThemeContext';
 import { supabase } from "../supabaseClient";
 import Swal from 'sweetalert2';
 import { supabase2 } from '../supabaseClient2';
+import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userDetails, setUserDetails] = useState(null);
-
+  const navigate = useNavigate();
+  const { isAuthenticated, user, signOut } = useAuth();
+  
   // Close dropdown and nav menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -58,9 +59,12 @@ const Navbar = () => {
   }, [dropdownRef]);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsAuthenticated(false);
-    setUserDetails(null);
+    try {
+      await signOut();
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   };
 
   const handleEmergency = async () => {
@@ -282,7 +286,11 @@ const Navbar = () => {
             ) : (
               <UserProfileDropdown
                 isAuthenticated={isAuthenticated}
-                userDetails={userDetails}
+                userDetails={{
+                  name: user?.user_metadata?.full_name || user?.email,
+                  email: user?.email,
+                  profileImage: user?.user_metadata?.avatar_url
+                }}
                 onLogout={handleLogout}
               />
             )}

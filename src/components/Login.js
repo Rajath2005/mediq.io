@@ -20,10 +20,33 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { error: loginError } = await signIn(email, password);
+      const { data: { user }, error: loginError } = await signIn(email, password);
       if (loginError) throw loginError;
 
-      // On successful login, redirect to dashboard
+      // Fetch user's profile data
+      const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        throw profileError;
+      }
+
+      // Update user metadata
+      if (profileData) {
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: {
+            full_name: profileData.full_name,
+            avatar_url: profileData.avatar_url
+          }
+        });
+
+        if (updateError) throw updateError;
+      }
+
+      // Navigate to dashboard after successful login
       navigate('/dashboard');
     } catch (error) {
       setError(error.message);
