@@ -75,7 +75,7 @@ body.dark-mode .dropdown-divider {
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 999;
+  z-index: 1060;
   background-color: var(--light-bg-primary);
   box-shadow: var(--light-shadow);
   border-bottom: 1px solid var(--light-border);
@@ -330,7 +330,7 @@ body.dark-mode .btn-outline-primary:hover {
   /* Emergency button enhancement */
   .btn-danger {
     animation: pulse 2s infinite;
-    box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
   }
 
   @keyframes pulse {
@@ -525,19 +525,21 @@ body.dark-mode ::-webkit-scrollbar-thumb {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000;
+  z-index: 1065;
   display: none;
   min-width: 200px;
   padding: 0.5rem 0;
   margin: 0;
   border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  transition: opacity 0.2s ease-in-out;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .dropdown-menu.show {
   display: block;
   opacity: 1;
+  transform: translateY(0);
 }
 
 .dropdown-item {

@@ -15,7 +15,7 @@ const AboutUs = () => {
             MediQ is your trusted destination for authentic Ayurvedic healthcare solutions. We combine ancient wisdom with modern healthcare practices to provide holistic wellness solutions that benefit your mind, body, and soul.
           </p>
           <button className="view-more">
-            <Link to="/ayurveda-roadmap">● VIEW MORE</Link>
+            <Link to="#">● VIEW MORE</Link>
           </button>
         </div>
 

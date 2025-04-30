@@ -18,52 +18,27 @@ const Navbar = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
 
+  // Close dropdown and nav menu when clicking outside
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        const metadata = session.user.user_metadata || {};
-        const displayName = metadata.full_name || 
-          `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
-          session.user.email.split('@')[0];
-        
-        setIsAuthenticated(true);
-        setUserDetails({
-          name: displayName,
-          email: session.user.email,
-          profileImage: metadata.avatar_url
-        });
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+      // Close expanded nav when clicking anywhere outside
+      if (!event.target.closest('.navbar')) {
+        setIsNavExpanded(false);
       }
     };
-    
-    checkAuth();
 
-    // Subscribe to auth changes
-    const { subscription } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setIsAuthenticated(!!session);
-      if (session) {
-        const metadata = session.user.user_metadata || {};
-        const displayName = metadata.full_name || 
-          `${metadata.first_name || ''} ${metadata.last_name || ''}`.trim() ||
-          session.user.email.split('@')[0];
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [dropdownRef]);
 
-        setUserDetails({
-          name: displayName,
-          email: session.user.email,
-          profileImage: metadata.avatar_url
-        });
-      } else {
-        setUserDetails(null);
-      }
-    });
-
-    return () => subscription?.unsubscribe();
-  }, []);
-
-  const closeNavbar = () => {
+  // Close dropdown and nav menu when route changes
+  useEffect(() => {
     setIsNavExpanded(false);
     setIsDropdownOpen(false);
-  };
+  }, [window.location.pathname]);
 
   const handleServiceSelection = () => {
     setIsDropdownOpen(false);
@@ -206,7 +181,7 @@ const Navbar = () => {
   
 
   return (
-    <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`}>
+    <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`} style={{ zIndex: 1060 }}>
       <div className="container-fluid px-3">
         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavExpanded(false)}>
           <img src={logo} alt="Logo" className="navbar-logo me-2 animate__animated animate__pulse" />

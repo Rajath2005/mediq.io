@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Scroll, BookOpen, Award, Globe, Building, Heart, Book } from 'lucide-react';
 
 // Main AyurvedaRoadmap Component
 export default function AyurvedaRoadmap() {
   const [activeCheckpoint, setActiveCheckpoint] = useState(null);
   const [visibleCheckpoints, setVisibleCheckpoints] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Function to check if an element is in viewport
@@ -119,8 +121,19 @@ export default function AyurvedaRoadmap() {
     
     return (
       <div className={`modal fade ayurveda-modal ${isOpen ? 'show' : ''}`} 
-           style={{ display: isOpen ? 'block' : 'none' }}
+           style={{ 
+             display: isOpen ? 'block' : 'none',
+             zIndex: 1050 // Setting z-index lower than navbar
+           }}
            tabIndex="-1">
+              <div className="mb-4" style={{ position: 'absolute', left: '20px', top: '80px' }}>
+        <button 
+          className="btn btn-outline-success" 
+          onClick={() => navigate(-1)}
+        >
+         Back 
+        </button>
+      </div>
         <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
@@ -256,6 +269,7 @@ export default function AyurvedaRoadmap() {
         <div 
           className="modal-backdrop fade show" 
           onClick={handleCloseModal}
+          style={{ zIndex: 1040 }} // Setting z-index lower than modal
         ></div>
       )}
 
