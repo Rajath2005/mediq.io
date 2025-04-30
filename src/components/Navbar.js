@@ -65,6 +65,11 @@ const Navbar = () => {
     setIsDropdownOpen(false);
   };
 
+  const handleServiceSelection = () => {
+    setIsDropdownOpen(false);
+    setIsNavExpanded(false);
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -81,11 +86,6 @@ const Navbar = () => {
     await supabase.auth.signOut();
     setIsAuthenticated(false);
     setUserDetails(null);
-  };
-
-  const handleServiceSelection = () => {
-    setIsDropdownOpen(false);
-    setIsNavExpanded(false);
   };
 
   const handleEmergency = async () => {
@@ -213,7 +213,6 @@ const Navbar = () => {
           MediQ
         </Link>
 
-        {/* Mobile Emergency Button */}
         <button className="btn btn-danger d-lg-none me-2" onClick={handleEmergency}>
           Emergency
         </button>
@@ -229,10 +228,10 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className={`collapse navbar-collapse ${isNavExpanded ? 'show animate__animated animate__fadeIn' : ''}`} id="navbarSupportedContent">
+        <div className={`collapse navbar-collapse ${isNavExpanded ? 'show animate__animated animate__fadeIn' : ''}`}>
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" to="/" onClick={handleServiceSelection}>Home</Link>
+              <Link className="nav-link" to="/" onClick={handleServiceSelection}>Home</Link>
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/about" onClick={handleServiceSelection}>About Us</Link>
@@ -241,15 +240,20 @@ const Navbar = () => {
               <Link className="nav-link" to="/contact" onClick={handleServiceSelection}>Contact Us</Link>
             </li>
 
-            {/* Services Dropdown */}
             <li className="nav-item dropdown" ref={dropdownRef}>
-              <button
+              <a
+                href="#"
                 className="nav-link dropdown-toggle"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsDropdownOpen(!isDropdownOpen);
+                }}
+                role="button"
+                aria-expanded={isDropdownOpen}
               >
                 Services
-              </button>
-              <ul className={`dropdown-menu ${isDropdownOpen ? "show animate__animated animate__fadeIn" : ""}`}>
+              </a>
+              <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
                 <li>
                   <Link className="dropdown-item" to="/search-medicines" onClick={handleServiceSelection}>
                     Search Ayurvedic Medicines
@@ -274,11 +278,11 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
-                 <li>
-                   <Link className="dropdown-item" to="/nearby-hospitals" onClick={handleServiceSelection}>
-                   Nearby Hospitals
-                   </Link>
-                 </li>
+                <li>
+                  <Link className="dropdown-item" to="/nearby-hospitals" onClick={handleServiceSelection}>
+                    Nearby Hospitals
+                  </Link>
+                </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
                   <Link className="dropdown-item" to="/emergency-settings" onClick={handleServiceSelection}>
