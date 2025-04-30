@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
+import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 
 const Login = () => {
@@ -11,6 +12,7 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,40 +20,11 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data: { user }, error: loginError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
+      const { error: loginError } = await signIn(email, password);
       if (loginError) throw loginError;
 
-      // Fetch the user's profile data after successful login
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      if (profileError && profileError.code !== 'PGRST116') {
-        throw profileError;
-      }
-
-      // Update user metadata with profile information if it exists
-      if (profileData) {
-        const { error: updateError } = await supabase.auth.updateUser({
-          data: {
-            full_name: profileData.full_name,
-            first_name: profileData.first_name,
-            last_name: profileData.last_name
-          }
-        });
-
-        if (updateError) throw updateError;
-      }
-
-      // Redirect to home page with hero section
-      navigate("/#hero");
-      window.scrollTo(0, 0); // Scroll to top to show hero section
+      // On successful login, redirect to dashboard
+      navigate('/dashboard');
     } catch (error) {
       setError(error.message);
       console.error("Login error:", error);
