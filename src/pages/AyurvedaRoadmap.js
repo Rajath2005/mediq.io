@@ -1,4 +1,3 @@
-import './AyurvedaRoadmap.css';
 import React, { useState, useEffect } from 'react';
 import { Scroll, BookOpen, Award, Globe, Building, Heart, Book } from 'lucide-react';
 
@@ -119,7 +118,7 @@ export default function AyurvedaRoadmap() {
     if (!checkpoint) return null;
     
     return (
-      <div className={`modal fade ${isOpen ? 'show' : ''}`} 
+      <div className={`modal fade ayurveda-modal ${isOpen ? 'show' : ''}`} 
            style={{ display: isOpen ? 'block' : 'none' }}
            tabIndex="-1">
         <div className="modal-dialog modal-lg">
@@ -131,10 +130,10 @@ export default function AyurvedaRoadmap() {
             <div className="modal-body">
               <div className="d-flex flex-column">
                 <div className="text-center mb-4">
-                  <div className="d-inline-flex justify-content-center align-items-center bg-light p-4 rounded-circle mb-3">
+                  <div className="d-inline-flex justify-content-center align-items-center ayurveda-icon-container mb-3">
                     {checkpoint.icon}
                   </div>
-                  <h6 className="text-muted">{checkpoint.period}</h6>
+                  <h6 className="ayurveda-period-text">{checkpoint.period}</h6>
                 </div>
                 <div className="text-center mb-4">
                   <img 
@@ -143,9 +142,9 @@ export default function AyurvedaRoadmap() {
                     className="img-fluid rounded" 
                   />
                 </div>
-                <p className="lead">{checkpoint.fullDescription}</p>
+                <p className="ayurveda-description">{checkpoint.fullDescription}</p>
                 <div className="text-center mt-4">
-                  <button className="btn btn-outline-primary rounded-pill" onClick={onClose}>
+                  <button className="ayurveda-btn" onClick={onClose}>
                     Close
                   </button>
                 </div>
@@ -170,109 +169,402 @@ export default function AyurvedaRoadmap() {
   };
 
   return (
-    <div className="roadmap-wrapper">
-      <div className="container-fluid py-5">
-        {/* Decorative floating elements */}
-        <div className="ayurveda-floating-element leaf-1">
-          <svg viewBox="0 0 100 100" fill="#8d6e63">
-            <path d="M50,0 C70,20 80,50 100,50 C80,70 50,80 50,100 C30,80 20,50 0,50 C20,30 50,20 50,0 Z" />
-          </svg>
-        </div>
-        <div className="ayurveda-floating-element leaf-2">
-          <svg viewBox="0 0 100 100" fill="#8d6e63">
-            <path d="M30,10 C60,10 90,40 90,70 C90,85 75,95 60,95 C30,95 10,75 10,45 C10,25 15,10 30,10 Z" />
-          </svg>
-        </div>
-        <div className="ayurveda-floating-element leaf-3">
-          <svg viewBox="0 0 100 100" fill="#8d6e63">
-            <path d="M50,5 C75,5 95,25 95,50 C95,75 75,95 50,95 C25,95 5,75 5,50 C5,25 25,5 50,5 Z M50,25 C60,30 70,40 70,50 C70,60 60,70 50,75 C40,70 30,60 30,50 C30,40 40,30 50,25 Z" />
-          </svg>
-        </div>
-        
-        {/* Add backdrop for modal */}
-        {activeCheckpoint && (
-          <div className="modal-backdrop fade show" onClick={handleCloseModal}></div>
-        )}
-        
-        {/* Modal component */}
-        <DetailModal 
-          checkpoint={activeCheckpoint} 
-          isOpen={!!activeCheckpoint} 
-          onClose={handleCloseModal} 
-        />
-        
-        <div className="container py-4">
-          <h1 className="text-center mb-5">The Journey of Ayurveda</h1>
-          
-          <div className="position-relative roadmap-container">
-            {/* The curvy road - SVG path */}
-            <svg className="position-absolute top-0 start-50 translate-middle-x" 
-                 height={roadmapData.length * 300} 
-                 width="100">
-              <path 
-                d="M50,0 Q70,150 30,300 Q10,450 70,600 Q90,750 30,900 Q10,1050 70,1200 Q90,1350 30,1500 Q10,1650 50,1800" 
-                stroke="#6c5b3d" 
-                strokeWidth="6" 
-                fill="none" 
-                strokeDasharray="12,8"
-              />
-            </svg>
-            
-            {/* Roadmap checkpoints */}
-            <div className="row position-relative">
-              {roadmapData.map((checkpoint, index) => (
-                <div 
-                  key={checkpoint.id} 
-                  className={`col-12 checkpoint-container mb-5 ${visibleCheckpoints.includes(index) ? 'visible' : ''}`}
-                >
-                  <div className={`row g-0 ${checkpoint.position === 'right' ? 'flex-row-reverse' : ''}`}>
-                    <div className="col-md-5 position-relative">
-                      <div 
-                        className={`checkpoint p-4 ${visibleCheckpoints.includes(index) ? `animate__animated ${checkpoint.animationClass}` : ''}`}
-                        onClick={() => handleCheckpointClick(checkpoint)}
-                      >
-                        <div className="checkpoint-content">
-                          <div className="d-flex align-items-center mb-3">
-                            <div className="bg-light p-3 rounded-circle me-3 text-primary">
-                              {checkpoint.icon}
-                            </div>
-                            <div>
-                              <h4 className="mb-0">{checkpoint.title}</h4>
-                              <small className="text-muted">{checkpoint.period}</small>
-                            </div>
-                          </div>
-                          <p className="mb-0">{checkpoint.shortDescription}</p>
-                          <div className="mt-3 text-end">
-                            <small className="text-primary fw-bold">Click for details</small>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* Connector line to the road */}
-                      <div className="connector" 
-                        style={{
-                          [checkpoint.position === 'left' ? 'right' : 'left']: '0'
-                        }}
-                      ></div>
-                    </div>
-                    
-                    {/* Circular checkpoint marker */}
-                    <div className="col-md-2 d-flex justify-content-center">
-                      <div 
-                        className={`rounded-circle d-flex align-items-center justify-content-center ${visibleCheckpoints.includes(index) ? 'animate__animated animate__pulse' : ''}`}
-                      >
-                        <div className="text-white fw-bold">{checkpoint.id}</div>
-                      </div>
-                    </div>
-                    
-                    <div className="col-md-5"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
+    <div className="ayurveda-roadmap-container py-5">
+      {/* Decorative floating elements */}
+      <div className="ayurveda-floating-element leaf-1">
+        <svg viewBox="0 0 100 100" fill="#8d6e63">
+          <path d="M50,0 C70,20 80,50 100,50 C80,70 50,80 50,100 C30,80 20,50 0,50 C20,30 50,20 50,0 Z" />
+        </svg>
+      </div>
+      <div className="ayurveda-floating-element leaf-2">
+        <svg viewBox="0 0 100 100" fill="#8d6e63">
+          <path d="M30,10 C60,10 90,40 90,70 C90,85 75,95 60,95 C30,95 10,75 10,45 C10,25 15,10 30,10 Z" />
+        </svg>
+      </div>
+      <div className="ayurveda-floating-element chakra-1">
+        <svg viewBox="0 0 100 100" fill="#a1887f">
+          <circle cx="50" cy="50" r="45" />
+          <circle cx="50" cy="50" r="35" fill="#d7ccc8" />
+          <circle cx="50" cy="50" r="25" fill="#a1887f" />
+          <circle cx="50" cy="50" r="15" fill="#d7ccc8" />
+        </svg>
+      </div>
+
+      {/* Title section */}
+      <div className="container mb-5">
+        <div className="row justify-content-center text-center">
+          <div className="col-lg-8">
+            <h2 className="ayurveda-section-title">The Ayurvedic Journey Through Time</h2>
+            <p className="ayurveda-section-description">
+              Explore the rich history of Ayurveda, from its ancient origins to its modern global impact.
+              Click on any milestone to learn more about this fascinating healing tradition.
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Timeline */}
+      <div className="container position-relative">
+        {/* Center line */}
+        <div className="ayurveda-timeline-line"></div>
+        
+        {/* Checkpoints */}
+        <div className="row">
+          {roadmapData.map((checkpoint, index) => (
+            <div 
+              key={checkpoint.id} 
+              className={`col-12 checkpoint-container mb-5 ${
+                checkpoint.position === 'left' ? 'text-md-end' : 'text-md-start'
+              }`}
+            >
+              <div 
+                className={`ayurveda-checkpoint ${
+                  visibleCheckpoints.includes(index) ? 'visible ' + checkpoint.animationClass : ''
+                } ${checkpoint.position}`}
+              >
+                <div className="ayurveda-checkpoint-content" onClick={() => handleCheckpointClick(checkpoint)}>
+                  <div className="ayurveda-checkpoint-header">
+                    <div className="ayurveda-icon-container">
+                      {checkpoint.icon}
+                    </div>
+                    <h3 className="ayurveda-checkpoint-title">{checkpoint.title}</h3>
+                    <div className="ayurveda-period-badge">{checkpoint.period}</div>
+                  </div>
+                  <p className="ayurveda-checkpoint-description">
+                    {checkpoint.shortDescription}
+                  </p>
+                  <button className="ayurveda-read-more-btn">
+                    Read More
+                  </button>
+                </div>
+                <div className="ayurveda-timeline-dot"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Modal for detailed information */}
+      <DetailModal 
+        checkpoint={activeCheckpoint} 
+        isOpen={activeCheckpoint !== null} 
+        onClose={handleCloseModal} 
+      />
+      
+      {/* Modal backdrop */}
+      {activeCheckpoint && (
+        <div 
+          className="modal-backdrop fade show" 
+          onClick={handleCloseModal}
+        ></div>
+      )}
+
+      {/* CSS styles */}
+      <style jsx>{`
+        /* Main container styles */
+        .ayurveda-roadmap-container {
+          position: relative;
+          overflow: hidden;
+          font-family: 'Poppins', sans-serif;
+          background-color: #f8f5f0;
+          color: #5d4037;
+          min-height: 100vh;
+        }
+
+        /* Section title and description */
+        .ayurveda-section-title {
+          font-size: 2.5rem;
+          font-weight: 700;
+          color: #5d4037;
+          margin-bottom: 1.5rem;
+        }
+        
+        .ayurveda-section-description {
+          font-size: 1.1rem;
+          color: #8d6e63;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        /* Timeline styles */
+        .ayurveda-timeline-line {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 50%;
+          width: 4px;
+          background: linear-gradient(to bottom, transparent, #a1887f 5%, #a1887f 95%, transparent);
+          transform: translateX(-50%);
+        }
+
+        /* Checkpoint styles */
+        .ayurveda-checkpoint {
+          position: relative;
+          opacity: 0;
+          transition: opacity 0.5s ease;
+          max-width: 450px;
+          margin: 0 auto;
+        }
+        
+        .ayurveda-checkpoint.visible {
+          opacity: 1;
+        }
+        
+        .ayurveda-checkpoint.left {
+          padding-right: 50px;
+        }
+        
+        .ayurveda-checkpoint.right {
+          padding-left: 50px;
+        }
+
+        .ayurveda-checkpoint-content {
+          background-color: #fff;
+          border-radius: 12px;
+          padding: 25px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+          cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          border: 1px solid rgba(161, 136, 127, 0.2);
+        }
+        
+        .ayurveda-checkpoint-content:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .ayurveda-timeline-dot {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          background-color: #a1887f;
+          border-radius: 50%;
+          top: 30px;
+          z-index: 1;
+          border: 4px solid #f8f5f0;
+        }
+        
+        .ayurveda-checkpoint.left .ayurveda-timeline-dot {
+          right: 0;
+          transform: translateX(50%);
+        }
+        
+        .ayurveda-checkpoint.right .ayurveda-timeline-dot {
+          left: 0;
+          transform: translateX(-50%);
+        }
+
+        /* Checkpoint content styles */
+        .ayurveda-checkpoint-header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-bottom: 15px;
+        }
+
+        .ayurveda-icon-container {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 60px;
+          height: 60px;
+          background-color: #f8f5f0;
+          border-radius: 50%;
+          margin-bottom: 15px;
+          color: #5d4037;
+          font-size: 24px;
+        }
+
+        .ayurveda-checkpoint-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #5d4037;
+          margin-bottom: 8px;
+          text-align: center;
+        }
+
+        .ayurveda-period-badge {
+          display: inline-block;
+          background-color: #e8e0d8;
+          color: #8d6e63;
+          padding: 4px 12px;
+          border-radius: 50px;
+          font-size: 0.8rem;
+          font-weight: 500;
+        }
+
+        .ayurveda-checkpoint-description {
+          font-size: 0.95rem;
+          color: #8d6e63;
+          margin-bottom: 20px;
+          line-height: 1.6;
+        }
+
+        .ayurveda-read-more-btn {
+          background-color: transparent;
+          color: #a1887f;
+          border: 1px solid #a1887f;
+          padding: 8px 16px;
+          border-radius: 50px;
+          font-size: 0.85rem;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .ayurveda-read-more-btn:hover {
+          background-color: #a1887f;
+          color: #fff;
+        }
+
+        /* Modal styles */
+        .ayurveda-modal .modal-content {
+          border-radius: 12px;
+          border: none;
+          overflow: hidden;
+        }
+        
+        .ayurveda-modal .modal-header {
+          background-color: #f8f5f0;
+          border-bottom: none;
+          padding: 20px 30px;
+        }
+        
+        .ayurveda-modal .modal-title {
+          color: #5d4037;
+          font-weight: 600;
+        }
+        
+        .ayurveda-modal .modal-body {
+          padding: 30px;
+        }
+        
+        .ayurveda-period-text {
+          color: #8d6e63;
+          font-weight: 500;
+          font-size: 1.1rem;
+        }
+        
+        .ayurveda-description {
+          color: #5d4037;
+          line-height: 1.8;
+          font-size: 1rem;
+        }
+        
+        .ayurveda-btn {
+          background-color: #a1887f;
+          color: #fff;
+          border: none;
+          padding: 10px 25px;
+          border-radius: 50px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .ayurveda-btn:hover {
+          background-color: #8d6e63;
+          transform: translateY(-2px);
+        }
+
+        /* Decorative elements */
+        .ayurveda-floating-element {
+          position: absolute;
+          opacity: 0.2;
+          z-index: 0;
+        }
+        
+        .leaf-1 {
+          width: 150px;
+          top: 10%;
+          left: 5%;
+          animation: float 15s infinite ease-in-out;
+        }
+        
+        .leaf-2 {
+          width: 120px;
+          bottom: 15%;
+          right: 7%;
+          animation: float 18s infinite ease-in-out reverse;
+        }
+        
+        .chakra-1 {
+          width: 180px;
+          top: 60%;
+          left: 8%;
+          animation: rotate 40s infinite linear;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        @keyframes rotate {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        /* Animation classes */
+        .animate__fadeInLeft {
+          animation: fadeInLeft 1s ease-out forwards;
+        }
+        
+        .animate__fadeInRight {
+          animation: fadeInRight 1s ease-out forwards;
+        }
+        
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 767px) {
+          .ayurveda-timeline-line {
+            left: 30px;
+          }
+          
+          .ayurveda-checkpoint.left,
+          .ayurveda-checkpoint.right {
+            padding-left: 60px;
+            padding-right: 0;
+            text-align: left;
+          }
+          
+          .ayurveda-checkpoint.left .ayurveda-timeline-dot,
+          .ayurveda-checkpoint.right .ayurveda-timeline-dot {
+            left: 0;
+            right: auto;
+            transform: translateX(-50%);
+          }
+          
+          .ayurveda-checkpoint-content {
+            max-width: 100%;
+          }
+          
+          .ayurveda-section-title {
+            font-size: 2rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }
