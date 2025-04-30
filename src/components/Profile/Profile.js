@@ -19,9 +19,9 @@ const Profile = () => {
     if (user) {
       fetchProfile();
     }
-  }, [user]);
+  }, [user, fetchProfile]);
 
-  const fetchProfile = async () => {
+  const fetchProfile = React.useCallback(async () => {
     try {
       setLoading(true);
       const { data: profile, error } = await supabase
@@ -46,7 +46,7 @@ const Profile = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

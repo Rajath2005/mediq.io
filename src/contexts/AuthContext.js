@@ -18,57 +18,75 @@ export const AuthProvider = ({ children }) => {
         .single();
 
       if (error && error.code !== 'PGRST116') {
-        throw error;
+        console.error('Error fetching profile:', error);
+        return;
       }
 
       if (profile) {
-        // Update user metadata with profile information
-        await supabase.auth.updateUser({
-          data: {
-            full_name: profile.full_name,
-            avatar_url: profile.avatar_url
-          }
-        });
-        setUserProfile(profile);
+        try {
+          await supabase.auth.updateUser({
+            data: {
+              full_name: profile.full_name,
+              avatar_url: profile.avatar_url
+            }
+          });
+          setUserProfile(profile);
+        } catch (updateError) {
+          console.error('Error updating user:', updateError);
+        }
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error('Error in fetchUserProfile:', error);
     }
   };
 
   useEffect(() => {
+    let mounted = true;
+
     const initializeAuth = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        setUser(session?.user || null);
-        setIsAuthenticated(!!session?.user);
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        if (session?.user) {
-          await fetchUserProfile(session.user.id);
+        if (error) throw error;
+        
+        if (mounted) {
+          const currentUser = session?.user;
+          setUser(currentUser || null);
+          setIsAuthenticated(!!currentUser);
+          
+          if (currentUser) {
+            await fetchUserProfile(currentUser.id);
+          }
         }
       } catch (error) {
-        console.error('Error getting session:', error);
+        console.error('Error in initializeAuth:', error);
       } finally {
-        setLoading(false);
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
 
     initializeAuth();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user || null);
-      setIsAuthenticated(!!session?.user);
-      
-      if (session?.user) {
-        await fetchUserProfile(session.user.id);
-      } else {
-        setUserProfile(null);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (mounted) {
+        const currentUser = session?.user;
+        setUser(currentUser || null);
+        setIsAuthenticated(!!currentUser);
+        
+        if (currentUser) {
+          await fetchUserProfile(currentUser.id);
+        } else {
+          setUserProfile(null);
+        }
+        
+        setLoading(false);
       }
-      
-      setLoading(false);
     });
 
     return () => {
+      mounted = false;
       subscription?.unsubscribe();
     };
   }, []);
@@ -86,18 +104,24 @@ export const AuthProvider = ({ children }) => {
       return { data, error };
     },
     signOut: async () => {
-      await supabase.auth.signOut();
-      setIsAuthenticated(false);
-      setUser(null);
-      setUserProfile(null);
+      const { error } = await supabase.auth.signOut();
+      if (!error) {
+        setIsAuthenticated(false);
+        setUser(null);
+        setUserProfile(null);
+      }
+      return { error };
     },
-    signUp: (email, password) => supabase.auth.signUp({ email, password }),
+    signUp: async (email, password) => {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      return { data, error };
+    },
     updateProfile: fetchUserProfile,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 };

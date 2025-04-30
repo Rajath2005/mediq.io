@@ -80,9 +80,8 @@ const Signup = () => {
 
         if (profileError) throw profileError;
 
-        // Redirect to home page with hero section
-        navigate("/#hero");
-        window.scrollTo(0, 0); // Scroll to top to show hero section
+        // Redirect to profile page
+        navigate("/profile");
       }
 
     } catch (error) {
