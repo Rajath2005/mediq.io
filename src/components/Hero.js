@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import './Hero.css';
 import 'animate.css';
 import heroImage from './images/hero.jpeg';
@@ -8,7 +8,6 @@ import { FaSearch, FaImage } from "react-icons/fa";
 
 const HeroSection = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [remedies, setRemedies] = useState([]);
   const [results, setResults] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
@@ -79,20 +78,6 @@ const HeroSection = () => {
       });
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      // Only update recommendations, not search results
-      if (searchTerm.length >= 2) {
-        const suggestions = findSimilarMedicines(searchTerm);
-        setRecommendations(suggestions);
-      } else {
-        setRecommendations([]);
-      }
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [searchTerm]);
-
   const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim() || "";
 
   const handleSearch = async () => {
@@ -142,7 +127,7 @@ const HeroSection = () => {
   };
 
   // Improved similar medicines search
-  const findSimilarMedicines = (term) => {
+  const findSimilarMedicines = useCallback((term) => {
     if (!term || term.length < 2) return [];
     
     const searchTerm = normalize(term);
@@ -162,7 +147,21 @@ const HeroSection = () => {
       .map(item => item.name_of_medicine)
       .filter((v, i, a) => a.indexOf(v) === i) // Remove duplicates
       .slice(0, 5); // Limit to 5 suggestions
-  };
+  }, [remedies]); // Add remedies as dependency
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // Only update recommendations, not search results
+      if (searchTerm.length >= 2) {
+        const suggestions = findSimilarMedicines(searchTerm);
+        setRecommendations(suggestions);
+      } else {
+        setRecommendations([]);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm, findSimilarMedicines]); // Add findSimilarMedicines as dependency
 
   const handleRecommendationClick = (medicine) => {
     setSearchTerm(medicine);
