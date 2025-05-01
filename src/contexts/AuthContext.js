@@ -23,17 +23,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       if (profile) {
-        try {
-          await supabase.auth.updateUser({
-            data: {
-              full_name: profile.full_name,
-              avatar_url: profile.avatar_url
-            }
-          });
-          setUserProfile(profile);
-        } catch (updateError) {
-          console.error('Error updating user:', updateError);
-        }
+        setUserProfile(profile);
       }
     } catch (error) {
       console.error('Error in fetchUserProfile:', error);
@@ -41,53 +31,67 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    let mounted = true;
-
     const initializeAuth = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
-        
         if (error) throw error;
         
-        if (mounted) {
-          const currentUser = session?.user;
-          setUser(currentUser || null);
-          setIsAuthenticated(!!currentUser);
-          
-          if (currentUser) {
-            await fetchUserProfile(currentUser.id);
-          }
-        }
-      } catch (error) {
-        console.error('Error in initializeAuth:', error);
-      } finally {
-        if (mounted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    initializeAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (mounted) {
         const currentUser = session?.user;
         setUser(currentUser || null);
         setIsAuthenticated(!!currentUser);
         
         if (currentUser) {
           await fetchUserProfile(currentUser.id);
-        } else {
-          setUserProfile(null);
         }
+      } catch (error) {
+        console.error('Error in initializeAuth:', error);
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initializeAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      const currentUser = session?.user;
+      setUser(currentUser || null);
+      setIsAuthenticated(!!currentUser);
+      
+      if (currentUser) {
+        await fetchUserProfile(currentUser.id);
+      } else {
+        setUserProfile(null);
       }
     });
 
     return () => {
-      mounted = false;
       subscription?.unsubscribe();
     };
   }, []);
+
+  const signOut = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      // Clear all auth state
+      setUser(null);
+      setUserProfile(null);
+      setIsAuthenticated(false);
+      
+      // Clear any Supabase-related items from localStorage
+      localStorage.removeItem('supabase.auth.token');
+      localStorage.removeItem('supabase.auth.expires_at');
+      localStorage.removeItem('supabase.auth.refresh_token');
+      
+      return { error: null };
+    } catch (error) {
+      console.error('Error signing out:', error);
+      return { error };
+    }
+  };
 
   const value = {
     user,
@@ -95,36 +99,31 @@ export const AuthProvider = ({ children }) => {
     loading,
     isAuthenticated,
     signIn: async (email, password) => {
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-      if (!error && data.user) {
-        setUser(data.user);
-        setIsAuthenticated(true);
-        await fetchUserProfile(data.user.id);
-      }
-      return { data, error };
-    },
-    signOut: async () => {
       try {
-        const { error } = await supabase.auth.signOut();
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         
-        // Clear all auth state
-        setUser(null);
-        setUserProfile(null);
-        setIsAuthenticated(false);
+        if (data.user) {
+          setUser(data.user);
+          setIsAuthenticated(true);
+          await fetchUserProfile(data.user.id);
+        }
         
-        // Clear any local storage items related to auth
-        localStorage.removeItem('supabase.auth.token');
-        
-        return { error: null };
+        return { data, error: null };
       } catch (error) {
-        console.error('Error signing out:', error);
-        return { error };
+        console.error('Sign in error:', error);
+        return { data: null, error };
       }
     },
+    signOut,
     signUp: async (email, password) => {
-      const { data, error } = await supabase.auth.signUp({ email, password });
-      return { data, error };
+      try {
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        return { data, error };
+      } catch (error) {
+        console.error('Sign up error:', error);
+        return { data: null, error };
+      }
     },
     updateProfile: fetchUserProfile,
   };

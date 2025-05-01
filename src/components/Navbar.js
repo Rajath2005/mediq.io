@@ -187,8 +187,8 @@ const Navbar = () => {
     <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`} style={{ zIndex: 1060 }}>
       <div className="container-fluid px-3">
         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavExpanded(false)}>
-          <img src={logo} alt="Logo" className="navbar-logo me-2 animate__animated animate__pulse" />
-          MediQ
+          <img src={logo} alt="Logo" className="navbar-logo me-2 animate__animated animate__pulse" style={{ width: '40px', height: '40px' }} />
+          <span className="brand-text">MediQ</span>
         </Link>
 
         <button className="btn btn-danger d-lg-none me-2" onClick={handleEmergency}>
@@ -284,11 +284,6 @@ const Navbar = () => {
             ) : (
               <UserProfileDropdown
                 isAuthenticated={isAuthenticated}
-                userDetails={{
-                  name: user?.user_metadata?.full_name || user?.email,
-                  email: user?.email,
-                  profileImage: user?.user_metadata?.avatar_url
-                }}
               />
             )}
 

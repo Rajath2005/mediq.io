@@ -1,21 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './UserProfileDropdown.css';
 
 const UserProfileDropdown = ({ isAuthenticated }) => {
-  const { user, userProfile, signOut } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    // Ensure Bootstrap's JavaScript is initialized for dropdowns
-    if (typeof window.bootstrap !== 'undefined') {
-      const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
-      dropdownElementList.forEach(dropdownToggle => {
-        new window.bootstrap.Dropdown(dropdownToggle);
-      });
-    }
-  }, []);
+  const { user, userProfile, signOut } = useAuth();
 
   if (!isAuthenticated || !user) return null;
 
@@ -26,7 +16,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
     try {
       const { error } = await signOut();
       if (error) throw error;
-      navigate('/login');
+      navigate('/login', { replace: true });
     } catch (error) {
       console.error('Error signing out:', error);
     }
@@ -35,56 +25,58 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
   return (
     <div className="dropdown">
       <button 
-        className="dropdown-toggle btn btn-outline-primary"
+        className="btn btn-outline-primary dropdown-toggle d-flex align-items-center"
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
         <img 
-          src={avatarUrl || '/images/default-avatar.png'}
-          alt="Profile"
-          className="profile-image me-2"
-          style={{ width: '24px', height: '24px', borderRadius: '50%' }}
+          src={avatarUrl || '/images/default-avatar.png'} 
+          alt="Profile" 
+          className="rounded-circle me-2"
+          style={{ width: '24px', height: '24px', objectFit: 'cover' }}
         />
-        {displayName}
+        <span>{displayName}</span>
       </button>
       <ul className="dropdown-menu dropdown-menu-end">
-        <li className="dropdown-item-text">
-          <div className="d-flex align-items-center px-3 py-2">
-            <img 
-              src={avatarUrl || '/images/default-avatar.png'}
-              alt="Profile"
-              className="me-2"
-              style={{ width: '32px', height: '32px', borderRadius: '50%' }}
-            />
-            <div>
-              <div className="fw-bold">{displayName}</div>
-              <small className="text-muted">{user.email}</small>
+        <li>
+          <div className="px-4 py-3">
+            <div className="d-flex align-items-center">
+              <img 
+                src={avatarUrl || '/images/default-avatar.png'} 
+                alt="Profile" 
+                className="rounded-circle me-2"
+                style={{ width: '32px', height: '32px', objectFit: 'cover' }}
+              />
+              <div>
+                <div className="fw-bold">{displayName}</div>
+                <small className="text-muted">{user.email}</small>
+              </div>
             </div>
           </div>
         </li>
         <li><hr className="dropdown-divider" /></li>
         <li>
-          <Link className="dropdown-item" to="/profile">
+          <Link to="/profile" className="dropdown-item">
             Profile
           </Link>
         </li>
         <li>
-          <Link className="dropdown-item" to="/appointments">
+          <Link to="/appointments" className="dropdown-item">
             My Appointments
           </Link>
         </li>
         <li>
-          <Link className="dropdown-item" to="/settings">
+          <Link to="/settings" className="dropdown-item">
             Settings
           </Link>
         </li>
         <li><hr className="dropdown-divider" /></li>
         <li>
           <button 
+            type="button"
             className="dropdown-item text-danger" 
             onClick={handleLogout}
-            type="button"
           >
             Sign Out
           </button>
