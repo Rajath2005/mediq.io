@@ -33,8 +33,11 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
       const { error } = await signOut();
       if (error) throw error;
 
-      // Force navigation to login page
-      window.location.href = '/login';
+      // Clear any remaining localStorage items
+      localStorage.clear();
+      
+      // Use navigate instead of directly setting window.location
+      navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
       alert('Failed to sign out. Please try again.');
