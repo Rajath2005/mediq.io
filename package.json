@@ -2,6 +2,7 @@
   "name": "mediq.io",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://sanath00007.github.io/mediq.io",
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -34,7 +35,9 @@
     "start": "cross-env PORT=3001 react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
