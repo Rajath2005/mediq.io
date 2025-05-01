@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 
@@ -17,7 +17,7 @@ import Dashboard from "./components/Dashboard"; // Added Dashboard import
 import Appointments from "./pages/Appointments";
 import Preloader from "./components/Preloader";
 import PrivacyPolicy from './pages/PrivacyPolicy';
-import Ayurveda_medicals from "./components/Ayurveda_medicals";
+import AyurvedaMedicals from "./components/Ayurveda_medicals";
 import SuggestShopForm from "./components/SuggestShopForm";
 import HomeRemediesPage from './pages/HomeRemediesPage';
 import SearchPage from './pages/SearchPage';
@@ -72,7 +72,7 @@ const App = () => {
               <Route path="/profile" element={<Profile />} />
               <Route path="/appointments" element={<Appointments />} />
               <Route path="/contact" element={<Contact />} />
-              <Route path="/ayurvedic-shops" element={<Ayurveda_medicals />} />
+              <Route path="/ayurvedic-shops" element={<AyurvedaMedicals />} />
               <Route path="/suggest-shop" element={<SuggestShopForm />} />
               <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
               <Route path="/home-remedies" element={<HomeRemediesPage />} />

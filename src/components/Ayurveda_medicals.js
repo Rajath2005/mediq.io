@@ -84,7 +84,7 @@ const AyurvedicShopCard = ({ shop }) => {
 };
 
 // Main component that shows all shops
-const AyurvedicShops = () => {
+const AyurvedaMedicals = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -226,4 +226,4 @@ const AyurvedicShops = () => {
   );
 };
 
-export default AyurvedicShops;
+export default AyurvedaMedicals;

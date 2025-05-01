@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
-import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa"; // Removed unused FaBars and FaTimes
 import UserProfileDropdown from './UserProfileDropdown';
 import 'animate.css';
 import { useTheme } from '../contexts/ThemeContext';
-import { supabase } from "../supabaseClient";
 import Swal from 'sweetalert2';
 import { supabase2 } from '../supabaseClient2';
 import { useAuth } from '../contexts/AuthContext';
@@ -33,7 +32,7 @@ const Navbar = () => {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [dropdownRef]);
+  }, [dropdownRef]); // Removed window.location.pathname dependency
 
   // Close dropdown and nav menu when route changes
   useEffect(() => {
@@ -220,18 +219,17 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item dropdown" ref={dropdownRef}>
-              <a
-                href="#"
+              <button
                 className="nav-link dropdown-toggle"
                 onClick={(e) => {
                   e.preventDefault();
                   setIsDropdownOpen(!isDropdownOpen);
                 }}
-                role="button"
+                type="button"
                 aria-expanded={isDropdownOpen}
               >
                 Services
-              </a>
+              </button>
               <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
                 <li>
                   <Link className="dropdown-item" to="/search-medicines" onClick={handleServiceSelection}>

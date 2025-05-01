@@ -1,15 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './UserProfileDropdown.css';
 
-const UserProfileDropdown = ({ isAuthenticated, onLogout }) => {
-  const { user, userProfile } = useAuth();
+const UserProfileDropdown = ({ isAuthenticated }) => {
+  const { user, userProfile, signOut } = useAuth();
+  const navigate = useNavigate();
 
   if (!isAuthenticated || !user) return null;
 
   const displayName = userProfile?.full_name || user.user_metadata?.full_name || user.email;
   const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url;
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await signOut();
+      if (error) throw error;
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
     <div className="dropdown">
@@ -60,7 +71,7 @@ const UserProfileDropdown = ({ isAuthenticated, onLogout }) => {
         </li>
         <li><hr className="dropdown-divider" /></li>
         <li>
-          <button className="dropdown-item text-danger" onClick={onLogout}>
+          <button className="dropdown-item text-danger" onClick={handleLogout}>
             Sign Out
           </button>
         </li>
