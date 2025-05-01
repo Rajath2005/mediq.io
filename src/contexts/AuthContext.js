@@ -80,8 +80,6 @@ export const AuthProvider = ({ children }) => {
         } else {
           setUserProfile(null);
         }
-        
-        setLoading(false);
       }
     });
 
@@ -99,18 +97,30 @@ export const AuthProvider = ({ children }) => {
     signIn: async (email, password) => {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (!error && data.user) {
+        setUser(data.user);
+        setIsAuthenticated(true);
         await fetchUserProfile(data.user.id);
       }
       return { data, error };
     },
     signOut: async () => {
-      const { error } = await supabase.auth.signOut();
-      if (!error) {
-        setIsAuthenticated(false);
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) throw error;
+        
+        // Clear all auth state
         setUser(null);
         setUserProfile(null);
+        setIsAuthenticated(false);
+        
+        // Clear any local storage items related to auth
+        localStorage.removeItem('supabase.auth.token');
+        
+        return { error: null };
+      } catch (error) {
+        console.error('Error signing out:', error);
+        return { error };
       }
-      return { error };
     },
     signUp: async (email, password) => {
       const { data, error } = await supabase.auth.signUp({ email, password });

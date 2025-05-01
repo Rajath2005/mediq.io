@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './UserProfileDropdown.css';
@@ -6,6 +6,16 @@ import './UserProfileDropdown.css';
 const UserProfileDropdown = ({ isAuthenticated }) => {
   const { user, userProfile, signOut } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Ensure Bootstrap's JavaScript is initialized for dropdowns
+    if (typeof window.bootstrap !== 'undefined') {
+      const dropdownElementList = document.querySelectorAll('.dropdown-toggle');
+      dropdownElementList.forEach(dropdownToggle => {
+        new window.bootstrap.Dropdown(dropdownToggle);
+      });
+    }
+  }, []);
 
   if (!isAuthenticated || !user) return null;
 
@@ -71,7 +81,11 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         </li>
         <li><hr className="dropdown-divider" /></li>
         <li>
-          <button className="dropdown-item text-danger" onClick={handleLogout}>
+          <button 
+            className="dropdown-item text-danger" 
+            onClick={handleLogout}
+            type="button"
+          >
             Sign Out
           </button>
         </li>

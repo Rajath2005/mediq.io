@@ -289,7 +289,6 @@ const Navbar = () => {
                   email: user?.email,
                   profileImage: user?.user_metadata?.avatar_url
                 }}
-                onLogout={handleLogout}
               />
             )}
 
