@@ -82,9 +82,11 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false);
       
       // Clear any Supabase-related items from localStorage
-      localStorage.removeItem('supabase.auth.token');
-      localStorage.removeItem('supabase.auth.expires_at');
-      localStorage.removeItem('supabase.auth.refresh_token');
+      Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('supabase.')) {
+          localStorage.removeItem(key);
+        }
+      });
       
       return { error: null };
     } catch (error) {

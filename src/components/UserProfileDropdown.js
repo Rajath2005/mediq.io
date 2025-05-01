@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './UserProfileDropdown.css';
@@ -6,6 +6,14 @@ import './UserProfileDropdown.css';
 const UserProfileDropdown = ({ isAuthenticated }) => {
   const navigate = useNavigate();
   const { user, userProfile, signOut } = useAuth();
+  const dropdownButtonRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize Bootstrap dropdown
+    if (typeof window !== 'undefined' && window.bootstrap) {
+      const dropdown = new window.bootstrap.Dropdown(dropdownButtonRef.current);
+    }
+  }, []);
 
   if (!isAuthenticated || !user) return null;
 
@@ -14,17 +22,29 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
+      // Close dropdown manually
+      if (dropdownButtonRef.current) {
+        const dropdown = window.bootstrap.Dropdown.getInstance(dropdownButtonRef.current);
+        if (dropdown) {
+          dropdown.hide();
+        }
+      }
+
       const { error } = await signOut();
       if (error) throw error;
-      navigate('/login', { replace: true });
+
+      // Force navigation to login page
+      window.location.href = '/login';
     } catch (error) {
       console.error('Error signing out:', error);
+      alert('Failed to sign out. Please try again.');
     }
   };
 
   return (
     <div className="dropdown">
       <button 
+        ref={dropdownButtonRef}
         className="btn btn-outline-primary dropdown-toggle d-flex align-items-center"
         type="button"
         data-bs-toggle="dropdown"
