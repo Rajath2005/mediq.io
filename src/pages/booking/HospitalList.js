@@ -1,46 +1,47 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthProtection } from "../../hooks/useAuthProtection";
+import AuthModal from "../../components/AuthModal";
 
 const hospitals = [
   { 
     id: "apollo", 
     name: "Apollo Hospital",
-    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958160/download_oarf4w.jpg", // Add actual image URL
+    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958160/download_oarf4w.jpg",
     description: "Multi-specialty hospital with state-of-the-art facilities",
     location: "Central Delhi"
   },
   { 
     id: "fortis", 
     name: "Fortis Hospital",
-    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744957817/download_ezzxn2.jpg", // Add actual image URL
+    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744957817/download_ezzxn2.jpg",
     description: "Leading healthcare provider with advanced medical technology",
     location: "South Delhi"
   },
   { 
     id: "medanta", 
     name: "Medanta Hospital",
-    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958077/hospital-building-illustration-medical-clinic-isolated-on-white-background-vector_qxf2xc.jpg", // Add actual image URL
+    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958077/hospital-building-illustration-medical-clinic-isolated-on-white-background-vector_qxf2xc.jpg",
     description: "World-class medical care and surgical expertise",
     location: "Gurugram"
-  },
-  { 
-    id: "medanta", 
-    name: "Medanta Hospital",
-    image: "https://res.cloudinary.com/dacpbywfp/image/upload/v1744958077/hospital-building-illustration-medical-clinic-isolated-on-white-background-vector_qxf2xc.jpg", // Add actual image URL
-    description: "World-class medical care and surgical expertise",
-    location: "Gurugram"
-  },
+  }
 ];
 
 const HospitalList = () => {
   const navigate = useNavigate();
+  const { requireAuth, showAuthModal, closeAuthModal } = useAuthProtection();
 
-  const handleHospitalClick = (id) => {
+  const handleHospitalClick = async (id) => {
+    const canProceed = await requireAuth(() => true);
+    if (!canProceed) return;
+    
     navigate(`/hospitals/${id}/doctors`);
   };
 
   return (
     <div className="container mt-5 px-4">
+      <AuthModal isOpen={showAuthModal} onClose={closeAuthModal} message="Please log in to view hospital details and book appointments" />
+      
       <div className="mb-4" style={{ position: 'absolute', left: '20px', top: '80px' }}>
         <button 
           className="btn btn-outline-success" 

@@ -2,6 +2,8 @@ import React from 'react';
 import './ServicesSection.css';
 import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuthProtection } from "../hooks/useAuthProtection";
+import AuthModal from "./AuthModal";
 import { 
   faCalendarAlt, 
   faAmbulance,
@@ -13,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ServicesSection = () => {
   const navigate = useNavigate();
+  const { showAuthModal, closeAuthModal } = useAuthProtection();
 
   const serviceRoutes = {
     "Health Monitoring": "/health-monitor",
@@ -63,6 +66,7 @@ const ServicesSection = () => {
   return (
     <section className="services-section animate__animated animate__fadeIn" id="services">
       <div className="row">
+        <AuthModal isOpen={showAuthModal} onClose={closeAuthModal} message="Please log in to view hospital details and book appointments" />
         <h2 className="section-heading animate__animated animate__slideInDown">Our Services</h2>
       </div>
       <div className="row">
