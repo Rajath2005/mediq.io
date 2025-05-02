@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import About from '../components/About';
 import './AboutUs.css';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 import RajathImg from './OurImages/Rajath.jpg';
 import RitheshImg from './OurImages/Rithesh.jpeg';
@@ -48,6 +49,7 @@ const teamMembers = [
 ];
 
 const AboutUs = () => {
+  useDocumentTitle('About Us - MediQ');
   return (
     <div>
       <About />
