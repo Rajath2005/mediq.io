@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { supabase } from './supabaseClient';
 import "animate.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -34,13 +35,27 @@ const BookAppointment = () => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+
+    // Insert data into Supabase
+    const { data, error } = await supabase.from('appointments').insert([
+      {
+        name: formData.name,
+        phone: formData.phone,
+        doctor: formData.doctor,
+        date: formData.date,
+        time: formData.time
+      }
+    ]);
+
+    if (error) {
+      console.error(error);
+      setError("Failed to book appointment. Please try again.");
+    } else {
       setSuccess(true);
       alert(`Appointment booked with ${formData.doctor} on ${formData.date} at ${formData.time}`);
       setFormData({
@@ -50,7 +65,8 @@ const BookAppointment = () => {
         date: "",
         time: ""
       });
-    }, 2000);
+    }
+    setLoading(false);
   };
 
   const today = new Date().toISOString().split("T")[0];
