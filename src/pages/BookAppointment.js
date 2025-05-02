@@ -40,33 +40,46 @@ const BookAppointment = () => {
     if (!validateForm()) return;
 
     setLoading(true);
+    setError(""); // Clear any previous errors
 
-    // Insert data into Supabase
-    const { data, error } = await supabase.from('appointments').insert([
-      {
-        name: formData.name,
-        phone: formData.phone,
-        doctor: formData.doctor,
-        date: formData.date,
-        time: formData.time
+    try {
+      // Format the date and time properly for Supabase
+      const formattedDate = formData.date; // Already in YYYY-MM-DD format
+      const formattedTime = formData.time; // Already in HH:MM format
+
+      // Insert data into Supabase
+      const { data, error } = await supabase
+        .from('appointments')
+        .insert([
+          {
+            name: formData.name,
+            phone: formData.phone,
+            doctor: formData.doctor,
+            date: formattedDate,
+            time: formattedTime
+          }
+        ]);
+
+      if (error) {
+        console.error('Supabase Error:', error);
+        setError(`Failed to book appointment: ${error.message}`);
+      } else {
+        setSuccess(true);
+        alert(`Appointment booked with ${formData.doctor} on ${formData.date} at ${formData.time}`);
+        setFormData({
+          name: "",
+          phone: "",
+          doctor: "",
+          date: "",
+          time: ""
+        });
       }
-    ]);
-
-    if (error) {
-      console.error(error);
-      setError("Failed to book appointment. Please try again.");
-    } else {
-      setSuccess(true);
-      alert(`Appointment booked with ${formData.doctor} on ${formData.date} at ${formData.time}`);
-      setFormData({
-        name: "",
-        phone: "",
-        doctor: "",
-        date: "",
-        time: ""
-      });
+    } catch (err) {
+      console.error('Unexpected Error:', err);
+      setError(`An unexpected error occurred: ${err.message}`);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const today = new Date().toISOString().split("T")[0];
