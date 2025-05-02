@@ -5,8 +5,10 @@ import heroImage from './images/hero.jpeg';
 import { Link } from "react-router-dom";
 import Button from '../components/Button';
 import { FaSearch, FaImage } from "react-icons/fa";
+import { useAuth } from '../contexts/AuthContext';
 
 const HeroSection = () => {
+  const { isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [remedies, setRemedies] = useState([]);
   const [results, setResults] = useState([]);
@@ -264,12 +266,16 @@ const HeroSection = () => {
           )}
 
           <div className="button-container d-flex gap-4 mt-4 animate__animated animate__fadeInUp animate__delay-2s">
-            <Link to="/login">
-              <Button className="contact-submit-button" type="button" text="Login" />
-            </Link>
-            <Link to="/signup">
-              <Button className="contact-submit-button" type="button" text="Signup" />
-            </Link>
+            {!isAuthenticated && (
+              <>
+                <Link to="/login">
+                  <Button className="contact-submit-button" type="button" text="Login" />
+                </Link>
+                <Link to="/signup">
+                  <Button className="contact-submit-button" type="button" text="Signup" />
+                </Link>
+              </>
+            )}
           </div>
         </div>
 
