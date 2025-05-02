@@ -1,17 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './UserProfileDropdown.css';
 
 const UserProfileDropdown = ({ isAuthenticated }) => {
-  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
   const { user, userProfile, signOut } = useAuth();
+  const navigate = useNavigate();
   const dropdownButtonRef = useRef(null);
 
   useEffect(() => {
-    // Initialize Bootstrap dropdown
+    // Initialize Bootstrap dropdown - removed unused variable
     if (typeof window !== 'undefined' && window.bootstrap) {
-      const dropdown = new window.bootstrap.Dropdown(dropdownButtonRef.current);
+      new window.bootstrap.Dropdown(dropdownButtonRef.current);
     }
   }, []);
 
@@ -22,21 +23,8 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      // Close dropdown manually
-      if (dropdownButtonRef.current) {
-        const dropdown = window.bootstrap.Dropdown.getInstance(dropdownButtonRef.current);
-        if (dropdown) {
-          dropdown.hide();
-        }
-      }
-
-      const { error } = await signOut();
-      if (error) throw error;
-
-      // Clear any remaining localStorage items
+      await signOut();
       localStorage.clear();
-      
-      // Use navigate instead of directly setting window.location
       navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
@@ -52,6 +40,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         type="button"
         data-bs-toggle="dropdown"
         aria-expanded="false"
+        onClick={() => setIsOpen(!isOpen)}
       >
         <img 
           src={avatarUrl || '/images/default-avatar.png'} 
@@ -61,7 +50,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         />
         <span>{displayName}</span>
       </button>
-      <ul className="dropdown-menu dropdown-menu-end">
+      <ul className={`dropdown-menu dropdown-menu-end ${isOpen ? 'show' : ''}`}>
         <li>
           <div className="px-4 py-3">
             <div className="d-flex align-items-center">

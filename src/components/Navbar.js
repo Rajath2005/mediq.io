@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
 import { FaMoon, FaSun } from "react-icons/fa"; // Removed unused FaBars and FaTimes
@@ -15,8 +15,7 @@ const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
-  const { isAuthenticated, user, signOut } = useAuth();
+  const { isAuthenticated } = useAuth();
   
   // Close dropdown and nav menu when clicking outside
   useEffect(() => {
@@ -36,9 +35,15 @@ const Navbar = () => {
 
   // Close dropdown and nav menu when route changes
   useEffect(() => {
-    setIsNavExpanded(false);
-    setIsDropdownOpen(false);
-  }, [window.location.pathname]);
+    const handleRouteChange = () => {
+      setIsNavExpanded(false);
+      setIsDropdownOpen(false);
+    };
+    
+    // Listen for route changes
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
+  }, []);
 
   const handleServiceSelection = () => {
     setIsDropdownOpen(false);
@@ -56,15 +61,6 @@ const Navbar = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropdownRef]);
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      navigate('/login');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   const handleEmergency = async () => {
     try {

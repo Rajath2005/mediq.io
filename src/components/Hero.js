@@ -15,7 +15,6 @@ const HeroSection = () => {
   const [loading, setLoading] = useState(true);
   const [searchFocus, setSearchFocus] = useState(false);
   const [hoveredTag, setHoveredTag] = useState(null);
-  const [isSearching, setIsSearching] = useState(false);
 
   // Define supported image extensions
   const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
@@ -87,8 +86,6 @@ const HeroSection = () => {
       return;
     }
 
-    setIsSearching(true);
-
     try {
       const term = normalize(searchTerm);
       
@@ -121,8 +118,6 @@ const HeroSection = () => {
     } catch (error) {
       console.error('Search error:', error);
       setResults([{ error: 'An error occurred while searching. Please try again.' }]);
-    } finally {
-      setIsSearching(false);
     }
   };
 
@@ -162,16 +157,6 @@ const HeroSection = () => {
 
     return () => clearTimeout(timer);
   }, [searchTerm, findSimilarMedicines]); // Add findSimilarMedicines as dependency
-
-  const handleRecommendationClick = (medicine) => {
-    setSearchTerm(medicine);
-    const match = remedies.filter((item) =>
-      normalize(item.name_of_medicine) === normalize(medicine)
-    );
-    setResults(match);
-    setRecommendations([]);
-    setImageErrors({});
-  };
 
   return (
     <div className="hero-section">

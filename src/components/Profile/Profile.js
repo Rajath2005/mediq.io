@@ -15,12 +15,6 @@ const Profile = () => {
     dateOfBirth: ''
   });
 
-  useEffect(() => {
-    if (user) {
-      fetchProfile();
-    }
-  }, [user, fetchProfile]);
-
   const fetchProfile = React.useCallback(async () => {
     try {
       setLoading(true);
@@ -47,6 +41,12 @@ const Profile = () => {
       setLoading(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchProfile();
+    }
+  }, [user, fetchProfile]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
