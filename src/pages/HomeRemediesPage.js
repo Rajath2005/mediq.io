@@ -107,6 +107,7 @@ const HomeRemediesPage = () => {
       
       setRecommendations(suggestions);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, remedies]);
 
   const handleSearchChange = (e) => {
