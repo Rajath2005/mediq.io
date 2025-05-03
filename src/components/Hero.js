@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthContext';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
 const HeroSection = () => {
-  useDocumentTitle('Home - MediQ-Welcome');
+  useDocumentTitle('MediQ - Your Digital Healthcare Companion');
 
   const { isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
