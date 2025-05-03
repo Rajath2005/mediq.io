@@ -88,18 +88,32 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   min-height: 100px;
-  max-height: 400px;
-  overflow-y: auto;
+  height: auto;
+  overflow: visible;
   white-space: pre-line;
   line-height: 1.6;
 }
 
 .search-results-card {
   border: 1px solid #eee;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
   background-color: #f8f9fa;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.search-results-card:last-child {
+  margin-bottom: 0;
+}
+
+.search-results-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
 .medicine-name {
@@ -110,8 +124,23 @@
 }
 
 .medicine-details {
-  color: #34495e;
-  margin: 5px 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  align-items: baseline;
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.medicine-details:last-of-type {
+  border-bottom: none;
+}
+
+.medicine-label {
+  color: #666;
+  font-weight: 500;
+  min-width: 100px;
 }
 
 .hero-right {
@@ -309,11 +338,10 @@
 /* Image Styling */
 .medicine-image {
   width: 100%;
-  max-width: 250px;
+  max-height: 200px;
+  object-fit: contain;
   border-radius: 10px;
-  margin: 10px 0;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
-  object-fit: cover;
+  margin: 0;
 }
 
 /* Fallback when image fails */
@@ -378,12 +406,11 @@ body.dark-mode .search-bar:focus {
 
 body.dark-mode .search-results {
   background-color: #2d333b;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 body.dark-mode .search-results-card {
   background-color: #22272e;
-  border: 1px solid #444c56;
+  border-color: #444c56;
   color: #e6edf3;
 }
 
@@ -392,7 +419,36 @@ body.dark-mode .medicine-name {
 }
 
 body.dark-mode .medicine-details {
-  color: #adbac7;
+  border-color: #444c56;
+}
+
+body.dark-mode .medicine-label {
+  color: #8b949e;
+  font-weight: 500;
+}
+
+body.dark-mode .medicine-value {
+  color: #e6edf3;
+}
+
+body.dark-mode .medicine-indications {
+  color: #7ee787;  /* Light green for better visibility */
+}
+
+body.dark-mode .medicine-dose {
+  color: #79c0ff;  /* Light blue for dose information */
+}
+
+body.dark-mode .medicine-pack-size {
+  color: #d2a8ff;  /* Light purple for pack size */
+}
+
+body.dark-mode .medicine-class {
+  color: #ff7b72;  /* Soft red for class information */
+}
+
+body.dark-mode .medicine-reference {
+  color: #ffa657;  /* Soft orange for references */
 }
 
 body.dark-mode .search-results-card:hover {
@@ -436,37 +492,26 @@ body.dark-mode .search-bar::placeholder {
 }
 
 /* Medicine details specific styling in dark mode */
-body.dark-mode .medicine-label {
-  color: #8b949e;
-  font-weight: 500;
-}
-
-body.dark-mode .medicine-value {
-  color: #e6edf3;
-}
-
-body.dark-mode .medicine-indications {
-  color: #7ee787;  /* Light green for better visibility */
-}
-
-body.dark-mode .medicine-dose {
-  color: #79c0ff;  /* Light blue for dose information */
-}
-
-body.dark-mode .medicine-pack-size {
-  color: #d2a8ff;  /* Light purple for pack size */
-}
-
-body.dark-mode .medicine-class {
-  color: #ff7b72;  /* Soft red for class information */
-}
-
-body.dark-mode .medicine-reference {
-  color: #ffa657;  /* Soft orange for references */
-}
-
 body.dark-mode .medical-disclaimer {
   background-color: #2d333b;
   border-left-color: #ff7b72;
   color: #adbac7;
+}
+
+@media (max-width: 768px) {
+  .search-results {
+    padding: 15px;
+  }
+  
+  .search-results-card {
+    padding: 15px;
+  }
+
+  .medicine-details {
+    grid-template-columns: 1fr;
+  }
+
+  .medicine-label {
+    min-width: auto;
+  }
 }
