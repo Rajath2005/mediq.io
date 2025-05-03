@@ -273,6 +273,12 @@ const HeroSection = () => {
                       <span className="medicine-dose">{item.dose}</span>
                     </div>
                     <div className="medicine-details">
+                      <span className="medicine-label">Note: </span>
+                      <span className="medicine-dose">
+                        Dosage for adults and children: Please contact your physician.
+                      </span>
+                    </div>
+                    <div className="medicine-details">
                       <span className="medicine-label">Pack Size: </span>
                       <span className="medicine-pack-size">{item.dispensing_pack_size}</span>
                     </div>
