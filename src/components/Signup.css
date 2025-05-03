@@ -32,6 +32,34 @@
   border-radius: 4px;
   cursor: pointer;
 }
+.oauth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.oauth-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.github {
+  background-color: #24292e;
+}
+
+.linkedin {
+  background-color: #0077b5;
+}
+
+.oauth-btn:hover {
+  opacity: 0.9;
+}
+
 
 .button-login { background-color: #4CAF50; color: white; }
 .button-signup { background-color: #2196F3; color: white; }

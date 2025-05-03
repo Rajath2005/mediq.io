@@ -36,6 +36,13 @@ const Signup = () => {
       setLoading(false);
     }
   };
+  const handleOAuthLogin = async (provider) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+    });
+    if (error) console.error("OAuth login error:", error.message);
+  };
+  
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -80,8 +87,8 @@ const Signup = () => {
 
         if (profileError) throw profileError;
 
-        // Redirect to profile page
-        navigate("/profile");
+        // Redirect to home page
+        navigate("/");
       }
 
     } catch (error) {
@@ -163,6 +170,21 @@ const Signup = () => {
       <p className="auth-link">
         Already have an account? <Link to="/login">Log In</Link>
       </p>
+      <div className="oauth-buttons">
+    <button
+      className="oauth-btn github"
+      onClick={() => handleOAuthLogin("github")}
+    >
+      Continue with GitHub
+    </button>
+
+    <button
+      className="oauth-btn linkedin"
+      onClick={() => handleOAuthLogin("linkedin")}
+    >
+      Continue with LinkedIn
+    </button>
+  </div>
     </div>
   );
 };
