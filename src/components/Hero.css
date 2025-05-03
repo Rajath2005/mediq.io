@@ -329,6 +329,21 @@
   justify-content: center;
 }
 
+.medical-disclaimer {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #fff8f8;
+  border-left: 4px solid #ff6b6b;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #666;
+}
+
+.medical-disclaimer p {
+  margin: 0;
+}
+
 /* Dark mode styles */
 body.dark-mode .hero-section {
   background: linear-gradient(to right, rgba(22, 27, 34, 0.9), rgba(33, 38, 45, 0.9));
@@ -448,4 +463,10 @@ body.dark-mode .medicine-class {
 
 body.dark-mode .medicine-reference {
   color: #ffa657;  /* Soft orange for references */
+}
+
+body.dark-mode .medical-disclaimer {
+  background-color: #2d333b;
+  border-left-color: #ff7b72;
+  color: #adbac7;
 }

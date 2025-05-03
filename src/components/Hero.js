@@ -284,6 +284,10 @@ const HeroSection = () => {
                       <span className="medicine-label">Reference: </span>
                       <span className="medicine-reference">{item.reference_text}</span>
                     </div>
+                    <div className="medical-disclaimer">
+                      <p>Medical Disclaimer:
+                      These Ayurvedic medicines are based on traditional Ayurvedic practices and are provided for informational purposes only. They should not replace professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional before using any Ayurvedic medicine, especially for serious or chronic health conditions.</p>
+                    </div>
                   </div>
                 )
               )}
