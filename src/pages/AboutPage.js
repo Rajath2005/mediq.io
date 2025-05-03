@@ -49,7 +49,7 @@ const teamMembers = [
 ];
 
 const AboutUs = () => {
-  useDocumentTitle('About Us - MediQ');
+  useDocumentTitle('About MediQ - Empowering Smarter Healthcare');
   return (
     <div>
       <About />
