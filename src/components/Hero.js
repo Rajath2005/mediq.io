@@ -6,8 +6,11 @@ import { Link } from "react-router-dom";
 import Button from '../components/Button';
 import { FaSearch, FaImage } from "react-icons/fa";
 import { useAuth } from '../contexts/AuthContext';
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 const HeroSection = () => {
+  useDocumentTitle('Home - MediQ-Welcome');
+
   const { isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [remedies, setRemedies] = useState([]);
@@ -81,7 +84,7 @@ const HeroSection = () => {
 
   const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim() || "";
 
-  const handleSearch = async () => {
+  const handleSearch = async (exactMatch = false) => {
     if (!searchTerm.trim()) {
       setResults([]);
       setRecommendations([]);
@@ -91,12 +94,19 @@ const HeroSection = () => {
     try {
       const term = normalize(searchTerm);
       
-      // Improved search logic with multiple criteria
+      // Filter logic varies based on whether we want exact match or partial match
       const matches = remedies.filter((item) => {
         const medicineName = normalize(item.name_of_medicine);
+        
+        if (exactMatch) {
+          // For exact matches (when clicking recommendations)
+          return medicineName === term;
+        }
+        
+        // For normal search (typing and pressing search)
         const indications = normalize(item.main_indications);
         const medicineClass = normalize(item.class);
-
+        
         return (
           medicineName.includes(term) ||
           indications?.includes(term) ||
@@ -208,7 +218,7 @@ const HeroSection = () => {
                       onClick={() => {
                         setSearchTerm(med);
                         setRecommendations([]);
-                        handleSearch(); // Automatically search when clicking a recommendation
+                        handleSearch(true); // Pass true for exact match when clicking recommendation
                       }}
                       onMouseEnter={() => setHoveredTag(index)}
                       onMouseLeave={() => setHoveredTag(null)}
