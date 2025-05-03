@@ -343,15 +343,46 @@ body.dark-mode .hero-description {
   color: #8b949e;
 }
 
+body.dark-mode .search-bar-container {
+  background: rgba(33, 38, 45, 0.95);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(88, 166, 255, 0.1);
+}
+
 body.dark-mode .search-bar {
-  background-color: #21262d;
-  border-color: #30363d;
-  color: #c9d1d9;
+  background-color: #2d333b;
+  border-color: #444c56;
+  color: #e6edf3;
 }
 
 body.dark-mode .search-bar:focus {
   border-color: #58a6ff;
-  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
+  box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+  background-color: #2d333b;
+}
+
+body.dark-mode .search-results {
+  background-color: #2d333b;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .search-results-card {
+  background-color: #22272e;
+  border: 1px solid #444c56;
+  color: #e6edf3;
+}
+
+body.dark-mode .medicine-name {
+  color: #58a6ff;
+}
+
+body.dark-mode .medicine-details {
+  color: #adbac7;
+}
+
+body.dark-mode .search-results-card:hover {
+  border-color: #58a6ff;
+  background-color: #2d333b;
 }
 
 body.dark-mode .search-button {
@@ -362,12 +393,6 @@ body.dark-mode .search-button {
 
 body.dark-mode .search-button:hover {
   background-color: #2ea043;
-}
-
-body.dark-mode .search-results-card {
-  background-color: #21262d;
-  border-color: #30363d;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
 body.dark-mode .recommendations-container {
