@@ -102,14 +102,28 @@ const Signup = () => {
   return (
     <div className="auth-container">
       <h2>Create New Account</h2>
-      <button 
-        type="button" 
-        onClick={handleGoogleSignUp}
-        className="google-sign-in-button"
-        disabled={loading}
-      >
-        Sign up with Google
-      </button>
+      <div className="oauth-buttons">
+            <button
+              className="oauth-btn github"
+              onClick={() => handleOAuthLogin("github")}
+            >
+              Continue with GitHub
+            </button>
+            <button 
+              type="button" 
+              onClick={handleGoogleSignUp}
+              className="google-sign-in-button"
+              disabled={loading}
+            >
+              Sign in with Google
+            </button>
+            <button
+              className="oauth-btn linkedin"
+              onClick={() => handleOAuthLogin("linkedin")}
+            >
+              Continue with LinkedIn
+            </button>
+          </div>
       <div className="divider">or</div>
       <form onSubmit={handleSignUp}>
         <div className="form-group">
@@ -170,21 +184,6 @@ const Signup = () => {
       <p className="auth-link">
         Already have an account? <Link to="/login">Log In</Link>
       </p>
-      <div className="oauth-buttons">
-    <button
-      className="oauth-btn github"
-      onClick={() => handleOAuthLogin("github")}
-    >
-      Continue with GitHub
-    </button>
-
-    <button
-      className="oauth-btn linkedin"
-      onClick={() => handleOAuthLogin("linkedin")}
-    >
-      Continue with LinkedIn
-    </button>
-  </div>
     </div>
   );
 };

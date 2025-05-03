@@ -69,7 +69,7 @@ const Login = () => {
           }
         }
       });
-      
+
       if (error) throw error;
     } catch (error) {
       setError(error.message);
@@ -77,6 +77,13 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleOAuthLogin = async (provider) => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider,
+    });
+    if (error) console.error("OAuth login error:", error.message);
   };
 
   const handlePasswordReset = async () => {
@@ -108,14 +115,28 @@ const Login = () => {
         </div>
       ) : (
         <>
-          <button 
-            type="button" 
-            onClick={handleGoogleSignIn}
-            className="google-sign-in-button"
-            disabled={loading}
-          >
-            Sign in with Google
-          </button>
+          <div className="oauth-buttons">
+            <button
+              className="oauth-btn github"
+              onClick={() => handleOAuthLogin("github")}
+            >
+              Continue with GitHub
+            </button>
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              className="google-sign-in-button"
+              disabled={loading}
+            >
+              Sign in with Google
+            </button>
+            <button
+              className="oauth-btn linkedin"
+              onClick={() => handleOAuthLogin("linkedin")}
+            >
+              Continue with LinkedIn
+            </button>
+          </div>
           <div className="divider">or</div>
           <form onSubmit={handleLogin}>
             {error && <div className="error-message">{error}</div>}
@@ -143,8 +164,8 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </button>
             <div className="auth-links">
-              <button 
-                type="button" 
+              <button
+                type="button"
                 onClick={handlePasswordReset}
                 className="reset-link"
                 disabled={loading}
@@ -156,6 +177,7 @@ const Login = () => {
               </p>
             </div>
           </form>
+
         </>
       )}
     </div>
