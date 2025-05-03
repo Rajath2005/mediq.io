@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { supabase2 } from '../supabaseClient2';
 import Swal from 'sweetalert2';
-import { FaPlus, FaTrash, FaEye, FaEyeSlash, FaSave, FaHospital, FaPhone, FaSms } from 'react-icons/fa';
+import {
+  FaPlus,
+  FaTrash,
+  FaEye,
+  FaEyeSlash,
+  FaSave,
+  FaHospital,
+  FaPhone,
+  FaSms
+} from 'react-icons/fa';
+
 
 const EmergencySettingsPage = () => {
   const [smsNumber, setSmsNumber] = useState('');
@@ -40,39 +50,31 @@ const EmergencySettingsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-  
+
     try {
-      // First, update the SMS number in the main record
       const { error: smsError } = await supabase2
         .from('emergency_settings')
         .upsert({
           id: 1,
           sms_number: smsNumber
         });
-      
-      if (smsError) {
-        console.error("SMS update error:", smsError);
-        throw smsError;
-      }
-  
-      // Then save each hospital entry as a separate record
+
+      if (smsError) throw smsError;
+
       for (const entry of entries) {
         if (entry.hospitalName && entry.ambulanceNumber) {
           const { error: entryError } = await supabase2
             .from('emergency_settings')
-            .upsert({  // Using upsert instead of insert
+            .upsert({
               sms_number: smsNumber,
               hospital_name: entry.hospitalName,
               ambulance_numbers: entry.ambulanceNumber
             });
-          
-          if (entryError) {
-            console.error("Entry save error:", entryError);
-            throw entryError;
-          }
+
+          if (entryError) throw entryError;
         }
       }
-  
+
       Swal.fire({
         icon: 'success',
         title: 'Saved!',
@@ -80,10 +82,9 @@ const EmergencySettingsPage = () => {
         showConfirmButton: false,
         timer: 1500
       });
-      
+
       if (showAllSettings) fetchAllSettings();
     } catch (error) {
-      console.error("Full error details:", error);
       Swal.fire('Error', error.message, 'error');
     } finally {
       setLoading(false);
@@ -130,150 +131,143 @@ const EmergencySettingsPage = () => {
   };
 
   return (
-    <div className="container py-5">
-      <div className="row">
-        <div className="col-lg-8 mx-auto">
-          <div className="card shadow-sm">
-            <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-              <h3 className="mb-0">Emergency Settings</h3>
-              <button 
-                className="btn btn-light btn-sm"
-                onClick={toggleShowAllSettings}
-              >
-                {showAllSettings ? <><FaEyeSlash /> Hide</> : <><FaEye /> View All</>}
-              </button>
-            </div>
-            
-            <div className="card-body">
-              {/* All Settings View */}
-              {showAllSettings && (
-                <div className="mb-4">
-                  <h5 className="card-title mb-3 d-flex align-items-center">
-                    <FaHospital className="text-primary me-2" /> All Emergency Contacts
-                  </h5>
-                  
-                  {loading ? (
-                    <div className="text-center p-4">
-                      <div className="spinner-border text-primary" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                      </div>
-                    </div>
-                  ) : allSettings.length === 0 ? (
-                    <div className="alert alert-info">No emergency contacts found</div>
-                  ) : (
-                    <div className="table-responsive">
-                      <table className="table table-hover">
-                        <thead className="table-light">
-                          <tr>
-                            <th>Hospital</th>
-                            <th>Ambulance</th>
-                            <th>SMS</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {allSettings.map((setting) => (
-                            <tr key={setting.id}>
-                              <td>{setting.hospital_name}</td>
-                              <td>{setting.ambulance_number}</td>
-                              <td>{setting.sms_number}</td>
-                              <td>
-                                <button
-                                  className="btn btn-outline-danger btn-sm"
-                                  onClick={() => handleDeleteSetting(setting.id)}
-                                >
-                                  <FaTrash />
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
-                  <hr className="my-4" />
-                </div>
-              )}
+    <div className="container-fluid py-5 emergency-settings-container">
+      <div className="w-100 px-3">
+        <div className="card shadow-sm w-100 emergency-card-full">
+          <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 className="mb-0">Emergency Settings</h3>
+            <button className="btn btn-light btn-sm" onClick={toggleShowAllSettings}>
+              {showAllSettings ? <><FaEyeSlash /> Hide</> : <><FaEye /> View All</>}
+            </button>
+          </div>
 
-              {/* Add New Contact Form */}
-              <h5 className="card-title mb-3">Add Emergency Contacts</h5>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="form-label d-flex align-items-center">
-                    <FaSms className="text-primary me-2" /> SMS Recipient Number
-                  </label>
-                  <div className="input-group">
-                    <span className="input-group-text"><FaPhone /></span>
+          <div className="card-body">
+            {showAllSettings && (
+              <div className="mb-4">
+                <h5 className="card-title mb-3 d-flex align-items-center">
+                  <FaHospital className="text-primary me-2" /> All Emergency Contacts
+                </h5>
+
+                {loading ? (
+                  <div className="text-center p-4">
+                    <div className="spinner-border text-primary" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                ) : allSettings.length === 0 ? (
+                  <div className="alert alert-info">No emergency contacts found</div>
+                ) : (
+                  <div className="table-responsive">
+                    <table className="table table-hover">
+                      <thead className="table-light">
+                        <tr>
+                          <th>Hospital</th>
+                          <th>Ambulance</th>
+                          <th>SMS</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {allSettings.map((setting) => (
+                          <tr key={setting.id}>
+                            <td>{setting.hospital_name}</td>
+                            <td>{setting.ambulance_number}</td>
+                            <td>{setting.sms_number}</td>
+                            <td>
+                              <button
+                                className="btn btn-outline-danger btn-sm"
+                                onClick={() => handleDeleteSetting(setting.id)}
+                              >
+                                <FaTrash />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+                <hr className="my-4" />
+              </div>
+            )}
+
+            <h5 className="card-title mb-3">Add Emergency Contacts</h5>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="form-label d-flex align-items-center">
+                  <FaSms className="text-primary me-2" /> SMS Recipient Number
+                </label>
+                <div className="input-group">
+                  <span className="input-group-text"><FaPhone /></span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={smsNumber}
+                    onChange={(e) => setSmsNumber(e.target.value)}
+                    placeholder="Enter SMS number for emergency alerts"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="form-label d-flex align-items-center">
+                  <FaHospital className="text-primary me-2" /> Ambulance Contacts
+                </label>
+
+                {entries.map((entry, index) => (
+                  <div key={index} className="input-group mb-2">
                     <input
                       type="text"
                       className="form-control"
-                      value={smsNumber}
-                      onChange={(e) => setSmsNumber(e.target.value)}
-                      placeholder="Enter SMS number for emergency alerts"
+                      placeholder="Hospital Name"
+                      value={entry.hospitalName}
+                      onChange={(e) => handleEntryChange(index, 'hospitalName', e.target.value)}
                       required
                     />
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Ambulance Number"
+                      value={entry.ambulanceNumber}
+                      onChange={(e) => handleEntryChange(index, 'ambulanceNumber', e.target.value)}
+                      required
+                    />
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      onClick={() => entries.length > 1 && setEntries(entries.filter((_, i) => i !== index))}
+                      disabled={entries.length === 1}
+                    >
+                      <FaTrash />
+                    </button>
                   </div>
-                </div>
+                ))}
 
-                <div className="mb-4">
-                  <label className="form-label d-flex align-items-center">
-                    <FaHospital className="text-primary me-2" /> Ambulance Contacts
-                  </label>
-                  
-                  {entries.map((entry, index) => (
-                    <div key={index} className="input-group mb-2">
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Hospital Name"
-                        value={entry.hospitalName}
-                        onChange={(e) => handleEntryChange(index, 'hospitalName', e.target.value)}
-                        required
-                      />
-                      <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Ambulance Number"
-                        value={entry.ambulanceNumber}
-                        onChange={(e) => handleEntryChange(index, 'ambulanceNumber', e.target.value)}
-                        required
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-outline-danger"
-                        onClick={() => entries.length > 1 && setEntries(entries.filter((_, i) => i !== index))}
-                        disabled={entries.length === 1}
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  ))}
-                  
-                  <button 
-                    type="button" 
-                    className="btn btn-outline-secondary btn-sm mt-2"
-                    onClick={() => setEntries([...entries, { hospitalName: '', ambulanceNumber: '' }])}
-                  >
-                    <FaPlus /> Add Another Contact
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm mt-2"
+                  onClick={() => setEntries([...entries, { hospitalName: '', ambulanceNumber: '' }])}
+                >
+                  <FaPlus /> Add Another Contact
+                </button>
+              </div>
 
-                <div className="d-grid">
-                  <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? (
-                      <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                        Saving...
-                      </>
-                    ) : (
-                      <>
-                        <FaSave className="me-2" /> Save Settings
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-            </div>
+              <div className="d-grid">
+                <button type="submit" className="btn btn-primary" disabled={loading}>
+                  {loading ? (
+                    <>
+                      <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <FaSave className="me-2" /> Save Settings
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
