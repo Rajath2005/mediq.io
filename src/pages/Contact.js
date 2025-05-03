@@ -1,8 +1,12 @@
 import React from 'react';
 import './Contact.css';
 import Button from '../components/Button';
+import useDocumentTitle from '../hooks/useDocumentTitle';
+
 
 const Contact = () => {
+    useDocumentTitle('Contact Us - MediQ');
+  
   return (
     <article className="contact" data-page="contact">
       <h1 className="article-title">Contact Us</h1>
