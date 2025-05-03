@@ -27,19 +27,36 @@ import DoctorList from './pages/booking/DoctorList';
 import BookAppointment from './pages/booking/BookAppointment';
 import EmergencySettingsPage from './pages/EmergencySettingsPage';
 import './App.css';
+import CookieConsent from "./components/CookieConsent"; // Updated import path
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [showCookieConsent, setShowCookieConsent] = useState(false);
 
   useEffect(() => {
     const hasAcceptedPrivacy = localStorage.getItem('privacyAccepted') === 'true';
     setPrivacyAccepted(hasAcceptedPrivacy);
 
-    const timer = setTimeout(() => {
+    // Handle initial loading
+    const loadingTimer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
-    return () => clearTimeout(timer);
+    
+    // Show cookie consent after 10 seconds if no previous preference exists
+    const cookieConsentPreference = localStorage.getItem('cookieConsent');
+    if (!cookieConsentPreference) {
+      const cookieTimer = setTimeout(() => {
+        setShowCookieConsent(true);
+      }, 10000);
+      
+      return () => {
+        clearTimeout(loadingTimer);
+        clearTimeout(cookieTimer);
+      };
+    }
+    
+    return () => clearTimeout(loadingTimer);
   }, []);
 
   if (isLoading) {
@@ -84,6 +101,8 @@ const App = () => {
               <Route path="/book-appointment/:hospitalId/:doctorId" element={<BookAppointment />} />
             </Routes>
             <Footer />
+            {/* Display cookie consent based on showCookieConsent state */}
+            {showCookieConsent && <CookieConsent onConsentGiven={() => setShowCookieConsent(false)} />}
           </div>
         </Router>
       </ThemeProvider>

@@ -1,24 +1,10 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import './CookieConsent.css'; // We'll create this CSS file
 
-// CookieConsent Component
-const CookieConsent = () => {
-  // State to control popup visibility
-  const [isVisible, setIsVisible] = useState(false);
+// CookieConsent Component using Bootstrap
+const CookieConsent = ({ onConsentGiven }) => {
   // State to control exit animation
   const [isExiting, setIsExiting] = useState(false);
-
-  useEffect(() => {
-    // Check if user has already made a choice
-    const cookiePreference = getCookiePreference();
-    
-    // If no preference is found, show the popup after a short delay
-    if (!cookiePreference) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-  }, []);
 
   // Handle user consent choice
   const handleConsent = (choice) => {
@@ -30,44 +16,45 @@ const CookieConsent = () => {
     
     // Hide popup after animation completes
     setTimeout(() => {
-      setIsVisible(false);
+      if (onConsentGiven) {
+        onConsentGiven();
+      }
     }, 500);
   };
 
-  // Return nothing if the popup shouldn't be visible
-  if (!isVisible) {
-    return null;
-  }
-
   return (
-    <div className={`fixed bottom-0 left-0 right-0 p-4 bg-white shadow-lg border-t border-gray-200 z-50 transition-all duration-500 transform ${isExiting ? 'translate-y-full' : 'translate-y-0'}`}>
-      <div className="container mx-auto max-w-6xl">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className={`cookie-consent-container ${isExiting ? 'exiting' : ''}`}>
+      <div className="container">
+        <div className="row align-items-center">
           {/* Cookie message */}
-          <div className="text-sm md:text-base text-gray-700 flex-grow">
-            We use cookies to improve your experience. You can accept or manage your preferences.
+          <div className="col-12 col-md-6 mb-3 mb-md-0">
+            <p className="cookie-message">
+              We use cookies to improve your experience. You can accept or manage your preferences.
+            </p>
           </div>
           
           {/* Buttons container */}
-          <div className="flex flex-wrap gap-2 justify-center md:justify-end">
-            <button 
-              onClick={() => handleConsent('accepted')}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Accept All
-            </button>
-            <button 
-              onClick={() => handleConsent('rejected')}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Reject All
-            </button>
-            <button 
-              onClick={() => handleConsent('customized')}
-              className="bg-white hover:bg-gray-100 text-gray-800 border border-gray-300 px-4 py-2 rounded-md text-sm font-medium transition-colors"
-            >
-              Customize
-            </button>
+          <div className="col-12 col-md-6">
+            <div className="d-flex flex-wrap justify-content-center justify-content-md-end gap-2">
+              <button 
+                onClick={() => handleConsent('accepted')}
+                className="btn btn-primary"
+              >
+                Accept All
+              </button>
+              <button 
+                onClick={() => handleConsent('rejected')}
+                className="btn btn-light"
+              >
+                Reject All
+              </button>
+              <button 
+                onClick={() => handleConsent('customized')}
+                className="btn btn-outline-secondary"
+              >
+                Customize
+              </button>
+            </div>
           </div>
         </div>
       </div>
