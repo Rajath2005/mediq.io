@@ -264,11 +264,26 @@ const HeroSection = () => {
                         <span>Image not available</span>
                       </div>
                     )}
-                    <p><strong>Indications:</strong> {item.main_indications}</p>
-                    <p><strong>Dose:</strong> {item.dose}</p>
-                    <p><strong>Pack Size:</strong> {item.dispensing_pack_size}</p>
-                    <p><strong>Class:</strong> {item.class}</p>
-                    <p><strong>Reference:</strong> {item.reference_text}</p>
+                    <div className="medicine-details">
+                      <span className="medicine-label">Indications: </span>
+                      <span className="medicine-indications">{item.main_indications}</span>
+                    </div>
+                    <div className="medicine-details">
+                      <span className="medicine-label">Dose: </span>
+                      <span className="medicine-dose">{item.dose}</span>
+                    </div>
+                    <div className="medicine-details">
+                      <span className="medicine-label">Pack Size: </span>
+                      <span className="medicine-pack-size">{item.dispensing_pack_size}</span>
+                    </div>
+                    <div className="medicine-details">
+                      <span className="medicine-label">Class: </span>
+                      <span className="medicine-class">{item.class}</span>
+                    </div>
+                    <div className="medicine-details">
+                      <span className="medicine-label">Reference: </span>
+                      <span className="medicine-reference">{item.reference_text}</span>
+                    </div>
                   </div>
                 )
               )}

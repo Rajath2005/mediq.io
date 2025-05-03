@@ -419,3 +419,33 @@ body.dark-mode .fallback-image {
 body.dark-mode .search-bar::placeholder {
   color: #8b949e;
 }
+
+/* Medicine details specific styling in dark mode */
+body.dark-mode .medicine-label {
+  color: #8b949e;
+  font-weight: 500;
+}
+
+body.dark-mode .medicine-value {
+  color: #e6edf3;
+}
+
+body.dark-mode .medicine-indications {
+  color: #7ee787;  /* Light green for better visibility */
+}
+
+body.dark-mode .medicine-dose {
+  color: #79c0ff;  /* Light blue for dose information */
+}
+
+body.dark-mode .medicine-pack-size {
+  color: #d2a8ff;  /* Light purple for pack size */
+}
+
+body.dark-mode .medicine-class {
+  color: #ff7b72;  /* Soft red for class information */
+}
+
+body.dark-mode .medicine-reference {
+  color: #ffa657;  /* Soft orange for references */
+}
