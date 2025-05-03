@@ -451,6 +451,9 @@ body.dark-mode .medicine-class {
 body.dark-mode .medicine-reference {
   color: #ffa657;  /* Soft orange for references */
 }
+body.dark-mode .medical-disclaimer{
+  color: #ff6b6bab;
+}
 
 body.dark-mode .search-results-card:hover {
   border-color: #58a6ff;
@@ -496,6 +499,10 @@ body.dark-mode .search-bar::placeholder {
 body.dark-mode .medical-disclaimer {
   background-color: #2d333b;
   border-left-color: #ff7b72;
+  color: #ff6b6b;
+}
+
+body.dark-mode .medical-disclaimer p {
   color: #adbac7;
 }
 
