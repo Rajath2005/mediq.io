@@ -1,0 +1,65 @@
+.cookie-consent-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    border-top: 1px solid #e9ecef;
+    padding: 1rem;
+    z-index: 1050;
+    transition: all 0.5s ease-in-out;
+    transform: translateY(0);
+    animation: slideIn 0.5s forwards;
+  }
+  
+  .cookie-consent-container.exiting {
+    animation: slideOut 0.5s forwards;
+  }
+  
+  .cookie-message {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+    color: #495057;
+  }
+  
+  .btn {
+    margin: 0.25rem;
+  }
+  
+  /* Gap utility since some Bootstrap versions don't have it */
+  .gap-2 {
+    gap: 0.5rem;
+  }
+  
+  /* Animation keyframes */
+  @keyframes slideIn {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .cookie-consent-container {
+      padding: 1rem;
+    }
+  
+    .btn {
+      margin-top: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      font-size: 0.875rem;
+    }
+  }
