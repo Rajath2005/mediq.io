@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { supabase } from './supabaseClient';
 import "animate.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import useDocumentTitle from "../hooks/useDocumentTitle";
+
 
 const BookAppointment = () => {
+  useDocumentTitle('Book Your Doctor Appointment - Hassle-Free | MediQ');
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
