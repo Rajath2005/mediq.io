@@ -1,479 +1,298 @@
-.improved-home-remedies-page {
-  font-family: 'Poppins', sans-serif;
-  color: #333;
-  background-color: #f9fafb;
-  min-height: 100vh;
-  padding: 20px;
-}
+import React, { useState, useEffect } from 'react';
+import './HomeRemediesPage.css';
+import { 
+  FaLeaf, 
+  FaSearchPlus, 
+  FaBookMedical, 
+  FaSearch, 
+  FaInfoCircle, 
+  FaChevronRight,
+  FaHistory,
+  FaStar
+} from 'react-icons/fa';
 
-/* Page Header - Replacing Hero Section */
-.page-header {
-  background-color: #ffffff;
-  padding: 25px 20px;
-  text-align: center;
-  color: #1d976c;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
+const HomeRemediesPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [remedies, setRemedies] = useState([]);
+  const [results, setResults] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [recentSearches, setRecentSearches] = useState([]);
 
-.page-header h1 {
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  // Common conditions to recommend if no search term
+  const commonConditions = [
+    'Headache', 'Common Cold', 'Fever', 'Cough', 'Sore Throat', 
+    'Upset Stomach', 'Allergies', 'Insomnia'
+  ];
 
-.header-icon {
-  margin-right: 12px;
-  font-size: 2rem;
-}
+  useEffect(() => {
+    setIsLoading(true);
+    fetch('https://raw.githubusercontent.com/sanath00007/ayurveda-api/main/remedies.json')
+      .then(res => res.json())
+      .then(data => {
+        setRemedies(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Error fetching remedies:', err);
+        setResults([{ error: 'Error fetching data. Please try again later.' }]);
+        setIsLoading(false);
+      });
+  }, []);
 
-.page-header p {
-  font-size: 1.1rem;
-  color: #666;
-}
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setResults([]);
+      
+      // Show recommendations based on common conditions
+      const randomRecommendations = [...commonConditions]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4);
+      
+      setRecommendations(
+        remedies.filter(item => 
+          randomRecommendations.some(condition => 
+            item.condition.toLowerCase().includes(condition.toLowerCase())
+          )
+        )
+      );
+      return;
+    }
 
-/* Global Disclaimer - Now visible at all times */
-.global-disclaimer {
-  background-color: #fff9db;
-  border-radius: 12px;
-  padding: 15px 20px;
-  display: flex;
-  gap: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-}
+    // Find exact or partial matches
+    const exactMatch = remedies.find(item =>
+      item.condition.toLowerCase() === searchTerm.toLowerCase()
+    );
+    
+    const partialMatches = remedies.filter(item =>
+      item.condition.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      item.condition.toLowerCase() !== searchTerm.toLowerCase()
+    );
 
-.global-disclaimer .disclaimer-icon {
-  font-size: 1.8rem;
-  color: #ff9800;
-  flex-shrink: 0;
-  margin-top: 5px;
-}
+    if (exactMatch) {
+      setResults([exactMatch]);
+      
+      // Add to recent searches if not already there
+      if (!recentSearches.includes(exactMatch.condition)) {
+        const updatedSearches = [exactMatch.condition, ...recentSearches].slice(0, 5);
+        setRecentSearches(updatedSearches);
+      }
+      
+      // Find similar remedies for recommendations
+      const recommendations = remedies
+        .filter(item => 
+          item.condition !== exactMatch.condition && 
+          (item.remedy.toLowerCase().includes(exactMatch.remedy.split(' ')[0].toLowerCase()) ||
+           exactMatch.remedy.toLowerCase().includes(item.remedy.split(' ')[0].toLowerCase()))
+        )
+        .slice(0, 3);
+      
+      setRecommendations(recommendations);
+    } else if (partialMatches.length > 0) {
+      setResults(partialMatches.slice(0, 3));
+      setRecommendations([]);
+    } else {
+      setResults([{ error: 'No remedy found for this condition.' }]);
+      
+      // Show spelling suggestions or similar conditions
+      const suggestions = remedies
+        .filter(item => {
+          const words = searchTerm.toLowerCase().split(' ');
+          return words.some(word => 
+            word.length > 3 && 
+            item.condition.toLowerCase().includes(word.substring(0, Math.floor(word.length * 0.7)))
+          );
+        })
+        .slice(0, 3);
+      
+      setRecommendations(suggestions);
+    }
+  }, [searchTerm, remedies]);
 
-.global-disclaimer h3 {
-  color: #8d6e00;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-.global-disclaimer p {
-  color: #6b5900;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0;
-}
+  const handleRecommendationClick = (condition) => {
+    setSearchTerm(condition);
+  };
 
-/* Main Content Layout */
-.main-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 30px;
-}
+  const handleRecentSearchClick = (condition) => {
+    setSearchTerm(condition);
+  };
 
-@media (min-width: 992px) {
-  .main-content {
-    grid-template-columns: 2fr 1fr;
-  }
-}
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
 
-/* Search Panel */
-.search-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+  return (
+    <div className="improved-home-remedies-page">
+      <div className="page-header">
+        <h1><FaLeaf className="header-icon" /> Natural Home Remedies</h1>
+        <p>Discover ancient wisdom for modern wellness</p>
+      </div>
 
-.search-container {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  padding: 25px;
-  overflow: hidden;
-}
+      {/* Disclaimer moved to top for visibility */}
+      <div className="global-disclaimer">
+        <FaInfoCircle className="disclaimer-icon" />
+        <div>
+          <h3>Medical Disclaimer</h3>
+          <p>These remedies are based on traditional practices and should not replace professional medical advice. Always consult a healthcare professional before trying any remedy, especially for serious conditions.</p>
+        </div>
+      </div>
 
-.search-header {
-  margin-bottom: 20px;
-}
+      <div className="main-content">
+        <div className="search-panel">
+          <div className="search-container">
+            <div className="search-header">
+              <h2><FaSearch /> Find a Remedy</h2>
+              <p>Search by condition or symptoms</p>
+            </div>
+            
+            <div className="search-input-container">
+              <input
+                type="text"
+                placeholder="E.g., headache, cough, upset stomach..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="search-input"
+              />
+              {searchTerm && (
+                <button className="clear-button" onClick={clearSearch}>
+                  ×
+                </button>
+              )}
+            </div>
 
-.search-header h2 {
-  font-size: 1.5rem;
-  color: #1d976c;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 5px;
-}
+            {isLoading ? (
+              <div className="loading-indicator">
+                <div className="spinner"></div>
+                <p>Loading remedies...</p>
+              </div>
+            ) : (
+              <>
+                {searchTerm.trim() === '' && recentSearches.length > 0 && (
+                  <div className="recent-searches">
+                    <h3><FaHistory /> Recent Searches</h3>
+                    <div className="recent-search-tags">
+                      {recentSearches.map((term, index) => (
+                        <span 
+                          key={index} 
+                          className="recent-search-tag"
+                          onClick={() => handleRecentSearchClick(term)}
+                        >
+                          {term}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-.search-header p {
-  color: #666;
-  margin: 0;
-}
+                {results.length > 0 ? (
+                  <div className="results">
+                    {results.map((item, index) => (
+                      <div key={index} className={`result-card ${item.error ? 'error-card' : ''}`}>
+                        {item.error ? (
+                          <div className="error-message">
+                            <FaInfoCircle /> 
+                            <p>{item.error}</p>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="result-header">
+                              <h3>{item.condition}</h3>
+                              <span className="category-tag">Ayurvedic</span>
+                            </div>
+                            <div className="remedy-content">
+                              <h4>Remedy</h4>
+                              <p>{item.remedy}</p>
+                            </div>
+                            {item.instructions && (
+                              <div className="instructions">
+                                <h4>Instructions</h4>
+                                <p>{item.instructions}</p>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
 
-.search-input-container {
-  position: relative;
-  margin-bottom: 20px;
-}
+                {recommendations.length > 0 && (
+                  <div className="recommendations">
+                    <h3>
+                      {searchTerm ? 'You might also be interested in' : 'Common remedies'}
+                    </h3>
+                    <div className="recommendation-cards">
+                      {recommendations.map((item, index) => (
+                        <div 
+                          key={index} 
+                          className="recommendation-card"
+                          onClick={() => handleRecommendationClick(item.condition)}
+                        >
+                          <div className="recommendation-header">
+                            <FaLeaf className="recommendation-icon" />
+                            <h4>{item.condition}</h4>
+                          </div>
+                          <p className="recommendation-preview">
+                            {item.remedy.substring(0, 60)}...
+                          </p>
+                          <button className="view-more-btn">
+                            View Remedy <FaChevronRight />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
 
-.search-input {
-  width: 100%;
-  padding: 15px 45px 15px 15px;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
+          <div className="top-remedies">
+            <h3><FaStar /> Popular Remedies</h3>
+            <ul className="top-remedies-list">
+              {commonConditions.map((condition, index) => (
+                <li key={index} onClick={() => handleRecommendationClick(condition)}>
+                  <FaLeaf className="list-icon" /> {condition}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-.search-input:focus {
-  border-color: #1d976c;
-  box-shadow: 0 2px 12px rgba(29, 151, 108, 0.15);
-  outline: none;
-}
+        <div className="info-section">
+          <div className="features">
+            <div className="feature">
+              <FaLeaf className="feature-icon" />
+              <div>
+                <h4>Natural Healing</h4>
+                <p>Explore safe, time-tested herbal remedies from ancient medical traditions.</p>
+              </div>
+            </div>
+            
+            <div className="feature">
+              <FaSearchPlus className="feature-icon" />
+              <div>
+                <h4>Quick Search</h4>
+                <p>Find remedies instantly by typing your symptoms or condition.</p>
+              </div>
+            </div>
+            
+            <div className="feature">
+              <FaBookMedical className="feature-icon" />
+              <div>
+                <h4>Ancient Wisdom</h4>
+                <p>Access knowledge rooted in centuries-old Ayurvedic texts and practices.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-.clear-button {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #666;
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-}
-
-/* Loading Indicator */
-.loading-indicator {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 30px;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 4px solid rgba(29, 151, 108, 0.2);
-  border-radius: 50%;
-  border-top-color: #1d976c;
-  animation: spin 1s ease-in-out infinite;
-  margin-bottom: 15px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* Recent Searches */
-.recent-searches {
-  margin-bottom: 20px;
-}
-
-.recent-searches h3 {
-  font-size: 1rem;
-  color: #666;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.recent-search-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.recent-search-tag {
-  background-color: #f0f7f4;
-  color: #1d976c;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.recent-search-tag:hover {
-  background-color: #e0f0e9;
-  transform: translateY(-2px);
-}
-
-/* Results Section */
-.results {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.result-card {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  padding: 20px;
-  border-left: 4px solid #1d976c;
-  transition: all 0.3s ease;
-}
-
-.result-card:hover {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.error-card {
-  border-left-color: #dc3545;
-}
-
-.error-message {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #dc3545;
-}
-
-.result-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-
-.result-header h3 {
-  color: #1d976c;
-  font-size: 1.3rem;
-  margin: 0;
-}
-
-.category-tag {
-  background-color: #e6f7ef;
-  color: #1d976c;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.remedy-content h4, .instructions h4 {
-  font-size: 1rem;
-  color: #555;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.remedy-content p, .instructions p {
-  color: #444;
-  line-height: 1.6;
-  margin-bottom: 15px;
-}
-
-/* Recommendations Section */
-.recommendations {
-  margin-top: 10px;
-}
-
-.recommendations h3 {
-  font-size: 1.1rem;
-  color: #555;
-  margin-bottom: 15px;
-}
-
-.recommendation-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 15px;
-}
-
-.recommendation-card {
-  background-color: #f8fcfa;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.recommendation-card:hover {
-  background-color: #f0f9f5;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.recommendation-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.recommendation-icon {
-  color: #1d976c;
-  font-size: 1.2rem;
-}
-
-.recommendation-header h4 {
-  color: #333;
-  font-size: 1rem;
-  margin: 0;
-}
-
-.recommendation-preview {
-  color: #666;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 12px;
-}
-
-.view-more-btn {
-  background: none;
-  border: none;
-  color: #1d976c;
-  font-size: 0.9rem;
-  padding: 0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 5px;
-}
-
-/* Top Remedies Sidebar */
-.top-remedies {
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  padding: 20px;
-}
-
-.top-remedies h3 {
-  font-size: 1.2rem;
-  color: #1d976c;
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.top-remedies-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.top-remedies-list li {
-  padding: 10px 0;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: all 0.2s ease;
-}
-
-.top-remedies-list li:last-child {
-  border-bottom: none;
-}
-
-.top-remedies-list li:hover {
-  color: #1d976c;
-  transform: translateX(5px);
-}
-
-.list-icon {
-  color: #1d976c;
-}
-
-/* Info Section */
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Features */
-.features {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-.feature {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.feature:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
-}
-
-.feature-icon {
-  font-size: 1.8rem;
-  color: #1d976c;
-  flex-shrink: 0;
-  margin-top: 5px;
-}
-
-.feature h4 {
-  color: #1d976c;
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-
-.feature p {
-  color: #555;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .page-header {
-    padding: 20px 15px;
-  }
-  
-  .page-header h1 {
-    font-size: 1.8rem;
-  }
-  
-  .global-disclaimer {
-    flex-direction: column;
-    gap: 10px;
-    padding: 15px;
-  }
-  
-  .global-disclaimer .disclaimer-icon {
-    font-size: 1.5rem;
-  }
-  
-  .recommendation-cards {
-    grid-template-columns: 1fr;
-  }
-  
-  .features {
-    padding: 15px;
-  }
-  
-  .feature {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .feature-icon {
-    margin-bottom: 5px;
-  }
-}
+export default HomeRemediesPage;
