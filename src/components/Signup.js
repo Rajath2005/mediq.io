@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import './Signup.css';
+import useDocumentTitle from "../hooks/useDocumentTitle";
+
 
 const Signup = () => {
+  useDocumentTitle('Login or Sign Up - Start Your Health Journey | MediQ');
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
