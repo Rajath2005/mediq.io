@@ -286,7 +286,7 @@ const HeroSection = () => {
                     </div>
                     <div className="medical-disclaimer">
                       <p>Medical Disclaimer:
-                      These Ayurvedic medicines are based on traditional Ayurvedic practices and are provided for informational purposes only. They should not replace professional medical advice, diagnosis, or treatment. Always consult a qualified healthcare professional before using any Ayurvedic medicine, especially for serious or chronic health conditions.</p>
+                      Ayurvedic medicines listed are based on traditional practices and are for informational use only. Consult a healthcare professional before use..</p>
                     </div>
                   </div>
                 )
