@@ -31,13 +31,9 @@ import CookieConsent from "./components/CookieConsent"; // Updated import path
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [showCookieConsent, setShowCookieConsent] = useState(false);
 
   useEffect(() => {
-    const hasAcceptedPrivacy = localStorage.getItem('privacyAccepted') === 'true';
-    setPrivacyAccepted(hasAcceptedPrivacy);
-
     // Handle initial loading
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
@@ -61,16 +57,6 @@ const App = () => {
 
   if (isLoading) {
     return <Preloader />;
-  }
-
-  if (!privacyAccepted) {
-    return (
-      <PrivacyPolicy
-        isOpen={true}
-        onAccept={() => setPrivacyAccepted(true)}
-        onClose={() => {}}
-      />
-    );
   }
 
   return (
