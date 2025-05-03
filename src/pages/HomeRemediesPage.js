@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './HomeRemediesPage.css';
+import useDocumentTitle from "../hooks/useDocumentTitle";
+
 import { 
   FaLeaf, 
   FaSearchPlus, 
@@ -12,6 +14,8 @@ import {
 } from 'react-icons/fa';
 
 const HomeRemediesPage = () => {
+  useDocumentTitle('Explore Home Remedies - Safe & Simple Cures | MediQ');
+
   const [searchTerm, setSearchTerm] = useState('');
   const [remedies, setRemedies] = useState([]);
   const [results, setResults] = useState([]);

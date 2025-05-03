@@ -3,8 +3,12 @@ import '../styles/SearchPage.css';
 import 'animate.css';
 import { FaLeaf, FaSearchPlus, FaBookMedical, FaHeart, FaFlask, FaInfoCircle, FaSearch, FaImage } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import useDocumentTitle from "../hooks/useDocumentTitle";
+
 
 const SearchPage = () => {
+  useDocumentTitle('Find Ayurvedic Medicines - Natural Healing | MediQ');
+
   const navigate = useNavigate();
 
   const [searchTerm, setSearchTerm] = useState('');
