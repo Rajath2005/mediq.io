@@ -46,8 +46,8 @@ const Login = () => {
         if (updateError) throw updateError;
       }
 
-      // Navigate to profile after successful login
-      navigate('/profile');
+      // Navigate to home page after successful login
+      navigate('/');
     } catch (error) {
       setError(error.message);
       console.error("Login error:", error);
