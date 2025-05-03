@@ -4,8 +4,12 @@ import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
+import useDocumentTitle from "../hooks/useDocumentTitle";
+
 
 const Login = () => {
+  useDocumentTitle('Login or Sign Up - Start Your Health Journey | MediQ');
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
