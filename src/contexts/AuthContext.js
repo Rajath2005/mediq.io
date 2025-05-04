@@ -102,18 +102,34 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated,
     signIn: async (email, password) => {
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ 
+          email, 
+          password 
+        });
+        
         if (error) throw error;
         
         if (data.user) {
           setUser(data.user);
           setIsAuthenticated(true);
+          // Fetch user profile after successful login
           await fetchUserProfile(data.user.id);
+          
+          // Ensure we have a valid session
+          const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+          if (sessionError) throw sessionError;
+          
+          if (!session) {
+            throw new Error('No session established after login');
+          }
         }
         
         return { data, error: null };
       } catch (error) {
         console.error('Sign in error:', error);
+        setUser(null);
+        setIsAuthenticated(false);
+        setUserProfile(null);
         return { data: null, error };
       }
     },
