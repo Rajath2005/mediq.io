@@ -24,37 +24,15 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data: { user }, error: loginError } = await signIn(email, password);
-      if (loginError) throw loginError;
+      const { data, error } = await signIn(email, password);
+      if (error) throw error;
 
-      // Fetch user's profile data
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      if (profileError && profileError.code !== 'PGRST116') {
-        throw profileError;
+      if (data?.user) {
+        navigate('/');
       }
-
-      // Update user metadata
-      if (profileData) {
-        const { error: updateError } = await supabase.auth.updateUser({
-          data: {
-            full_name: profileData.full_name,
-            avatar_url: profileData.avatar_url
-          }
-        });
-
-        if (updateError) throw updateError;
-      }
-
-      // Navigate to home page after successful login
-      navigate('/');
     } catch (error) {
-      setError(error.message);
       console.error("Login error:", error);
+      setError(error.message || "Failed to log in. Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -63,10 +41,11 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithOAuth({
+      setError(null);
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin,
+          redirectTo: `${window.location.origin}/`,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent'
@@ -75,19 +54,38 @@ const Login = () => {
       });
 
       if (error) throw error;
+      
+      // The redirect will happen automatically, but we'll navigate anyway if we're still here
+      if (data) navigate('/');
     } catch (error) {
-      setError(error.message);
       console.error("Google login error:", error);
+      setError(error.message || "Failed to sign in with Google");
     } finally {
       setLoading(false);
     }
   };
 
   const handleOAuthLogin = async (provider) => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-    });
-    if (error) console.error("OAuth login error:", error.message);
+    try {
+      setLoading(true);
+      setError(null);
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
+
+      if (error) throw error;
+      
+      // The redirect will happen automatically, but we'll navigate anyway if we're still here
+      if (data) navigate('/');
+    } catch (error) {
+      console.error(`${provider} login error:`, error);
+      setError(error.message || `Failed to sign in with ${provider}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePasswordReset = async () => {
