@@ -23,8 +23,8 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      await signOut();
-      localStorage.clear();
+      const { error } = await signOut();
+      if (error) throw error;
       navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);

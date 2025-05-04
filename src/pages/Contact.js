@@ -3,6 +3,8 @@ import './Contact.css';
 import Button from '../components/Button';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { supabase } from '../supabaseClient';
+import AlertMessage from '../components/AlertMessage'; // adjust the path as needed
+
 
 const Contact = () => {
   useDocumentTitle('Contact Us - MediQ');
@@ -54,11 +56,9 @@ const Contact = () => {
         <h3 className="h3 form-title">Contact Form</h3>
 
         {/* Bootstrap Alert */}
-        {status && (
-          <div className={`alert alert-${alertType}`} role="alert">
-            {status}
-          </div>
-        )}
+        {status && <AlertMessage type={alertType} message={status} />}
+
+        
 
         <form className="form" onSubmit={handleSubmit} data-form>
           <div className="input-wrapper">

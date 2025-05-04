@@ -5,7 +5,7 @@ import { supabase } from "../supabaseClient";
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
 import useDocumentTitle from "../hooks/useDocumentTitle";
-
+import AlertMessage from "./AlertMessage";
 
 const Login = () => {
   useDocumentTitle('Login or Sign Up - Start Your Health Journey | MediQ');
@@ -114,9 +114,7 @@ const Login = () => {
     <div className="auth-container">
       <h2>Login</h2>
       {resetSent ? (
-        <div className="success-message">
-          Password reset instructions have been sent to your email.
-        </div>
+        <AlertMessage type="success" message="Password reset instructions have been sent to your email." />
       ) : (
         <>
           <div className="oauth-buttons">
@@ -143,7 +141,7 @@ const Login = () => {
           </div>
           <div className="divider">or</div>
           <form onSubmit={handleLogin}>
-            {error && <div className="error-message">{error}</div>}
+            {error && <AlertMessage type="danger" message={error} />}
             <div className="form-group">
               <label>Email</label>
               <input
