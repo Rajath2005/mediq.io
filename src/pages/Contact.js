@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Contact.css';
 import Button from '../components/Button';
 import useDocumentTitle from '../hooks/useDocumentTitle';
@@ -14,6 +14,7 @@ const Contact = () => {
   });
 
   const [status, setStatus] = useState('');
+  const [alertType, setAlertType] = useState(''); // 'success' or 'danger'
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -30,11 +31,20 @@ const Contact = () => {
     if (error) {
       console.error('Submission error:', error);
       setStatus('❌ Failed to send message. Please try again.');
+      setAlertType('danger');
     } else {
       setStatus('✅ Message sent successfully!');
+      setAlertType('success');
       setFormData({ fullname: '', email: '', message: '' });
     }
   };
+
+  useEffect(() => {
+    if (status) {
+      const timer = setTimeout(() => setStatus(''), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   return (
     <article className="contact" data-page="contact">
@@ -42,6 +52,13 @@ const Contact = () => {
 
       <section className="contact-form">
         <h3 className="h3 form-title">Contact Form</h3>
+
+        {/* Bootstrap Alert */}
+        {status && (
+          <div className={`alert alert-${alertType}`} role="alert">
+            {status}
+          </div>
+        )}
 
         <form className="form" onSubmit={handleSubmit} data-form>
           <div className="input-wrapper">
@@ -83,8 +100,6 @@ const Contact = () => {
             data-form-btn
             text="Send Message"
           />
-
-          {status && <p className="form-status">{status}</p>}
         </form>
       </section>
 
