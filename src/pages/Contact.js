@@ -1,12 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Contact.css';
 import Button from '../components/Button';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-
+import supabase from '../supabaseClient';
 
 const Contact = () => {
-    useDocumentTitle('Contact Us - MediQ');
-  
+  useDocumentTitle('Contact Us - MediQ');
+
+  const [formData, setFormData] = useState({
+    fullname: '',
+    email: '',
+    message: '',
+  });
+
+  const [status, setStatus] = useState('');
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.from('messages').insert([formData]);
+
+    if (error) {
+      console.error('Submission error:', error);
+      setStatus('Failed to send message. Try again.');
+    } else {
+      setStatus('Message sent successfully!');
+      setFormData({ fullname: '', email: '', message: '' });
+    }
+  };
+
   return (
     <article className="contact" data-page="contact">
       <h1 className="article-title">Contact Us</h1>
@@ -14,27 +43,25 @@ const Contact = () => {
       <section className="contact-form">
         <h3 className="h3 form-title">Contact Form</h3>
 
-        <form
-          action="https://formspree.io/f/xovjllal" // Replace with your Formspree endpoint!
-          method="POST"
-          className="form"
-          data-form
-        >
+        <form className="form" onSubmit={handleSubmit} data-form>
           <div className="input-wrapper">
             <input
               type="text"
               name="fullname"
               className="form-input"
               placeholder="Full name"
+              value={formData.fullname}
+              onChange={handleChange}
               required
               data-form-input
             />
-
             <input
               type="email"
               name="email"
               className="form-input"
               placeholder="Email address"
+              value={formData.email}
+              onChange={handleChange}
               required
               data-form-input
             />
@@ -44,6 +71,8 @@ const Contact = () => {
             name="message"
             className="form-input"
             placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
             required
             data-form-input
           ></textarea>
@@ -54,6 +83,8 @@ const Contact = () => {
             data-form-btn
             text="Send Message"
           />
+
+          {status && <p style={{ marginTop: '10px', color: '#008000' }}>{status}</p>}
         </form>
       </section>
 

@@ -7,9 +7,10 @@ import Button from '../components/Button';
 import { FaSearch, FaImage } from "react-icons/fa";
 import { useAuth } from '../contexts/AuthContext';
 import useDocumentTitle from "../hooks/useDocumentTitle";
+import { Helmet } from 'react-helmet';
 
 const HeroSection = () => {
-  useDocumentTitle('MediQ - Your Digital Healthcare Companion');
+  useDocumentTitle('MediQ 🌿- Your Digital Healthcare Companion');
 
   const { isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
@@ -171,6 +172,14 @@ const HeroSection = () => {
   }, [searchTerm, findSimilarMedicines]); // Add findSimilarMedicines as dependency
 
   return (
+    <>
+    <Helmet>
+        <title>Home - MediQ</title>
+        <meta name="description" content="Get in touch with MediQ for Ayurvedic consultations,Ayurvedic Medicienes ,Home Remedies emergency support, and general inquiries." />
+        <meta name="keywords" content="Ayurvedic contact, MediQ contact, MediQ support, health app support" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://rajath2005.github.io/mediq.io/" />
+      </Helmet>
     <div className="hero-section">
       <div className="hero-container">
         <div className="hero-left">
@@ -319,7 +328,9 @@ const HeroSection = () => {
         </div>
       </div>
     </div>
+    </>
   );
+  
 };
 
 export default HeroSection;
