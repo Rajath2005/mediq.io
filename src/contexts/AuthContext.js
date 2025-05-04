@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
 
   const fetchUserProfile = async (userId) => {
@@ -24,6 +25,7 @@ export const AuthProvider = ({ children }) => {
 
       if (profile) {
         setUserProfile(profile);
+        setIsAdmin(profile.is_admin || false);
       }
     } catch (error) {
       console.error('Error in fetchUserProfile:', error);
@@ -63,6 +65,7 @@ export const AuthProvider = ({ children }) => {
         await fetchUserProfile(currentUser.id);
       } else {
         setUserProfile(null);
+        setIsAdmin(false);
       }
     });
 
@@ -80,6 +83,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setUserProfile(null);
       setIsAuthenticated(false);
+      setIsAdmin(false);
       
       // Clear any Supabase-related items from localStorage
       Object.keys(localStorage).forEach(key => {
@@ -100,6 +104,7 @@ export const AuthProvider = ({ children }) => {
     userProfile,
     loading,
     isAuthenticated,
+    isAdmin,
     signIn: async (email, password) => {
       try {
         const { data, error } = await supabase.auth.signInWithPassword({ 
@@ -112,7 +117,6 @@ export const AuthProvider = ({ children }) => {
         if (data.user) {
           setUser(data.user);
           setIsAuthenticated(true);
-          // Fetch user profile after successful login
           await fetchUserProfile(data.user.id);
           
           // Ensure we have a valid session
@@ -129,6 +133,7 @@ export const AuthProvider = ({ children }) => {
         console.error('Sign in error:', error);
         setUser(null);
         setIsAuthenticated(false);
+        setIsAdmin(false);
         setUserProfile(null);
         return { data: null, error };
       }

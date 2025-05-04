@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -26,8 +27,20 @@ import HospitalList from './pages/booking/HospitalList';
 import DoctorList from './pages/booking/DoctorList';
 import BookAppointment from './pages/booking/BookAppointment';
 import EmergencySettingsPage from './pages/EmergencySettingsPage';
+import ManageAppointments from './components/ManageAppointments';
 import './App.css';
 import CookieConsent from "./components/CookieConsent"; // Updated import path
+
+// Protected Route Components
+const AdminRoute = ({ children }) => {
+  const { isAuthenticated, isAdmin } = useAuth();
+  return isAuthenticated && isAdmin ? children : <Navigate to="/login" />;
+};
+
+const UserRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" />;
+};
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -71,23 +84,29 @@ const App = () => {
               <Route path="/services" element={<ServicesPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/appointments" element={<Appointments />} />
+              
+              {/* Protected User Routes */}
+              <Route path="/dashboard" element={<UserRoute><Dashboard /></UserRoute>} />
+              <Route path="/profile" element={<UserRoute><Profile /></UserRoute>} />
+              <Route path="/appointments" element={<UserRoute><Appointments /></UserRoute>} />
+              <Route path="/book-appointment/:hospitalId/:doctorId" element={<UserRoute><BookAppointment /></UserRoute>} />
+              
+              {/* Protected Admin Routes */}
+              <Route path="/manage-appointments" element={<AdminRoute><ManageAppointments /></AdminRoute>} />
+              <Route path="/emergency-settings" element={<AdminRoute><EmergencySettingsPage /></AdminRoute>} />
+              
+              {/* Public Routes */}
               <Route path="/contact" element={<Contact />} />
               <Route path="/ayurvedic-shops" element={<AyurvedaMedicals />} />
               <Route path="/suggest-shop" element={<SuggestShopForm />} />
               <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
               <Route path="/home-remedies" element={<HomeRemediesPage />} />
               <Route path="/search-medicines" element={<SearchPage />} />
-              <Route path="/emergency-settings" element={<EmergencySettingsPage />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/hospitals" element={<HospitalList />} />
               <Route path="/hospitals/:hospitalId/doctors" element={<DoctorList />} />
-              <Route path="/book-appointment/:hospitalId/:doctorId" element={<BookAppointment />} />
             </Routes>
             <Footer />
-            {/* Display cookie consent based on showCookieConsent state */}
             {showCookieConsent && <CookieConsent onConsentGiven={() => setShowCookieConsent(false)} />}
           </div>
         </Router>

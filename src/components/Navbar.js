@@ -15,7 +15,7 @@ const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   
   // Close dropdown and nav menu when clicking outside
   useEffect(() => {
@@ -213,6 +213,28 @@ const Navbar = () => {
             <li className="nav-item">
               <Link className="nav-link" to="/contact" onClick={handleServiceSelection}>Contact Us</Link>
             </li>
+
+            {isAuthenticated && !isAdmin && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/appointments" onClick={() => setIsNavExpanded(false)}>My Appointments</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/hospitals" onClick={() => setIsNavExpanded(false)}>Book Appointment</Link>
+                </li>
+              </>
+            )}
+
+            {isAdmin && (
+              <>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/manage-appointments" onClick={() => setIsNavExpanded(false)}>Manage Appointments</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/emergency-settings" onClick={() => setIsNavExpanded(false)}>Emergency Settings</Link>
+                </li>
+              </>
+            )}
 
             <li className="nav-item dropdown" ref={dropdownRef}>
               <button

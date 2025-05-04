@@ -5,12 +5,11 @@ import './UserProfileDropdown.css';
 
 const UserProfileDropdown = ({ isAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, userProfile, signOut } = useAuth();
+  const { user, userProfile, signOut, isAdmin } = useAuth();
   const navigate = useNavigate();
   const dropdownButtonRef = useRef(null);
 
   useEffect(() => {
-    // Initialize Bootstrap dropdown - removed unused variable
     if (typeof window !== 'undefined' && window.bootstrap) {
       new window.bootstrap.Dropdown(dropdownButtonRef.current);
     }
@@ -50,6 +49,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         />
         <span>{displayName}</span>
       </button>
+
       <ul className={`dropdown-menu dropdown-menu-end ${isOpen ? 'show' : ''}`}>
         <li>
           <div className="px-4 py-3">
@@ -68,21 +68,47 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
           </div>
         </li>
         <li><hr className="dropdown-divider" /></li>
+        
         <li>
           <Link to="/profile" className="dropdown-item">
             Profile
           </Link>
         </li>
-        <li>
-          <Link to="/appointments" className="dropdown-item">
-            My Appointments
-          </Link>
-        </li>
+
+        {isAdmin ? (
+          <>
+            <li>
+              <Link to="/manage-appointments" className="dropdown-item">
+                Manage Appointments
+              </Link>
+            </li>
+            <li>
+              <Link to="/emergency-settings" className="dropdown-item">
+                Emergency Settings
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/appointments" className="dropdown-item">
+                My Appointments
+              </Link>
+            </li>
+            <li>
+              <Link to="/hospitals" className="dropdown-item">
+                Book Appointment
+              </Link>
+            </li>
+          </>
+        )}
+        
         <li>
           <Link to="/settings" className="dropdown-item">
             Settings
           </Link>
         </li>
+        
         <li><hr className="dropdown-divider" /></li>
         <li>
           <button 

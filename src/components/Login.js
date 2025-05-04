@@ -1,6 +1,6 @@
 // src/components/Login.jsx
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { supabase } from "../supabaseClient";
 import { useAuth } from '../contexts/AuthContext';
 import './Login.css';
@@ -16,7 +16,10 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { signIn } = useAuth();
+  
+  const from = location.state?.from || '/';
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,7 +31,7 @@ const Login = () => {
       if (error) throw error;
 
       if (data?.user) {
-        navigate('/');
+        navigate(from);
       }
     } catch (error) {
       console.error("Login error:", error);
