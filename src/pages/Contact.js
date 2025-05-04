@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Contact.css';
 import Button from '../components/Button';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-import supabase from '../supabaseClient';
+import { supabase } from '../supabaseClient';
 
 const Contact = () => {
   useDocumentTitle('Contact Us - MediQ');
@@ -29,9 +29,9 @@ const Contact = () => {
 
     if (error) {
       console.error('Submission error:', error);
-      setStatus('Failed to send message. Try again.');
+      setStatus('❌ Failed to send message. Please try again.');
     } else {
-      setStatus('Message sent successfully!');
+      setStatus('✅ Message sent successfully!');
       setFormData({ fullname: '', email: '', message: '' });
     }
   };
@@ -84,7 +84,7 @@ const Contact = () => {
             text="Send Message"
           />
 
-          {status && <p style={{ marginTop: '10px', color: '#008000' }}>{status}</p>}
+          {status && <p className="form-status">{status}</p>}
         </form>
       </section>
 
