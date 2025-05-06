@@ -73,6 +73,17 @@ export default function NearbyHospitals() {
   const [userLocation, setUserLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
+  const [mapError, setMapError] = useState(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+  const onMapLoad = () => {
+    setIsMapLoaded(true);
+  };
+
+  const onMapError = (error) => {
+    setMapError('Failed to load Google Maps. Please check your internet connection.');
+    console.error('Google Maps Error:', error);
+  };
 
   // Get user's location
   useEffect(() => {
@@ -313,15 +324,25 @@ export default function NearbyHospitals() {
                   </div>
                   
                   <div className="map-container">
-                    <LoadScript googleMapsApiKey="AIzaSyD0mxwczY8WRldLmM2q3E1ljRnO7sS77OE">
-                      <GoogleMap
-                        mapContainerStyle={mapContainerStyle}
-                        center={mapCenter}
-                        zoom={15}
+                    {mapError ? (
+                      <div className="map-error">
+                        <p>{mapError}</p>
+                      </div>
+                    ) : (
+                      <LoadScript 
+                        googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "YOUR_API_KEY_HERE"}
+                        onError={onMapError}
                       >
-                        {mapCenter && <Marker position={mapCenter} />}
-                      </GoogleMap>
-                    </LoadScript>
+                        <GoogleMap
+                          mapContainerStyle={mapContainerStyle}
+                          center={mapCenter}
+                          zoom={15}
+                          onLoad={onMapLoad}
+                        >
+                          {mapCenter && <Marker position={mapCenter} />}
+                        </GoogleMap>
+                      </LoadScript>
+                    )}
                   </div>
                 </div>
               ))}
