@@ -465,3 +465,26 @@
     align-items: center;
     gap: 8px;
   }
+
+  .website-link a {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f8fafc;
+    color: #2563eb;
+    text-decoration: none;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .website-link a:hover {
+    background-color: #eff6ff;
+    border-color: #bfdbfe;
+    transform: translateY(-1px);
+  }
+  
+  .website-link a:active {
+    transform: translateY(0);
+  }

@@ -21,13 +21,13 @@ const mockHospitals = [
   },
   {
     id: 2,
-    name: "Community Medical Center",
+    name: "Dhanvanthari Hospital",
     coordinates: {
-      lat: 12.7640,
-      lng: 75.2030
+      lat: 12.7586428,
+      lng: 75.2105598
     },
-    address: "456 Oak Avenue, Downtown",
-    phone: "+1 555-987-6543",
+    address: "Q656+F87, Main Road, Kallare, Puttur, Karnataka 574201",
+    phone: "08251230327",
     website: "https://communitymedicalcenter.org",
     emergency: true,
     openNow: true,
@@ -228,9 +228,12 @@ export default function NearbyHospitals() {
                         <span>{hospital.distance} • {hospital.address}</span>
                       </div>
                     </div>
-                    <div className="hospital-rating">
-                      <Star />
-                      {hospital.rating}
+                    <div className="website-link">
+                      {hospital.website && (
+                        <a href={hospital.website} target="_blank" rel="noopener noreferrer">
+                          Visit Website
+                        </a>
+                      )}
                     </div>
                   </div>
                   
@@ -271,10 +274,7 @@ export default function NearbyHospitals() {
                 <div key={hospital.id}>
                   <div className="hospital-detail-header">
                     <h2 className="hospital-detail-name">{hospital.name}</h2>
-                    <div className="hospital-detail-ratings">
-                      <Star />
-                      <span className="rating-value">{hospital.rating}</span>
-                      <span>•</span>
+                    <div className="hospital-detail-status">
                       <span className={hospital.openNow ? 'open-status' : 'closed-status'}>
                         {hospital.openNow ? 'Open Now' : 'Currently Closed'}
                       </span>
