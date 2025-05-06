@@ -9,8 +9,8 @@ const mockHospitals = [
     id: 1,
     name: "Puttur City Hospital",
     coordinates: {
-      lat: 12.7637,  // Puttur coordinates
-      lng: 75.2021
+      lat: 12.7619122,  // Puttur coordinates
+      lng: 75.2066932
     },
     address: "APMC ROAD, Puttur, Karnataka 574201",
     phone: "08251237781",
