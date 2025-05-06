@@ -16,50 +16,46 @@ const mockHospitals = [
     phone: "08251237781",
     website: "https://putturcityhospital.com",
     emergency: true,
-    openNow: true,
-    services: ["Emergency", "ICU", "Pediatrics", "Cardiology"]
+    openNow: true
   },
   {
     id: 2,
     name: "Dhanvanthari Hospital",
     coordinates: {
-      lat: 12.7586428,
-      lng: 75.2105598
+      lat: 12.727848,  // Updated coordinates for Kallare, Puttur
+      lng: 75.217483
     },
     address: "Q656+F87, Main Road, Kallare, Puttur, Karnataka 574201",
     phone: "08251230327",
     website: "https://communitymedicalcenter.org",
     emergency: true,
-    openNow: true,
-    services: ["Emergency", "Orthopedics", "Neurology"]
+    openNow: true
   },
   {
     id: 3,
-    name: "Sunshine Hospital & Research",
+    name: "Adarsha Hospital",
     coordinates: {
-      lat: 12.7650,
-      lng: 75.2040
+      lat: 12.7651833,
+      lng: 75.2077486
     },
-    address: "789 Sunshine Blvd, Eastside",
-    phone: "+1 555-789-0123",
-    website: "https://sunshinehospital.org",
-    emergency: false,
-    openNow: false,
-    services: ["Cancer Care", "Surgery", "Rehabilitation"]
+    address: "Q685+35P, APMC ROAD, Puttur, Karnataka 574201",
+    phone: "08251235065",
+    website: "http://www.adarshahospital.com",
+    emergency: true,
+    openNow: true
   },
   {
     id: 4,
-    name: "Riverside Medical Facility",
+    name: "Government General Hospital",
     coordinates: {
-      lat: 12.7660,
-      lng: 75.2050
+      lat: 12.758442,
+      lng: 75.2000854
     },
-    address: "321 River Road, Westside",
+    address: "Government Hospital, Puttur, Karnataka 574201",
     phone: "+1 555-456-7890",
-    website: "https://riversidemedical.com",
+    website: "Not Available",
     emergency: true,
-    openNow: true,
-    services: ["Emergency", "Trauma Center", "Pediatrics"]
+    openNow: true
   }
 ];
 
@@ -78,57 +74,50 @@ export default function NearbyHospitals() {
   const [locationError, setLocationError] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
 
+  // Get user's location
+  useEffect(() => {
+    // Using Uppinangady as reference point (approximately 26km from Puttur)
+    const referencePoint = {
+      lat: 12.864564,
+      lng: 75.322145
+    };
+
+    setUserLocation(referencePoint);
+    setMapCenter(referencePoint);
+  }, []);
+
   // Calculate distance between two coordinates in kilometers
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371; // Earth's radius in kilometers
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
+
+    const lat1Rad = lat1 * Math.PI / 180;
+    const lat2Rad = lat2 * Math.PI / 180;
+
     const a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.cos(lat1Rad) * Math.cos(lat2Rad) * 
       Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
+    
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+
+    return Math.round(distance * 10) / 10;
   };
 
-  // Get user's location
   useEffect(() => {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-        },
-        (error) => {
-          setLocationError("Unable to retrieve your location");
-          console.error("Error getting location:", error);
-        }
-      );
-    } else {
-      setLocationError("Geolocation is not supported by your browser");
-    }
-  }, []);
-
-  useEffect(() => {
-    // Simulate API call and calculate distances
-    setTimeout(() => {
+    if (userLocation) {
       const hospitalsWithDistance = mockHospitals.map(hospital => {
-        let distance = "Unknown";
-        if (userLocation) {
-          const distanceInKm = calculateDistance(
-            userLocation.lat,
-            userLocation.lng,
-            hospital.coordinates.lat,
-            hospital.coordinates.lng
-          );
-          distance = distanceInKm.toFixed(1) + " km";
-        }
-        return { ...hospital, distance };
+        const distanceInKm = calculateDistance(
+          userLocation.lat,
+          userLocation.lng,
+          hospital.coordinates.lat,
+          hospital.coordinates.lng
+        );
+        return { ...hospital, distance: distanceInKm.toFixed(1) + " km" };
       });
 
-      // Sort hospitals by distance
       hospitalsWithDistance.sort((a, b) => {
         const distA = parseFloat(a.distance);
         const distB = parseFloat(b.distance);
@@ -137,7 +126,7 @@ export default function NearbyHospitals() {
 
       setHospitals(hospitalsWithDistance);
       setLoading(false);
-    }, 1500);
+    }
   }, [userLocation]);
 
   useEffect(() => {
@@ -312,17 +301,6 @@ export default function NearbyHospitals() {
                     </div>
                   </div>
                   
-                  <div className="services-section">
-                    <h3>Available Services</h3>
-                    <div className="service-tags">
-                      {hospital.services.map((service, idx) => (
-                        <span key={idx} className="service-tag">
-                          {service}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  
                   <div className="emergency-card">
                     <h3>
                       <Clock />
@@ -335,7 +313,7 @@ export default function NearbyHospitals() {
                   </div>
                   
                   <div className="map-container">
-                    <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
+                    <LoadScript googleMapsApiKey="AIzaSyD0mxwczY8WRldLmM2q3E1ljRnO7sS77OE">
                       <GoogleMap
                         mapContainerStyle={mapContainerStyle}
                         center={mapCenter}

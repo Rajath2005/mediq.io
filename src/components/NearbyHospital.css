@@ -366,27 +366,6 @@
     text-decoration: underline;
   }
   
-  .services-section h3 {
-    font-weight: 500;
-    color: #111827;
-    margin-top: 0;
-    margin-bottom: 12px;
-  }
-  
-  .service-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .service-tag {
-    background-color: #eff6ff;
-    color: #1d4ed8;
-    padding: 6px 12px;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-  }
-  
   .emergency-card {
     background-color: #eff6ff;
     border: 1px solid #bfdbfe;
