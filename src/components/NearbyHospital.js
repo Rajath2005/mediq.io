@@ -14,8 +14,8 @@ const mockHospitals = [
     },
     address: "APMC ROAD, Puttur, Karnataka 574201",
     phone: "08251237781",
+    website: "https://putturcityhospital.com",
     emergency: true,
-    rating: 4.7,
     openNow: true,
     services: ["Emergency", "ICU", "Pediatrics", "Cardiology"]
   },
@@ -28,8 +28,8 @@ const mockHospitals = [
     },
     address: "456 Oak Avenue, Downtown",
     phone: "+1 555-987-6543",
+    website: "https://communitymedicalcenter.org",
     emergency: true,
-    rating: 4.3,
     openNow: true,
     services: ["Emergency", "Orthopedics", "Neurology"]
   },
@@ -42,8 +42,8 @@ const mockHospitals = [
     },
     address: "789 Sunshine Blvd, Eastside",
     phone: "+1 555-789-0123",
+    website: "https://sunshinehospital.org",
     emergency: false,
-    rating: 4.9,
     openNow: false,
     services: ["Cancer Care", "Surgery", "Rehabilitation"]
   },
@@ -56,8 +56,8 @@ const mockHospitals = [
     },
     address: "321 River Road, Westside",
     phone: "+1 555-456-7890",
+    website: "https://riversidemedical.com",
     emergency: true,
-    rating: 4.1,
     openNow: true,
     services: ["Emergency", "Trauma Center", "Pediatrics"]
   }
