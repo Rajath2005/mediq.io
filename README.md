@@ -56,16 +56,38 @@ MediQ is a health-focused React web app that offers users a platform to manage t
 
 ## 🖼️ Project Preview
 
-<p align="center">
-  <img src="src/components/images/login.jpg" alt="Login Page Preview" width="600"/>
-  <br/>
-  <em>Login page (desktop view)</em>
-</p>
-<p align="center">
-  <img src="src/components/images/Sign up .jpg" alt="Login Page Preview" width="600"/>
-  <br/>
-  <em>Sign up page (desktop view)</em>
-</p>
+Take a look at the key screens and sections of our project! Below you'll find visual previews and brief descriptions to help you get a feel for the design and functionality. Each image is centered and includes a caption for context. For a more dynamic demonstration, a GIF walkthrough is also included at the end.
+
+---
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="src/components/images/login.jpg" alt="Login Page Preview" width="340"/><br/>
+      <em>Login page (desktop view)</em>
+    </td>
+    <td align="center">
+      <img src="src/components/images/Sign up .jpg" alt="Sign Up Page Preview" width="340"/><br/>
+      <em>Sign up page (desktop view)</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="Service.png" alt="Service Section Image" width="600"/><br/>
+      <em>Services Section (desktop view)</em>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="src/AboutUs.png" alt="About Us Image" width="340"/><br/>
+      <em>About Us (desktop view)</em>
+    </td>
+    <td align="center">
+      <img src="src/ Our_team.png" alt="Our Team Image" width="340"/><br/>
+      <em>Our Team (desktop view)</em>
+    </td>
+  </tr>
+</table>
 
 ## 🛠️ Installation
 
