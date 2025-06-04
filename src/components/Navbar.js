@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Navbar.css';
 import logo from './images/logo.jpg';
-import { FaMoon, FaSun } from "react-icons/fa"; // Removed unused FaBars and FaTimes
+import { FaMoon, FaSun, FaUserShield } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
 import 'animate.css';
 import { useTheme } from '../contexts/ThemeContext';
@@ -15,7 +15,8 @@ const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const { isAuthenticated, isAdmin } = useAuth();
+  const navigate = useNavigate();
+  const { isAuthenticated, isAdmin, signOut } = useAuth();
   
   // Close dropdown and nav menu when clicking outside
   useEffect(() => {
@@ -31,40 +32,30 @@ const Navbar = () => {
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [dropdownRef]); // Removed window.location.pathname dependency
+  }, [dropdownRef]);
 
   // Close dropdown and nav menu when route changes
   useEffect(() => {
-    const handleRouteChange = () => {
-      setIsNavExpanded(false);
-      setIsDropdownOpen(false);
-    };
-    
-    // Listen for route changes
-    window.addEventListener('popstate', handleRouteChange);
-    return () => window.removeEventListener('popstate', handleRouteChange);
-  }, []);
+    setIsNavExpanded(false);
+    setIsDropdownOpen(false);
+  }, []); // Removed window.location.pathname from dependencies
 
   const handleServiceSelection = () => {
     setIsDropdownOpen(false);
     setIsNavExpanded(false);
   };
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [dropdownRef]);
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const handleEmergency = async () => {
     try {
-      // First, let's get the actual column names from your database
       const { data: tableInfo, error: tableError } = await supabase2
         .from('emergency_settings')
         .select('*')
@@ -76,15 +67,11 @@ const Navbar = () => {
         return;
       }
       
-      // Log the first row to see actual column names
       console.log('Sample row with column names:', tableInfo[0]);
       
-      // Now fetch all rows with the correct column names
-      // Let's assume the correct columns might be 'hospital_name', 'phone_number', and 'sms_contact'
-      // or whatever the actual column names are in your database
       const { data, error } = await supabase2
         .from('emergency_settings')
-        .select('*'); // Selecting all columns to ensure we get everything
+        .select('*');
       
       if (error) {
         console.error('Failed to fetch emergency settings:', error);
@@ -97,11 +84,8 @@ const Navbar = () => {
         return;
       }
       
-      // Extract the first row to determine column names
       const firstRow = data[0];
       
-      // Determine which columns to use based on what's available
-      // These are common alternatives for the column names
       const hospitalNameColumn = 
         'hospital_name' in firstRow ? 'hospital_name' : 
         'name' in firstRow ? 'name' : 
@@ -119,7 +103,7 @@ const Navbar = () => {
         'sms_number' in firstRow ? 'sms_number' : 
         'sms_contact' in firstRow ? 'sms_contact' : 
         'sms' in firstRow ? 'sms' : 
-        phoneNumberColumn; // Default to the same as phone if no specific SMS column
+        phoneNumberColumn;
       
       if (!hospitalNameColumn || !phoneNumberColumn) {
         console.error('Could not determine required column names', firstRow);
@@ -129,7 +113,6 @@ const Navbar = () => {
       
       console.log('Using columns:', { hospitalNameColumn, phoneNumberColumn, smsNumberColumn });
       
-      // Create options for the dropdown with index as key to ensure uniqueness
       const options = {};
       const mappedData = data.map((item, index) => ({
         ...item,
@@ -161,15 +144,12 @@ const Navbar = () => {
   
         const { hospitalName, phoneNumber, smsNumber } = selectedEntry;
   
-        // Initiate the call
         window.location.href = `tel:${phoneNumber}`;
   
-        // Send SMS with location link
         const locationLink = `https://maps.google.com?q=${encodeURIComponent(window.location.href)}`;
         const message = `Emergency! Please help. My location is: ${locationLink}`;
         window.open(`sms:${smsNumber}?body=${encodeURIComponent(message)}`);
   
-        // Display confirmation with hospital name and number
         Swal.fire('Calling...', `You are calling ${hospitalName} - ${phoneNumber}`, 'info');
       }
     } catch (error) {
@@ -177,7 +157,103 @@ const Navbar = () => {
       Swal.fire('Error', `An unexpected error occurred: ${error.message}`, 'error');
     }
   };
-  
+
+  // Custom navigation based on user role
+  const getDashboardLink = () => {
+    if (isAdmin) {
+      return "/admin-dashboard";
+    }
+    return "/dashboard";
+  };
+
+  // Determine login buttons based on authentication state
+  const renderAuthButtons = () => {
+    if (isAuthenticated) {
+      return (
+        <UserProfileDropdown
+          isAuthenticated={isAuthenticated}
+          isAdmin={isAdmin}
+          onLogout={handleLogout}
+          dashboardLink={getDashboardLink()}
+        />
+      );
+    } else {
+      return (
+        <>
+          <Link to="/signup" className="btn btn-outline-success mobile-full-width me-2" onClick={() => setIsNavExpanded(false)}>
+            Sign Up
+          </Link>
+          <Link to="/login" className="btn btn-outline-info mobile-full-width me-2" onClick={() => setIsNavExpanded(false)}>
+            User Login
+          </Link>
+          <Link to="/admin-login" className="btn btn-outline-danger mobile-full-width" onClick={() => setIsNavExpanded(false)}>
+            <FaUserShield className="me-1" />
+            Admin
+          </Link>
+        </>
+      );
+    }
+  };
+
+  // Determine what services menu items to show based on user role
+  const renderServicesMenu = () => {
+    const commonItems = (
+      <>
+        <li>
+          <Link className="dropdown-item" to="/search-medicines" onClick={handleServiceSelection}>
+            Search Ayurvedic Medicines
+          </Link>
+        </li>
+        <li><hr className="dropdown-divider" /></li>
+        <li>
+          <Link className="dropdown-item" to="/home-remedies" onClick={handleServiceSelection}>
+            Search Home Remedies
+          </Link>
+        </li>
+        <li><hr className="dropdown-divider" /></li>
+        <li>
+          <Link className="dropdown-item" to="/hospitals" onClick={handleServiceSelection}>
+            Book Appointment
+          </Link>
+        </li>
+        <li><hr className="dropdown-divider" /></li>
+        <li>
+          <Link className="dropdown-item" to="/ayurvedic-shops" onClick={handleServiceSelection}>
+            Ayurvedic Medical Shops
+          </Link>
+        </li>
+        <li><hr className="dropdown-divider" /></li>
+        <li>
+          <Link className="dropdown-item" to="/nearby-hospitals" onClick={handleServiceSelection}>
+            Nearby Hospitals
+          </Link>
+        </li>
+      </>
+    );
+
+    // Only show emergency settings to admins
+    if (isAdmin) {
+      return (
+        <>
+          {commonItems}
+          <li><hr className="dropdown-divider" /></li>
+          <li>
+            <Link className="dropdown-item admin-menu-item" to="/emergency-settings" onClick={handleServiceSelection}>
+              <FaUserShield className="me-1" /> Emergency Settings
+            </Link>
+          </li>
+          <li><hr className="dropdown-divider" /></li>
+          <li>
+            <Link className="dropdown-item admin-menu-item" to="/manage-appointments" onClick={handleServiceSelection}>
+              <FaUserShield className="me-1" /> Manage Appointments
+            </Link>
+          </li>
+        </>
+      );
+    }
+
+    return commonItems;
+  };
 
   return (
     <nav className={`navbar navbar-expand-lg w-100 ${darkMode ? "navbar-dark bg-dark" : "bg-light"}`} style={{ zIndex: 1060 }}>
@@ -185,6 +261,7 @@ const Navbar = () => {
         <Link className="navbar-brand d-flex align-items-center" to="/" onClick={() => setIsNavExpanded(false)}>
           <img src={logo} alt="Logo" className="navbar-logo me-2 animate__animated animate__pulse" style={{ width: '40px', height: '40px' }} />
           <span className="brand-text">MediQ</span>
+          {isAdmin && <span className="admin-badge ms-2">Admin</span>}
         </Link>
 
         <button className="btn btn-danger d-lg-none me-2" onClick={handleEmergency}>
@@ -214,28 +291,6 @@ const Navbar = () => {
               <Link className="nav-link" to="/contact" onClick={handleServiceSelection}>Contact Us</Link>
             </li>
 
-            {isAuthenticated && !isAdmin && (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/appointments" onClick={() => setIsNavExpanded(false)}>My Appointments</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/hospitals" onClick={() => setIsNavExpanded(false)}>Book Appointment</Link>
-                </li>
-              </>
-            )}
-
-            {isAdmin && (
-              <>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/manage-appointments" onClick={() => setIsNavExpanded(false)}>Manage Appointments</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/emergency-settings" onClick={() => setIsNavExpanded(false)}>Emergency Settings</Link>
-                </li>
-              </>
-            )}
-
             <li className="nav-item dropdown" ref={dropdownRef}>
               <button
                 className="nav-link dropdown-toggle"
@@ -249,63 +304,31 @@ const Navbar = () => {
                 Services
               </button>
               <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
-                <li>
-                  <Link className="dropdown-item" to="/search-medicines" onClick={handleServiceSelection}>
-                    Search Ayurvedic Medicines
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/home-remedies" onClick={handleServiceSelection}>
-                    Search Home Remedies
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/hospitals" onClick={handleServiceSelection}>
-                    Book Appointment
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/ayurvedic-shops" onClick={handleServiceSelection}>
-                    Ayurvedic Medical Shops
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/nearby-hospitals" onClick={handleServiceSelection}>
-                    Nearby Hospitals
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link className="dropdown-item" to="/emergency-settings" onClick={handleServiceSelection}>
-                    Emergency Settings
-                  </Link>
-                </li>
+                {renderServicesMenu()}
               </ul>
             </li>
+            
+            {/* Admin-only navigation items */}
+            {isAdmin && (
+              <li className="nav-item">
+                <Link 
+                  className="nav-link admin-nav-link" 
+                  to="/admin-dashboard" 
+                  onClick={handleServiceSelection}
+                >
+                  <FaUserShield className="me-1" /> Admin Panel
+                </Link>
+              </li>
+            )}
           </ul>
 
           <div className="d-flex align-items-center gap-3">
-            {/* Desktop Emergency Call Button */}
             <button onClick={handleEmergency} className="btn btn-danger d-none d-lg-block animate__animated animate__pulse animate__infinite animate__slow">
               Emergency Call
             </button>
 
-            {!isAuthenticated ? (
-              <>
-                <Link to="/signup" className="btn btn-outline-success mobile-full-width" onClick={() => setIsNavExpanded(false)}>Sign Up</Link>
-                <Link to="/login" className="btn btn-outline-info mobile-full-width" onClick={() => setIsNavExpanded(false)}>Log In</Link>
-              </>
-            ) : (
-              <UserProfileDropdown
-                isAuthenticated={isAuthenticated}
-              />
-            )}
+            {renderAuthButtons()}
 
-            {/* Dark Mode Toggle */}
             <button className="btn btn-outline-dark mobile-icon-btn" onClick={toggleDarkMode}>
               {darkMode ? <FaSun className="animate__animated animate__rotateIn" /> : <FaMoon className="animate__animated animate__rotateIn" />}
             </button>

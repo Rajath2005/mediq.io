@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { MapPin, Phone, Clock, Star, ChevronRight, Search, Loader } from 'lucide-react';
+import { MapPin, Phone, Clock, ChevronRight, Search, Loader } from 'lucide-react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import './NearbyHospital.css';
 
@@ -74,11 +74,6 @@ export default function NearbyHospitals() {
   const [locationError, setLocationError] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
   const [mapError, setMapError] = useState(null);
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
-
-  const onMapLoad = () => {
-    setIsMapLoaded(true);
-  };
 
   const onMapError = (error) => {
     setMapError('Failed to load Google Maps. Please check your internet connection.');
@@ -87,14 +82,28 @@ export default function NearbyHospitals() {
 
   // Get user's location
   useEffect(() => {
-    // Using Uppinangady as reference point (approximately 26km from Puttur)
-    const referencePoint = {
-      lat: 12.864564,
-      lng: 75.322145
-    };
-
-    setUserLocation(referencePoint);
-    setMapCenter(referencePoint);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const userCoords = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        setUserLocation(userCoords);
+        setMapCenter(userCoords);
+        setLocationError(null);
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        setLocationError('Could not get your location. Using default location instead.');
+        // Fallback to Uppinangady as reference point
+        const referencePoint = {
+          lat: 12.864564,
+          lng: 75.322145
+        };
+        setUserLocation(referencePoint);
+        setMapCenter(referencePoint);
+      }
+    );
   }, []);
 
   // Calculate distance between two coordinates in kilometers
@@ -337,7 +346,6 @@ export default function NearbyHospitals() {
                           mapContainerStyle={mapContainerStyle}
                           center={mapCenter}
                           zoom={15}
-                          onLoad={onMapLoad}
                         >
                           {mapCenter && <Marker position={mapCenter} />}
                         </GoogleMap>
