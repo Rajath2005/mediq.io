@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 /* eslint-disable-next-line no-unused-vars */
-import { FaDirections, FaPhone, FaClock, FaStar, FaHeart, FaBookmark } from "react-icons/fa";
+import { FaDirections, FaPhone, FaClock, FaHeart, FaBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./AyurvedicShops.css";
 
 // Individual Shop Card Component
 const AyurvedicShopCard = ({ shop }) => {
   const [isSaved, setIsSaved] = useState(false);
-  
+
   // Handle save/bookmark functionality
   const handleSave = (e) => {
     e.preventDefault();
@@ -26,52 +26,43 @@ const AyurvedicShopCard = ({ shop }) => {
             <span>No Image Available</span>
           </div>
         )}
-        <button 
-          className={`bookmark-btn ${isSaved ? 'saved' : ''}`} 
+        <button
+          className={`bookmark-btn ${isSaved ? 'saved' : ''}`}
           onClick={handleSave}
           aria-label={isSaved ? "Remove from saved" : "Save for later"}
         >
           <FaBookmark />
         </button>
       </div>
-      
-      <div className="shop-details">
-        <h3 className="shop-name">{shop.name}</h3>
-        
-        {shop.rating && (
-          <div className="shop-rating">
-            <FaStar className="rating-star" />
-            <span>{shop.rating}</span>
-            <span className="rating-count">({shop.ratingCount || 0})</span>
-          </div>
-        )}
-        
+
+      <div className="shop-details">        <h3 className="shop-name">{shop.name}</h3>
+
         {shop.address && (
           <p className="shop-address">{shop.address}</p>
         )}
-        
+
         {shop.openingHours && (
           <div className="shop-hours">
             <FaClock className="shop-icon" />
             <span>{shop.openingHours}</span>
           </div>
         )}
-        
+
         <div className="shop-actions">
           {shop.phone && (
-            <a 
-              href={`tel:${shop.phone}`} 
+            <a
+              href={`tel:${shop.phone}`}
               className="shop-action-btn call-btn"
               aria-label={`Call ${shop.name}`}
             >
               <FaPhone /> Call
             </a>
           )}
-          
-          <a 
-            href={shop.directions || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.name + ' ' + (shop.address || ''))}`} 
-            target="_blank" 
-            rel="noopener noreferrer" 
+
+          <a
+            href={shop.directions || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(shop.name + ' ' + (shop.address || ''))}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="shop-action-btn directions-btn"
             aria-label={`Get directions to ${shop.name}`}
           >
@@ -89,7 +80,7 @@ const AyurvedaMedicals = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("");
-  
+
   // Sample data - Replace this with your API call or data source
   useEffect(() => {
     // Simulating API fetch
@@ -98,58 +89,48 @@ const AyurvedaMedicals = () => {
         const sampleData = [
           {
             id: 1,
-            name: "Patanjali Ayurvedic Center",
-            address: "123 Health Street, City Center",
-            rating: 4.5,
-            ratingCount: 128,
-            imageUrl: "https://via.placeholder.com/300x200",
-            phone: "+911234567890",
-            openingHours: "9:00 AM - 9:00 PM",
-            directions: "https://goo.gl/maps/example1"
+            name: "Apollo Pharmacy Temple Road Puttur",
+            address: "Ground Floor, GL Complex, No. 2-952, Main Road, near Shri Laxmi Venkatramana Temple, Puttur, Karnataka 574201",
+            imageUrl: "https://res.cloudinary.com/dacpbywfp/image/upload/v1749030981/Apollo_ugzwzy.jpg",
+            phone: "082512 95020",
+            openingHours: "7:00 AM - 11:00 PM",
+            directions: "https://g.co/kgs/p2HCGJw"
           },
           {
-            id: 2,
-            name: "Himalaya Wellness Store",
-            address: "456 Natural Avenue, Green Park",
-            rating: 4.2,
-            ratingCount: 95,
-            imageUrl: null,
-            phone: "+919876543210",
-            openingHours: "10:00 AM - 8:00 PM",
-            directions: "https://goo.gl/maps/example2"
+            id: 2, 
+            name: "Shri Mahalasa Medical",
+            address: "Puttur, Karnataka 574201",
+            imageUrl: "https://res.cloudinary.com/dacpbywfp/image/upload/v1749031060/Shri_mahalasa_medical_zhzm9x.jpg",
+            phone: " 090087 18777",
+            openingHours: "Closes 9 PM",
+            directions: "https://g.co/kgs/FMXSGD4"
           },
           {
             id: 3,
-            name: "Kerala Ayurveda Pharmacy",
-            address: "789 Herbal Lane, South District",
-            rating: 4.7,
-            ratingCount: 152,
-            imageUrl: "https://via.placeholder.com/300x200",
-            phone: "+917890123456",
-            openingHours: "8:00 AM - 7:00 PM",
-            directions: "https://goo.gl/maps/example3"
+             name: "Swastik Medical",
+            address: "V2XV+HP6, Baddakatta, Bantwal, Karnataka 574211",
+            imageUrl: "https://res.cloudinary.com/dacpbywfp/image/upload/v1749031028/Swastik_medical_y9ubti.jpg",
+            phone: "Phone Number is Missing",
+            openingHours: "Closes 7 PM",
+            directions: "https://g.co/kgs/XMQqfts"
           },
           {
-            id: 4,
-            name: "Sri Sri Ayurveda",
-            address: "101 Wellness Road, East End",
-            rating: 4.3,
-            ratingCount: 87,
-            imageUrl: null,
-            phone: "+914567890123",
-            openingHours: "9:30 AM - 8:30 PM"
+            id: 4, 
+            name: "Sharada Medical",
+            address: " 1-2 Nellikatte, Main Road, Puttur, Karnataka 574201",
+            imageUrl: "https://res.cloudinary.com/dacpbywfp/image/upload/v1749031066/Sharada_medical_dvejgj.jpg",
+            phone: " 09900617656",
+            openingHours: "Closes 8 PM"
           },
           {
             id: 5,
-            name: "Ancient Remedies Center",
-            address: "202 Traditional Plaza, West Side",
-            rating: 4.0,
-            ratingCount: 63,
-            imageUrl: "https://via.placeholder.com/300x200",
-            openingHours: "10:00 AM - 7:00 PM"
+             name: "Krishna Medicals",
+            address: "Puttur, Karnataka 574201",
+            imageUrl: "https://res.cloudinary.com/dacpbywfp/image/upload/v1749031210/Krishna_medical_fvktvo.jpg",
+            openingHours: null
           }
         ];
-        
+
         setShops(sampleData);
         setLoading(false);
       } catch (err) {
@@ -159,7 +140,7 @@ const AyurvedaMedicals = () => {
     }, 1000);
   }, []);
 
-  const filteredShops = shops.filter(shop => 
+  const filteredShops = shops.filter(shop =>
     shop.name.toLowerCase().includes(filter.toLowerCase()) ||
     (shop.address && shop.address.toLowerCase().includes(filter.toLowerCase()))
   );
@@ -169,7 +150,7 @@ const AyurvedaMedicals = () => {
       <div className="shops-header">
         <h2>Ayurvedic Medical Shops Near You</h2>
         <p>Find authentic Ayurvedic medicines and wellness products from these trusted stores</p>
-        
+
         <div className="shops-search">
           <input
             type="text"
@@ -180,7 +161,7 @@ const AyurvedaMedicals = () => {
           />
         </div>
       </div>
-      
+
       {loading ? (
         <div className="shops-loading">
           <div className="loading-spinner"></div>
@@ -189,8 +170,8 @@ const AyurvedaMedicals = () => {
       ) : error ? (
         <div className="shops-error">
           <p>{error}</p>
-          <button 
-            onClick={() => {setLoading(true); /* Retry fetch logic here */}}
+          <button
+            onClick={() => { setLoading(true); /* Retry fetch logic here */ }}
             className="retry-btn"
           >
             Retry
@@ -201,7 +182,7 @@ const AyurvedaMedicals = () => {
           <div className="shops-count">
             <p>Found {filteredShops.length} shops in your area</p>
           </div>
-          
+
           <div className="shops-grid">
             {filteredShops.length > 0 ? (
               filteredShops.map(shop => (
@@ -215,7 +196,7 @@ const AyurvedaMedicals = () => {
           </div>
         </>
       )}
-      
+
       <div className="shops-footer">
         <p>Know an Ayurvedic shop not listed here?</p>
         <Link to="/suggest-shop" className="suggest-shop-btn">

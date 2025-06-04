@@ -255,26 +255,6 @@
     color: var(--dark-text-primary);
   }
   
-  .shop-rating {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.8rem;
-    font-size: 0.9rem;
-  }
-  
-  .rating-star {
-    color: #f59e0b;
-    margin-right: 0.3rem;
-  }
-  
-  .rating-count {
-    color: var(--light-text-secondary);
-    margin-left: 0.3rem;
-  }
-  
-  body.dark-mode .rating-count {
-    color: var(--dark-text-secondary);
-  }
   
   .shop-address {
     font-size: 0.9rem;
