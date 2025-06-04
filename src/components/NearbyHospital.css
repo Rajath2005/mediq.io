@@ -467,3 +467,17 @@
   .website-link a:active {
     transform: translateY(0);
   }
+
+  .location-loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #e3f2fd;
+    border-radius: 8px;
+    margin: 10px 0;
+  }
+
+  .location-loading .loading-spinner {
+    animation: spin 1s linear infinite;
+  }

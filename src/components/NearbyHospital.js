@@ -74,56 +74,112 @@ export default function NearbyHospitals() {
   const [locationError, setLocationError] = useState(null);
   const [mapCenter, setMapCenter] = useState(null);
   const [mapError, setMapError] = useState(null);
+  const [locationLoading, setLocationLoading] = useState(true);
 
   const onMapError = (error) => {
     setMapError('Failed to load Google Maps. Please check your internet connection.');
     console.error('Google Maps Error:', error);
   };
 
-  // Get user's location
+  // Get user's location with better error handling
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const userCoords = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        setUserLocation(userCoords);
-        setMapCenter(userCoords);
-        setLocationError(null);
-      },
-      (error) => {
-        console.error('Geolocation error:', error);
-        setLocationError('Could not get your location. Using default location instead.');
-        // Fallback to Uppinangady as reference point
-        const referencePoint = {
-          lat: 12.864564,
-          lng: 75.322145
-        };
-        setUserLocation(referencePoint);
-        setMapCenter(referencePoint);
+    if (!navigator.geolocation) {
+      setLocationError('Geolocation is not supported by your browser. Using default location.');
+      setLocationLoading(false);
+      // Fall back to default location
+      const defaultLocation = {
+        lat: 12.864564,
+        lng: 75.322145
+      };
+      setUserLocation(defaultLocation);
+      setMapCenter(defaultLocation);
+      return;
+    }
+
+    const locationOptions = {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0
+    };
+
+    const successCallback = (position) => {
+      const userCoords = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      setUserLocation(userCoords);
+      setMapCenter(userCoords);
+      setLocationError(null);
+      setLocationLoading(false);
+    };
+
+    const errorCallback = (error) => {
+      setLocationLoading(false);
+      let errorMessage = 'Could not get your location. Using default location instead.';
+      
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          errorMessage = 'Location access was denied. Please enable location services to find nearby hospitals.';
+          break;
+        case error.POSITION_UNAVAILABLE:
+          errorMessage = 'Location information is unavailable. Using default location.';
+          break;
+        case error.TIMEOUT:
+          errorMessage = 'Location request timed out. Using default location.';
+          break;
+        default:
+          errorMessage = 'An unknown error occurred while getting location. Using default location.';
       }
+      
+      console.error('Geolocation error:', error);
+      setLocationError(errorMessage);
+      
+      // Fallback to default location (Uppinangady)
+      const defaultLocation = {
+        lat: 12.864564,
+        lng: 75.322145
+      };
+      setUserLocation(defaultLocation);
+      setMapCenter(defaultLocation);
+    };
+
+    // Request location with options
+    const watchId = navigator.geolocation.watchPosition(
+      successCallback,
+      errorCallback,
+      locationOptions
     );
+
+    // Cleanup function to stop watching location
+    return () => {
+      navigator.geolocation.clearWatch(watchId);
+    };
   }, []);
-
-  // Calculate distance between two coordinates in kilometers
+  // Calculate distance between two coordinates in kilometers using Haversine formula
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // Earth's radius in kilometers
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
+    // Convert all coordinates to radians
+    const toRad = degrees => degrees * Math.PI / 180;
 
-    const lat1Rad = lat1 * Math.PI / 180;
-    const lat2Rad = lat2 * Math.PI / 180;
+    // Earth's mean radius in kilometers
+    const R = 6371; 
 
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1Rad) * Math.cos(lat2Rad) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c;
+    const φ1 = toRad(lat1);
+    const φ2 = toRad(lat2);
+    const λ1 = toRad(lon1);
+    const λ2 = toRad(lon2);
 
-    return Math.round(distance * 10) / 10;
+    const Δφ = φ2 - φ1;
+    const Δλ = λ2 - λ1;
+
+    // Haversine formula for great-circle distance
+    const s = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+              Math.cos(φ1) * Math.cos(φ2) * 
+              Math.sin(Δλ/2) * Math.sin(Δλ/2);
+
+    const c = 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1 - s));
+    const d = R * c; // This is the distance in kilometers
+
+    return Math.round(d * 100) / 100; // Round to 2 decimal places for more precision
   };
 
   useEffect(() => {
@@ -134,8 +190,12 @@ export default function NearbyHospitals() {
           userLocation.lng,
           hospital.coordinates.lat,
           hospital.coordinates.lng
-        );
-        return { ...hospital, distance: distanceInKm.toFixed(1) + " km" };
+        );        return { 
+          ...hospital, 
+          distance: distanceInKm < 0.1 ? '< 0.1 km' : 
+                    distanceInKm < 1 ? `${(distanceInKm * 1000).toFixed(0)} m` :
+                    `${distanceInKm.toFixed(1)} km` 
+        };
       });
 
       hospitalsWithDistance.sort((a, b) => {
@@ -181,11 +241,16 @@ export default function NearbyHospitals() {
       <div className="header-section">
         <h2>Nearby Hospitals</h2>
         <p>Find emergency services and medical facilities near you</p>
-        {locationError && (
+        {locationLoading ? (
+          <div className="location-loading">
+            <Loader className="loading-spinner" />
+            <p>Getting your location to find nearby hospitals...</p>
+          </div>
+        ) : locationError ? (
           <div className="location-error">
             {locationError}
           </div>
-        )}
+        ) : null}
       </div>
       
       <div className="search-section">
@@ -368,4 +433,4 @@ export default function NearbyHospitals() {
       </div>
     </div>
   );
-}
+};
