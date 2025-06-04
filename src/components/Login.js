@@ -1,8 +1,8 @@
 // src/components/Login.jsx
 import React, { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
-import { supabase } from "../supabaseClient";
-import { useAuth } from '../contexts/AuthContext';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, GithubAuthProvider, sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebase';
 import './Login.css';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import AlertMessage from "./AlertMessage";
@@ -17,7 +17,6 @@ const Login = () => {
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { signIn } = useAuth();
   
   const from = location.state?.from || '/';
 
@@ -27,10 +26,8 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const { data, error } = await signIn(email, password);
-      if (error) throw error;
-
-      if (data?.user) {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      if (userCredential.user) {
         navigate(from);
       }
     } catch (error) {
@@ -45,21 +42,12 @@ const Login = () => {
     try {
       setLoading(true);
       setError(null);
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/`,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      });
-
-      if (error) throw error;
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
       
-      // The redirect will happen automatically, but we'll navigate anyway if we're still here
-      if (data) navigate('/');
+      if (result.user) {
+        navigate('/');
+      }
     } catch (error) {
       console.error("Google login error:", error);
       setError(error.message || "Failed to sign in with Google");
@@ -67,30 +55,32 @@ const Login = () => {
       setLoading(false);
     }
   };
-
-  const handleOAuthLogin = async (provider) => {
+  const handleOAuthLogin = async (providerName) => {
     try {
       setLoading(true);
       setError(null);
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/`
-        }
-      });
-
-      if (error) throw error;
+      let provider;
       
-      // The redirect will happen automatically, but we'll navigate anyway if we're still here
-      if (data) navigate('/');
+      if (providerName === 'github') {
+        provider = new GithubAuthProvider();
+      } else if (providerName === 'google') {
+        provider = new GoogleAuthProvider();
+      } else {
+        console.error('Unsupported provider:', providerName);
+        return;
+      }
+      
+      const result = await signInWithPopup(auth, provider);
+      if (result.user) {
+        navigate('/');
+      }
     } catch (error) {
-      console.error(`${provider} login error:`, error);
-      setError(error.message || `Failed to sign in with ${provider}`);
+      console.error(`${providerName} login error:`, error);
+      setError(error.message || `Failed to sign in with ${providerName}`);
     } finally {
       setLoading(false);
     }
   };
-
   const handlePasswordReset = async () => {
     if (!email) {
       setError("Please enter your email address to reset password");
@@ -98,8 +88,7 @@ const Login = () => {
     }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
-      if (error) throw error;
+      await sendPasswordResetEmail(auth, email);
       setResetSent(true);
       setError(null);
       alert("Password reset instructions have been sent to your email.");

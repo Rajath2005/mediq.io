@@ -2,6 +2,8 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthProtection } from "../../hooks/useAuthProtection";
 import AuthModal from "../../components/AuthModal";
+import useDocumentTitle from '../../hooks/useDocumentTitle';
+
 
 const hospitals = [
   { 
@@ -28,6 +30,8 @@ const hospitals = [
 ];
 
 const HospitalList = () => {
+    useDocumentTitle('Hospitals 🏥');
+
   const navigate = useNavigate();
   const { requireAuth, showAuthModal, closeAuthModal } = useAuthProtection();
 

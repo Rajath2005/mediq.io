@@ -1,7 +1,10 @@
 // src/components/Signup.jsx
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from '../firebase';
 import './Signup.css';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
@@ -21,30 +24,48 @@ const Signup = () => {
   const handleGoogleSignUp = async () => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.origin,
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      });
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
       
-      if (error) throw error;
+      if (result.user) {
+        // Create user profile in Firestore
+        await setDoc(doc(db, 'users', result.user.uid), {
+          email: result.user.email,
+          full_name: result.user.displayName,
+          created_at: new Date().toISOString()
+        });
+        
+        navigate('/');
+      }
     } catch (error) {
       setError(error.message);
       console.error("Google signup error:", error);
     } finally {
       setLoading(false);
     }
-  };
-  const handleOAuthLogin = async (provider) => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-    });
-    if (error) console.error("OAuth login error:", error.message);
+  };  const handleOAuthLogin = async (providerName) => {
+    try {
+      setLoading(true);
+      let provider;
+      
+      if (providerName === 'github') {
+        provider = new GithubAuthProvider();
+      } else if (providerName === 'linkedin') {
+        // LinkedIn auth is not directly supported by Firebase
+        setError("LinkedIn authentication is not available");
+        return;
+      }
+      
+      const result = await signInWithPopup(auth, provider);
+      if (result.user) {
+        navigate('/');
+      }
+    } catch (error) {
+      setError(error.message);
+      console.error(`${providerName} login error:`, error);
+    } finally {
+      setLoading(false);
+    }
   };
   
 
@@ -60,36 +81,18 @@ const Signup = () => {
     }
 
     try {
-      // Sign up the user
-      const { data: { user }, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: `${firstName} ${lastName}`.trim(),
-            first_name: firstName,
-            last_name: lastName
-          }
-        }
-      });
+      // Create the user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      if (signUpError) throw signUpError;
-
-      // Create a profile record
-      if (user) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert([
-            {
-              id: user.id,
-              full_name: `${firstName} ${lastName}`.trim(),
-              first_name: firstName,
-              last_name: lastName,
-              email: email
-            }
-          ]);
-
-        if (profileError) throw profileError;
+      // Create a user profile in Firestore
+      if (userCredential.user) {
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          full_name: `${firstName} ${lastName}`.trim(),
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          created_at: new Date().toISOString()
+        });
 
         // Redirect to home page
         navigate("/");
