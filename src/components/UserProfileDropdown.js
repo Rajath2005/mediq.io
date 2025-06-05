@@ -1,13 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 import './UserProfileDropdown.css';
 
 const UserProfileDropdown = ({ isAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user, userProfile, signOut, isAdmin } = useAuth();
+  const [userProfile, setUserProfile] = useState(null);
   const navigate = useNavigate();
   const dropdownButtonRef = useRef(null);
+  const user = auth.currentUser;
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.bootstrap) {
@@ -19,11 +21,9 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
 
   const displayName = userProfile?.full_name || user.user_metadata?.full_name || user.email;
   const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url;
-
   const handleLogout = async () => {
     try {
-      const { error } = await signOut();
-      if (error) throw error;
+      await signOut(auth);
       navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
