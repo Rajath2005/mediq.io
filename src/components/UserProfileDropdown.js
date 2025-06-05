@@ -6,7 +6,7 @@ import './UserProfileDropdown.css';
 
 const UserProfileDropdown = ({ isAuthenticated }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [userProfile, setUserProfile] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const dropdownButtonRef = useRef(null);
   const user = auth.currentUser;
@@ -17,10 +17,26 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
     }
   }, []);
 
-  if (!isAuthenticated || !user) return null;
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      if (user) {
+        try {
+          // Get the ID token result which contains custom claims
+          const tokenResult = await user.getIdTokenResult();
+          setIsAdmin(tokenResult.claims.admin === true);
+        } catch (error) {
+          console.error('Error checking admin status:', error);
+          setIsAdmin(false);
+        }
+      }
+    };
 
-  const displayName = userProfile?.full_name || user.user_metadata?.full_name || user.email;
-  const avatarUrl = userProfile?.avatar_url || user.user_metadata?.avatar_url;
+    checkAdminStatus();
+  }, [user]);
+
+  if (!isAuthenticated || !user) return null;
+  const displayName = user.user_metadata?.full_name || user.email;
+  const avatarUrl = user.user_metadata?.avatar_url;
   const handleLogout = async () => {
     try {
       await signOut(auth);
