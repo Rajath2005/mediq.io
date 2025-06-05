@@ -7,7 +7,7 @@ import Button from '../components/Button';
 import { FaSearch, FaImage } from "react-icons/fa";
 import { useAuth } from '../contexts/AuthContext';
 import useDocumentTitle from "../hooks/useDocumentTitle";
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const HeroSection = () => {
   useDocumentTitle('MediQ 🌿- Your Digital Healthcare Companion');

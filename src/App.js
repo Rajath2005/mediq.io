@@ -3,6 +3,7 @@ import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './contexts/AuthContext';
+import { HelmetProvider } from 'react-helmet-async';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -77,12 +78,12 @@ const App = () => {
   if (isLoading) {
     return <Preloader />;
   }
-
   return (
     <AuthProvider>
       <ThemeProvider>
-        <Router>
-          <div className="app-container">
+        <HelmetProvider>
+          <Router>
+            <div className="app-container">
             <Navbar />
             <Routes>
               <Route path="/" element={<><Hero /><ServicesSection /></>} />
@@ -117,7 +118,8 @@ const App = () => {
             <Footer />
             {showCookieConsent && <CookieConsent onConsentGiven={() => setShowCookieConsent(false)} />}
           </div>
-        </Router>
+          </Router>
+        </HelmetProvider>
       </ThemeProvider>
     </AuthProvider>
   );
