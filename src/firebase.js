@@ -4,8 +4,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// My web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCz-Cump08AEM6rpVHKKiXs1c0CHGBBneA",
   authDomain: "mediq-e53c7.firebaseapp.com",
@@ -16,9 +15,12 @@ const firebaseConfig = {
   measurementId: "G-LG1PNVNH3E"
 };
 
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Initialize Firebase services
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+export default app;

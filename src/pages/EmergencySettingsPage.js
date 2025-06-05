@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { supabase2 } from '../supabaseClient2';
+import React, { useEffect, useState, useCallback } from 'react';
+import { auth, db } from '../firebase';
+import { doc, setDoc, getDoc, getDocs, collection, deleteDoc } from 'firebase/firestore';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import {
   FaPlus,
   FaTrash,
@@ -19,27 +21,48 @@ const EmergencySettingsPage = () => {
   const [loading, setLoading] = useState(false);
   const [allSettings, setAllSettings] = useState([]);
   const [showAllSettings, setShowAllSettings] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchSettings();
-  }, []);
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (!user) {
+        navigate('/login');
+      }
+      setAuthChecked(true);
+    });
 
-  const fetchSettings = async () => {
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const userId = auth.currentUser?.uid;
+
+  const fetchSettings = useCallback(async () => {
+    if (!userId) return;
+    
     try {
-      const { data } = await supabase2
-        .from('emergency_settings')
-        .select('*')
-        .eq('id', 1)
-        .single();
+      setLoading(true);
+      const docRef = doc(db, 'emergency_settings', userId);
+      const docSnap = await getDoc(docRef);
 
-      if (data) {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
         setSmsNumber(data.sms_number || '');
         setEntries(data.entries || [{ hospitalName: '', ambulanceNumber: '' }]);
       }
     } catch (error) {
       console.error('Error fetching settings:', error);
+      Swal.fire('Error', 'Failed to fetch emergency settings. Please try again.', 'error');
+    } finally {
+      setLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (authChecked && userId) {
+      fetchSettings();
+    }
+  }, [authChecked, userId, fetchSettings]);
 
   const handleEntryChange = (index, field, value) => {
     const newEntries = [...entries];
@@ -49,31 +72,18 @@ const EmergencySettingsPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!userId) {
+      Swal.fire('Error', 'You must be logged in to save settings', 'error');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const { error: smsError } = await supabase2
-        .from('emergency_settings')
-        .upsert({
-          id: 1,
-          sms_number: smsNumber
-        });
-
-      if (smsError) throw smsError;
-
-      for (const entry of entries) {
-        if (entry.hospitalName && entry.ambulanceNumber) {
-          const { error: entryError } = await supabase2
-            .from('emergency_settings')
-            .upsert({
-              sms_number: smsNumber,
-              hospital_name: entry.hospitalName,
-              ambulance_numbers: entry.ambulanceNumber
-            });
-
-          if (entryError) throw entryError;
-        }
-      }
+      await setDoc(doc(db, 'emergency_settings', userId), {
+        sms_number: smsNumber,
+        entries: entries.filter(e => e.hospitalName && e.ambulanceNumber)
+      });
 
       Swal.fire({
         icon: 'success',
@@ -85,19 +95,27 @@ const EmergencySettingsPage = () => {
 
       if (showAllSettings) fetchAllSettings();
     } catch (error) {
-      Swal.fire('Error', error.message, 'error');
+      console.error('Error saving settings:', error);
+      Swal.fire('Error', 'Failed to save settings. Please try again.', 'error');
     } finally {
       setLoading(false);
     }
   };
 
   const fetchAllSettings = async () => {
+    if (!userId) {
+      Swal.fire('Error', 'You must be logged in to view settings', 'error');
+      return;
+    }
+
     setLoading(true);
     try {
-      const { data } = await supabase2.from('emergency_settings').select('*');
-      setAllSettings(data || []);
+      const snapshot = await getDocs(collection(db, 'emergency_settings'));
+      const settings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setAllSettings(settings);
     } catch (error) {
       console.error('Fetch error:', error);
+      Swal.fire('Error', 'Failed to fetch all settings. Please try again.', 'error');
     } finally {
       setLoading(false);
     }
@@ -109,6 +127,11 @@ const EmergencySettingsPage = () => {
   };
 
   const handleDeleteSetting = async (id) => {
+    if (!userId) {
+      Swal.fire('Error', 'You must be logged in to delete settings', 'error');
+      return;
+    }
+
     const result = await Swal.fire({
       title: 'Delete this contact?',
       text: "This action cannot be undone",
@@ -121,14 +144,25 @@ const EmergencySettingsPage = () => {
 
     if (result.isConfirmed) {
       try {
-        await supabase2.from('emergency_settings').delete().eq('id', id);
+        await deleteDoc(doc(db, 'emergency_settings', id));
         fetchAllSettings();
         Swal.fire('Deleted!', 'Contact removed successfully', 'success');
       } catch (error) {
-        Swal.fire('Error', error.message, 'error');
+        console.error('Delete error:', error);
+        Swal.fire('Error', 'Failed to delete contact. Please try again.', 'error');
       }
     }
   };
+
+  if (!authChecked) {
+    return (
+      <div className="container-fluid py-5 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-fluid py-5 emergency-settings-container">
@@ -170,8 +204,8 @@ const EmergencySettingsPage = () => {
                       <tbody>
                         {allSettings.map((setting) => (
                           <tr key={setting.id}>
-                            <td>{setting.hospital_name}</td>
-                            <td>{setting.ambulance_number}</td>
+                            <td>{setting.entries?.[0]?.hospitalName}</td>
+                            <td>{setting.entries?.[0]?.ambulanceNumber}</td>
                             <td>{setting.sms_number}</td>
                             <td>
                               <button

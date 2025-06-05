@@ -6,9 +6,10 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
 import 'animate.css';
 import { useTheme } from '../contexts/ThemeContext';
-import Swal from 'sweetalert2';
-import { supabase2 } from '../supabaseClient2';
 import { useAuth } from '../contexts/AuthContext';
+import { collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '../firebase';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
@@ -16,7 +17,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  const { isAuthenticated, signOut } = useAuth();  // Removed unused 'user' variable
+  const { isAuthenticated, signOut } = useAuth();
   
   // Close dropdown and nav menu when clicking outside
   useEffect(() => {
@@ -55,106 +56,219 @@ const Navbar = () => {
   };
 
   const handleEmergency = async () => {
+    console.log('Emergency button clicked');
+    
     try {
-      const { data: tableInfo, error: tableError } = await supabase2
-        .from('emergency_settings')
-        .select('*')
-        .limit(1);
+      // First, check if user is authenticated
+      const currentUser = auth.currentUser;
+      console.log('Current user:', currentUser);
       
-      if (tableError) {
-        console.error('Failed to fetch table structure:', tableError);
-        Swal.fire('Database Error', `Failed to retrieve emergency settings: ${tableError.message}`, 'error');
+      if (!currentUser) {
+        await Swal.fire({
+          title: 'Authentication Required',
+          text: 'Please log in to access emergency contacts.',
+          icon: 'warning',
+          confirmButtonText: 'Go to Login',
+          showCancelButton: true,
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/login');
+          }
+        });
         return;
       }
-      
-      console.log('Sample row with column names:', tableInfo[0]);
-      
-      const { data, error } = await supabase2
-        .from('emergency_settings')
-        .select('*');
-      
-      if (error) {
-        console.error('Failed to fetch emergency settings:', error);
-        Swal.fire('Database Error', `Failed to retrieve emergency settings: ${error.message}`, 'error');
-        return;
-      }
-      
-      if (!data || data.length === 0) {
-        Swal.fire('No Data', 'No emergency settings found in the database.', 'warning');
-        return;
-      }
-      
-      const firstRow = data[0];
-      
-      const hospitalNameColumn = 
-        'hospital_name' in firstRow ? 'hospital_name' : 
-        'name' in firstRow ? 'name' : 
-        'hospital' in firstRow ? 'hospital' : 
-        Object.keys(firstRow).find(key => key.includes('hospital') || key.includes('name'));
-        
-      const phoneNumberColumn = 
-        'ambulance_number' in firstRow ? 'ambulance_number' : 
-        'phone_number' in firstRow ? 'phone_number' : 
-        'contact' in firstRow ? 'contact' : 
-        'number' in firstRow ? 'number' : 
-        Object.keys(firstRow).find(key => key.includes('phone') || key.includes('number') || key.includes('contact'));
-        
-      const smsNumberColumn = 
-        'sms_number' in firstRow ? 'sms_number' : 
-        'sms_contact' in firstRow ? 'sms_contact' : 
-        'sms' in firstRow ? 'sms' : 
-        phoneNumberColumn;
-      
-      if (!hospitalNameColumn || !phoneNumberColumn) {
-        console.error('Could not determine required column names', firstRow);
-        Swal.fire('Configuration Error', 'Could not determine the correct column names in the database.', 'error');
-        return;
-      }
-      
-      console.log('Using columns:', { hospitalNameColumn, phoneNumberColumn, smsNumberColumn });
-      
-      const options = {};
-      const mappedData = data.map((item, index) => ({
-        ...item,
-        id: index.toString(),
-        hospitalName: item[hospitalNameColumn],
-        phoneNumber: item[phoneNumberColumn],
-        smsNumber: item[smsNumberColumn] || item[phoneNumberColumn]
-      }));
-      
-      mappedData.forEach((item) => {
-        options[item.id] = `${item.hospitalName} - ${item.phoneNumber}`;
+
+      // Show loading state
+      Swal.fire({
+        title: 'Loading Emergency Contacts...',
+        text: 'Please wait while we fetch your emergency contacts.',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
       });
-  
-      const { value: selectedId } = await Swal.fire({
-        title: 'Choose Hospital and Ambulance Number',
-        input: 'select',
-        inputOptions: options,
-        inputPlaceholder: 'Select a hospital',
-        showCancelButton: true,
-      });
-  
-      if (selectedId) {
-        const selectedEntry = mappedData.find(entry => entry.id === selectedId);
-  
-        if (!selectedEntry) {
-          Swal.fire('Error', 'Selected hospital not found.', 'error');
+
+      console.log('Attempting to fetch from Firebase...');
+      console.log('Database instance:', db);
+      
+      // Test basic Firebase connection first
+      try {
+        const testRef = collection(db, 'emergency_settings');
+        console.log('Collection reference created:', testRef);
+        
+        const snapshot = await getDocs(testRef);
+        console.log('Firebase query successful');
+        console.log('Snapshot:', snapshot);
+        console.log('Snapshot size:', snapshot.size);
+        console.log('Snapshot empty:', snapshot.empty);
+        
+        Swal.close();
+
+        if (snapshot.empty) {
+          console.log('No documents found in emergency_settings collection');
+          await Swal.fire({
+            title: 'No Emergency Contacts',
+            text: 'No emergency contacts have been configured yet. Would you like to add some?',
+            icon: 'info',
+            confirmButtonText: 'Add Contacts',
+            showCancelButton: true,
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/emergency-settings');
+            }
+          });
           return;
         }
-  
-        const { hospitalName, phoneNumber, smsNumber } = selectedEntry;
-  
-        window.location.href = `tel:${phoneNumber}`;
-  
-        const locationLink = `https://maps.google.com?q=${encodeURIComponent(window.location.href)}`;
-        const message = `Emergency! Please help. My location is: ${locationLink}`;
-        window.open(`sms:${smsNumber}?body=${encodeURIComponent(message)}`);
-  
-        Swal.fire('Calling...', `You are calling ${hospitalName} - ${phoneNumber}`, 'info');
+
+        // Process the documents
+        const emergencyContacts = [];
+        let hasValidContacts = false;
+
+        snapshot.forEach((doc) => {
+          console.log('Document ID:', doc.id);
+          console.log('Document data:', doc.data());
+          
+          const data = doc.data();
+          const entries = data.entries || [];
+          const smsNumber = data.sms_number || '';
+
+          entries.forEach((entry) => {
+            if (entry.hospitalName && entry.ambulanceNumber) {
+              hasValidContacts = true;
+              emergencyContacts.push({
+                hospitalName: entry.hospitalName,
+                ambulanceNumber: entry.ambulanceNumber,
+                smsNumber: smsNumber
+              });
+            }
+          });
+        });
+
+        console.log('Emergency contacts found:', emergencyContacts);
+        console.log('Has valid contacts:', hasValidContacts);
+
+        if (hasValidContacts) {
+          // Build HTML for displaying contacts
+          let contactsHtml = '';
+          const uniqueContacts = new Set();
+
+          emergencyContacts.forEach((contact) => {
+            const contactKey = `${contact.hospitalName}-${contact.ambulanceNumber}`;
+            if (!uniqueContacts.has(contactKey)) {
+              uniqueContacts.add(contactKey);
+              contactsHtml += `
+                <div style="text-align: left; margin-bottom: 15px; padding: 12px; border-left: 4px solid #dc3545; background-color: #f8f9fa; border-radius: 4px;">
+                  <div style="font-weight: bold; color: #dc3545; margin-bottom: 5px;">
+                    🏥 ${contact.hospitalName}
+                  </div>
+                  <div style="color: #333; font-size: 14px;">
+                    📞 <strong>Ambulance:</strong> <a href="tel:${contact.ambulanceNumber}" style="color: #dc3545; text-decoration: none;">${contact.ambulanceNumber}</a>
+                  </div>
+                </div>
+              `;
+            }
+          });
+
+          // Add SMS numbers if available
+          const smsNumbers = [...new Set(emergencyContacts.map(c => c.smsNumber).filter(n => n))];
+          if (smsNumbers.length > 0) {
+            contactsHtml += `
+              <div style="margin-top: 20px; padding: 12px; border-left: 4px solid #007bff; background-color: #e7f3ff; border-radius: 4px;">
+                <div style="font-weight: bold; color: #007bff; margin-bottom: 5px;">
+                  📱 SMS Alert Numbers
+                </div>
+                ${smsNumbers.map(num => `
+                  <div style="color: #333; font-size: 14px; margin-bottom: 3px;">
+                    <a href="sms:${num}" style="color: #007bff; text-decoration: none;">${num}</a>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+          }
+
+          await Swal.fire({
+            title: '🚨 Emergency Contacts',
+            html: `
+              <div style="text-align: center; margin-bottom: 20px;">
+                <p style="color: #dc3545; font-weight: bold; margin-bottom: 10px;">
+                  Call immediately in case of emergency!
+                </p>
+                <p style="color: #666; font-size: 12px;">
+                  Tap phone numbers to call directly
+                </p>
+              </div>
+              <div style="max-height: 400px; overflow-y: auto;">
+                ${contactsHtml}
+              </div>
+            `,
+            icon: 'info',
+            confirmButtonText: 'Got it!',
+            confirmButtonColor: '#dc3545',
+            width: '500px'
+          });
+
+        } else {
+          await Swal.fire({
+            title: 'No Valid Contacts',
+            text: 'Emergency settings exist but no valid contacts were found. Please update your emergency settings.',
+            icon: 'warning',
+            confirmButtonText: 'Update Settings',
+            showCancelButton: true,
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate('/emergency-settings');
+            }
+          });
+        }
+
+      } catch (firestoreError) {
+        console.error('Firestore operation failed:', firestoreError);
+        console.error('Error code:', firestoreError.code);
+        console.error('Error message:', firestoreError.message);
+        
+        Swal.close();
+        
+        let errorMessage = 'Unable to access emergency contacts. ';
+        
+        if (firestoreError.code === 'permission-denied') {
+          errorMessage += 'Access denied. Please check your permissions or contact support.';
+        } else if (firestoreError.code === 'unavailable') {
+          errorMessage += 'Database service is temporarily unavailable.';
+        } else if (firestoreError.message.includes('CORS')) {
+          errorMessage += 'Connection blocked by browser security. Please check your Firebase configuration.';
+        } else {
+          errorMessage += `Error: ${firestoreError.message}`;
+        }
+
+        await Swal.fire({
+          title: 'Database Error',
+          text: errorMessage,
+          icon: 'error',
+          confirmButtonText: 'Retry',
+          showCancelButton: true,
+          cancelButtonText: 'Cancel'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            handleEmergency();
+          }
+        });
       }
-    } catch (error) {
-      console.error('Unexpected error in handleEmergency:', error);
-      Swal.fire('Error', `An unexpected error occurred: ${error.message}`, 'error');
+
+    } catch (generalError) {
+      console.error('General error in handleEmergency:', generalError);
+      Swal.close();
+      
+      await Swal.fire({
+        title: 'Unexpected Error',
+        text: `Something went wrong: ${generalError.message}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -221,7 +335,7 @@ const Navbar = () => {
                 <li>
                   <Link className="dropdown-item" to="/hospitals" onClick={handleServiceSelection}>
                     Book Appointment
-                  </Link>
+                    </Link>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
