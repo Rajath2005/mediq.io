@@ -189,9 +189,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
         <sub>UI/UX Developer</sub>
       </td>
       <td align="center">
-        <img src="https://via.placeholder.com/100x100/4CAF50/ffffff?text=?" width="100px;" alt="Team Member"/><br/>
-        <sub><b>Team Member</b></sub><br/>
-        <sub>Developer</sub>
+        <a href="https://github.com/Sheethal-2005">
+          <img src="https://github.com/Sheethal-2005.png" width="100px;" alt="Sheethal"/><br/>
+          <sub><b>Sheethal</b></sub>
+        </a><br/>
+        <sub> Developer</sub>
       </td>
     </tr>
   </table>
