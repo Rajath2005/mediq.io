@@ -163,6 +163,38 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
   <strong>Built with ❤️ by the MediQ Team</strong>
+  <br/><br/>
+  
+  <table>
+    <tr>
+      <td align="center">
+        <a href="https://github.com/Rajath2005">
+          <img src="https://github.com/Rajath2005.png" width="100px;" alt="Rajath"/><br/>
+          <sub><b>Rajath</b></sub>
+        </a><br/>
+        <sub>Project Lead & Developer</sub>
+      </td>
+      <td align="center">
+        <a href="https://github.com/Sanath00007">
+          <img src="https://github.com/Sanath00007.png" width="100px;" alt="Sanath"/><br/>
+          <sub><b>Sanath</b></sub>
+        </a><br/>
+        <sub>Frontend Developer</sub>
+      </td>
+      <td align="center">
+        <a href="https://github.com/Rithesh0115">
+          <img src="https://github.com/Rithesh0115.png" width="100px;" alt="Rithesh"/><br/>
+          <sub><b>Rithesh</b></sub>
+        </a><br/>
+        <sub>UI/UX Developer</sub>
+      </td>
+      <td align="center">
+        <img src="https://via.placeholder.com/100x100/4CAF50/ffffff?text=?" width="100px;" alt="Team Member"/><br/>
+        <sub><b>Team Member</b></sub><br/>
+        <sub>Developer</sub>
+      </td>
+    </tr>
+  </table>
 </div>
 
 ## 📞 Support & Contact
