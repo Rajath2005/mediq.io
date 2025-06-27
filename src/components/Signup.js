@@ -50,9 +50,9 @@ const Signup = () => {
       
       if (providerName === 'github') {
         provider = new GithubAuthProvider();
-      } else if (providerName === 'linkedin') {
-        // LinkedIn auth is not directly supported by Firebase
-        setError("LinkedIn authentication is not available");
+      } else {
+        setError('Unsupported provider');
+        setLoading(false);
         return;
       }
       
@@ -123,12 +123,6 @@ const Signup = () => {
               disabled={loading}
             >
               Sign in with Google
-            </button>
-            <button
-              className="oauth-btn linkedin"
-              onClick={() => handleOAuthLogin("linkedin")}
-            >
-              Continue with LinkedIn
             </button>
           </div>
       <div className="divider">or</div>
