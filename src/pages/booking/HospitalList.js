@@ -60,41 +60,38 @@ const HospitalList = () => {
       </div>
       
       <div className="row g-4 justify-content-center">
-        {hospitals.map((hospital) => (
+        {hospitals.map((hospital, idx) => (
           <div className="col-12 col-sm-10 col-md-6 col-lg-4" key={hospital.id}>
-            <div 
-              className="card h-100 shadow-sm mx-auto"
+            <div
+              className="card h-100 shadow-lg mx-auto animate__animated animate__fadeInUp animate__faster"
               onClick={() => handleHospitalClick(hospital.id)}
               style={{
                 cursor: "pointer",
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
                 maxWidth: "400px",
-                width: "100%"
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = "translateY(-5px)";
-                e.currentTarget.style.boxShadow = "0 4px 15px rgba(0,0,0,0.1)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 .125rem .25rem rgba(0,0,0,.075)";
+                width: "100%",
+                borderRadius: "1rem",
+                overflow: "hidden",
+                boxShadow: "0 2px 16px rgba(0,0,0,0.08)",
+                marginBottom: "1rem"
               }}
             >
-              <img 
-                src={hospital.image} 
-                className="card-img-top" 
+              <img
+                src={hospital.image}
+                className="card-img-top animate__animated animate__zoomIn"
                 alt={hospital.name}
-                style={{ height: "200px", objectFit: "cover" }}
+                style={{ height: "200px", objectFit: "cover", borderTopLeftRadius: "1rem", borderTopRightRadius: "1rem" }}
               />
-              <div className="card-body">
-                <h5 className="card-title">{hospital.name}</h5>
-                <p className="card-text text-muted">{hospital.description}</p>
-                <div className="d-flex justify-content-between align-items-center">
-                  <small className="text-muted">
+              <div className="card-body d-flex flex-column justify-content-between">
+                <div>
+                  <h5 className="card-title fw-bold text-primary mb-2 animate__animated animate__fadeInDown">{hospital.name}</h5>
+                  <p className="card-text text-muted animate__animated animate__fadeIn animate__delay-1s">{hospital.description}</p>
+                </div>
+                <div className="d-flex justify-content-between align-items-center mt-3">
+                  <small className="text-muted d-flex align-items-center animate__animated animate__fadeInLeft animate__delay-1s">
                     <i className="bi bi-geo-alt-fill me-1"></i>
                     {hospital.location}
                   </small>
-                  <button className="btn btn-outline-primary btn-sm">
+                  <button className="btn btn-outline-primary btn-sm animate__animated animate__pulse animate__infinite" tabIndex={-1} onClick={e => { e.stopPropagation(); handleHospitalClick(hospital.id); }}>
                     View Doctors
                   </button>
                 </div>

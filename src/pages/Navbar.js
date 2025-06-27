@@ -25,7 +25,6 @@ const Navbar = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
-      // Close expanded nav when clicking anywhere outside
       if (!event.target.closest('.navbar')) {
         setIsNavExpanded(false);
       }
@@ -35,7 +34,6 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropdownRef]);
 
-  // Close dropdown and nav menu when route changes
   useEffect(() => {
     setIsNavExpanded(false);
     setIsDropdownOpen(false);
@@ -79,7 +77,7 @@ const Navbar = () => {
         return;
       }
 
-      // Show loading state
+      // Shows loading state
       Swal.fire({
         title: 'Loading Emergency Contacts...',
         text: 'Please wait while we fetch your emergency contacts.',
@@ -94,7 +92,7 @@ const Navbar = () => {
       console.log('Attempting to fetch from Firebase...');
       console.log('Database instance:', db);
       
-      // Test basic Firebase connection first
+      // Test basic Firebase connection first..
       try {
         const testRef = collection(db, 'emergency_settings');
         console.log('Collection reference created:', testRef);

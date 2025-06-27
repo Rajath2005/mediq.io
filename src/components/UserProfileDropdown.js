@@ -35,8 +35,8 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
   }, [user]);
 
   if (!isAuthenticated || !user) return null;
-  const displayName = user.user_metadata?.full_name || user.email;
-  const avatarUrl = user.user_metadata?.avatar_url;
+  const displayName = user.displayName || user.email;
+  const avatarUrl = user.photoURL;
   const handleLogout = async () => {
     try {
       await signOut(auth);
