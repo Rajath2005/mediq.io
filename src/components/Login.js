@@ -67,6 +67,8 @@ const Login = () => {
         provider = new GoogleAuthProvider();
       } else {
         console.error('Unsupported provider:', providerName);
+        setError('Unsupported provider');
+        setLoading(false);
         return;
       }
       
@@ -121,12 +123,6 @@ const Login = () => {
               disabled={loading}
             >
               Sign in with Google
-            </button>
-            <button
-              className="oauth-btn linkedin"
-              onClick={() => handleOAuthLogin("linkedin")}
-            >
-              Continue with LinkedIn
             </button>
           </div>
           <div className="divider">or</div>
