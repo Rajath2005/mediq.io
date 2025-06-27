@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(to bottom, #e6f9f0, #d0f0fd);
+  background: linear-gradient(135deg, #e6f9f0 0%, #d0f0fd 100%);
   color: #1a1a1a;
 }
 
@@ -12,81 +12,127 @@ body {
   flex-wrap: wrap;
   padding: 60px 80px;
   justify-content: space-between;
-  align-items: center; /* Center-align items vertically */
-  gap: 30px; /* Add spacing between sections */
+  align-items: center;
+  gap: 40px;
+  min-height: 70vh;
 }
 
 .about-left,
 .about-right {
   flex: 1;
-  min-width: 300px;
-  text-align: center; /* Center-align text for better mobile view */
+  min-width: 320px;
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .about-left h1 {
   font-size: 48px;
   color: #2acfa1;
   margin-bottom: 20px;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(42, 207, 161, 0.2);
 }
 
 .about-left h2,
 .about-right h2 {
   font-size: 28px;
   color: #26a69a;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.underline {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #2acfa1, #26a69a);
+  margin: 0 auto 20px;
+  border-radius: 2px;
 }
 
 .about-left p,
 .about-right p {
   font-size: 16px;
-  line-height: 1.6;
-  max-width: 500px;
-  margin: 0 auto; /* Center-align text */
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0 auto;
+  color: #333;
+  letter-spacing: 0.3px;
 }
 
 .about-left p:hover,
 .about-right p:hover {
-  color: #000000;
-  text-decoration: underline; /* Use underline for better readability */
+  color: #1a1a1a;
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
 }
 
 .view-more {
-  margin-top: 30px;
-  padding: 12px 28px;
-  border-radius: 25px;
+  margin-top: 35px;
+  padding: 14px 32px;
+  border-radius: 30px;
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  background: #2acfa1;
+  font-weight: 600;
+  font-size: 14px;
+  background: linear-gradient(45deg, #2acfa1, #26a69a);
   color: white;
-  box-shadow: 0 0 15px rgba(42, 207, 161, 0.6);
-  transition: 0.3s ease;
+  box-shadow: 0 4px 20px rgba(42, 207, 161, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .view-more:hover {
-  background-color: #26a69a;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(42, 207, 161, 0.4);
+  background: linear-gradient(45deg, #26a69a, #2acfa1);
+}
+
+.view-more a {
+  color: white;
+  text-decoration: none;
 }
 
 .about-right img {
   width: 250px;
   height: 250px;
   border-radius: 50%;
-  background: #b2ebf2;
-  padding: 20px;
+  background: linear-gradient(135deg, #b2ebf2, #e0f2f1);
+  padding: 25px;
   object-fit: cover;
-  box-shadow: 0 0 30px rgba(38, 166, 154, 0.4);
+  box-shadow: 0 10px 40px rgba(38, 166, 154, 0.3);
+  transition: all 0.4s ease;
+  margin-bottom: 25px;
+}
+
+.about-right img:hover {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 0 15px 50px rgba(38, 166, 154, 0.4);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Media Queries for Mobile Responsiveness */
 @media screen and (max-width: 768px) {
   .about-section {
-    flex-direction: column; /* Stack sections vertically */
+    flex-direction: column;
     padding: 40px 20px;
-    text-align: center; /* Center-align text for mobile */
+    text-align: center;
+    gap: 30px;
   }
 
   .about-left h1 {
-    font-size: 36px; /* Reduce font size for smaller screens */
+    font-size: 36px;
   }
 
   .about-left h2,
@@ -96,17 +142,34 @@ body {
 
   .about-left p,
   .about-right p {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.8;
+    max-width: 100%;
   }
 
   .about-right img {
     width: 200px;
     height: 200px;
+    padding: 20px;
   }
 
   .view-more {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 12px 24px;
+    font-size: 13px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .about-section {
+    padding: 30px 15px;
+  }
+  
+  .about-left h1 {
+    font-size: 32px;
+  }
+  
+  .about-left h2,
+  .about-right h2 {
+    font-size: 22px;
   }
 }
