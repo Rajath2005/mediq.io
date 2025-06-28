@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import './CookieConsent.css'; // We'll create this CSS file
 
-// CookieConsent Component using Bootstrap
 const CookieConsent = ({ onConsentGiven }) => {
-  // State to control exit animation
   const [isExiting, setIsExiting] = useState(false);
 
-  // Handle user consent choice
   const handleConsent = (choice) => {
-    // Start exit animation
     setIsExiting(true);
     
-    // Set the user's preference in localStorage
     localStorage.setItem('cookieConsent', choice);
     
-    // Hide popup after animation completes
     setTimeout(() => {
       if (onConsentGiven) {
         onConsentGiven();
@@ -63,7 +57,7 @@ const CookieConsent = ({ onConsentGiven }) => {
 };
 
 /**
- * Function to check user's cookie consent preference
+ 
  * @returns {string|null} 'accepted', 'rejected', 'customized', or null if no preference
  */
 export const getCookiePreference = () => {

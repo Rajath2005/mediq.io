@@ -18,13 +18,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { isAuthenticated, isAdmin, signOut } = useAuth();
   
-  // Close dropdown and nav menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
-      // Close expanded nav when clicking anywhere outside
       if (!event.target.closest('.navbar')) {
         setIsNavExpanded(false);
       }
@@ -34,11 +32,10 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [dropdownRef]);
 
-  // Close dropdown and nav menu when route changes
   useEffect(() => {
     setIsNavExpanded(false);
     setIsDropdownOpen(false);
-  }, []); // Removed window.location.pathname from dependencies
+  }, []); 
 
   const handleServiceSelection = () => {
     setIsDropdownOpen(false);

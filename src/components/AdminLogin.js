@@ -1,82 +1,84 @@
-// src/components/AdminLogin.jsx
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase'; 
+import React, { useState } from 'react';
+import 'animate.css';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import './Login.css';
-import useDocumentTitle from "../hooks/useDocumentTitle";
-import AlertMessage from "./AlertMessage";
+
+const ADMIN_EMAILS = ["mediq2005@gmail.com"];
+
+export async function signInAdmin(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    if (!ADMIN_EMAILS.includes(user.email)) {
+      await auth.signOut();
+      throw new Error("Unauthorized access: You are not an admin.");
+    }
+
+    return { data: { user }, error: null };
+  } catch (error) {
+    return { data: null, error };
+  }
+}
 
 const AdminLogin = () => {
-  useDocumentTitle('Admin Login - MediQ Administration');
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { signInAdmin } = useAuth();
+  const { signIn } = useAuth();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
     setLoading(true);
-
+    setError("");
     try {
-      const { data, error } = await signInAdmin(email, password);
-      if (error) throw error;
-
-      if (data?.user) {
-        navigate('/manage-appointments');
+      const result = await signIn(email, password);
+      if (result.error) {
+        setError(result.error.message);
+      } else if (result.profile && result.profile.isAdmin) {
+        navigate('/admin-dashboard');
+      } else {
+        setError('Unauthorized access: You are not an admin.');
       }
-    } catch (error) {
-      console.error("Admin login error:", error);
-      setError(error.message || "Failed to log in. Please check your credentials or admin status.");
+    } catch (err) {
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-container admin-login">
-      <h2>Admin Login</h2>
-      <div className="admin-badge">
-        <span>Administrator Access Only</span>
+    <form onSubmit={handleSubmit} className="container mt-5 p-6 border rounded shadow-sm bg-white animate__animated animate__fadeIn" style={{ maxWidth: 400, maxHeight: 900 }}>
+      <h2 className="mb-4 text-center">Admin Login</h2>
+      <div className="mb-3">
+        <input
+          type="email"
+          className="form-control"
+          placeholder="Admin Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
       </div>
-      
-      <form onSubmit={handleLogin}>
-        {error && <AlertMessage type="danger" message={error} />}
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            disabled={loading}
-            placeholder="Admin email"
-          />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={loading}
-            placeholder="Admin password"
-          />
-        </div>
-        <button type="submit" className="button button-login admin-login-btn" disabled={loading}>
-          {loading ? "Logging in..." : "Admin Login"}
-        </button>
-        <div className="auth-links">
-          <p>
-            Regular user? <Link to="/login">User Login</Link>
-          </p>
-        </div>
-      </form>
-    </div>
+      <div className="mb-3">
+        <input
+          type="password"
+          className="form-control"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+        {loading ? "Logging in..." : "Login as Admin"}
+      </button>
+      {error && <div className="alert alert-danger mt-3 animate__animated animate__shakeX" role="alert">{error}</div>}
+    </form>
   );
 };
 

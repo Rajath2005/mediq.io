@@ -4,16 +4,13 @@ import { FaDirections, FaPhone, FaClock, FaHeart, FaBookmark } from "react-icons
 import { Link } from "react-router-dom";
 import "./AyurvedicShops.css";
 
-// Individual Shop Card Component
 const AyurvedicShopCard = ({ shop }) => {
   const [isSaved, setIsSaved] = useState(false);
 
-  // Handle save/bookmark functionality
   const handleSave = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setIsSaved(!isSaved);
-    // Here you would implement logic to save to localStorage or your backend
   };
 
   return (
@@ -74,16 +71,14 @@ const AyurvedicShopCard = ({ shop }) => {
   );
 };
 
-// Main component that shows all shops
+// Main component that shows all shops here
 const AyurvedaMedicals = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("");
 
-  // Sample data - Replace this with your API call or data source
   useEffect(() => {
-    // Simulating API fetch
     setTimeout(() => {
       try {
         const sampleData = [

@@ -1,34 +1,27 @@
-/* Background styles */
 .bg-gray-50 {
     background-color: #f9fafb;
 }
 
-/* Header styles */
 header {
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo Styling */
 img.w-auto {
     max-height: 40px;
 }
 
-/* Navigation Links */
 a {
     text-decoration: none;
 }
 
-/* Hover Effects */
 a:hover {
     opacity: 0.8;
 }
 
-/* Button Styles */
 button {
     cursor: pointer;
 }
 
-/* Primary Button */
 .bg-gray-900 {
     background-color: #1f2937;
 }
@@ -37,7 +30,6 @@ button {
     background-color: #4b5563;
 }
 
-/* Secondary Button */
 .border-gray-400 {
     border-color: #9ca3af;
 }

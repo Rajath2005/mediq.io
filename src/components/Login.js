@@ -1,4 +1,4 @@
-// src/components/Login.jsx
+// src/components/Login.js
 import React, { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, GithubAuthProvider, sendPasswordResetEmail } from 'firebase/auth';

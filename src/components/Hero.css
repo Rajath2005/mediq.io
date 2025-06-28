@@ -5,7 +5,7 @@
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: flex-start; /* Changed from center to flex-start */
+  align-items: flex-start; 
   padding: 2rem;
 }
 
@@ -17,14 +17,14 @@
   display: grid;
   grid-template-columns: 1.2fr 1fr;
   gap: 4rem;
-  align-items: flex-start; /* Changed from center to flex-start */
+  align-items: flex-start; 
   height: auto;
 }
 
 .hero-left {
   max-width: 650px;
   animation: fadeInLeft 1s ease-out;
-  position: relative; /* Added */
+  position: relative; 
 }
 
 .hero-title {
@@ -283,7 +283,7 @@
   }
 }
 
-/* Recommendations / Suggestions */
+
 .recommendations-container {
   margin-top: 12px;
   padding: 10px 15px;

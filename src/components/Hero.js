@@ -22,36 +22,35 @@ const HeroSection = () => {
   const [searchFocus, setSearchFocus] = useState(false);
   const [hoveredTag, setHoveredTag] = useState(null);
 
-  // Define supported image extensions
+
   const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
   const imageBaseUrl = "https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/";
 
-  // Improved getImageUrl function with better fallbacks
+  
   const getImageUrl = (medicine) => {
     if (!medicine) return null;
     
-    // If the medicine object has an images property from the API
+
     if (medicine.images) {
-      // Check if it's not an empty string
+      
       if (medicine.images.trim() !== '') {
         return `${imageBaseUrl}${medicine.images}`;
       }
     }
 
-    // Fallback: Try with image property
+   
     if (medicine.image && medicine.image.trim() !== '') {
       return `${imageBaseUrl}${medicine.image}`;
     }
     
-    // Second fallback: Try multiple image formats using the medicine name
+
     const formattedName = medicine.name_of_medicine?.toLowerCase()
       .replace(/\s+/g, '-')
       .replace(/[^a-z0-9-]/g, '')
-      .replace(/\/{2,}/g, '/'); // Remove double slashes
+      .replace(/\/{2,}/g, '/'); 
 
     if (!formattedName) return null;
 
-    // Try both direct and assets folder paths
     const possiblePaths = [
       'images',
       'assets/images',
@@ -59,14 +58,12 @@ const HeroSection = () => {
       'src/images'
     ];
 
-    // Create all possible URL combinations
     const possibleUrls = possiblePaths.flatMap(path => 
       IMAGE_EXTENSIONS.map(ext => 
         `${imageBaseUrl}${path}/${formattedName}.${ext}`
       )
     );
 
-    // Return the first URL - browser will try until one works
     return possibleUrls[0];
   };
 
@@ -95,16 +92,13 @@ const HeroSection = () => {
     try {
       const term = normalize(searchTerm);
       
-      // Filter logic varies based on whether we want exact match or partial match
       const matches = remedies.filter((item) => {
         const medicineName = normalize(item.name_of_medicine);
         
         if (exactMatch) {
-          // For exact matches (when clicking recommendations)
           return medicineName === term;
         }
         
-        // For normal search (typing and pressing search)
         const indications = normalize(item.main_indications);
         const medicineClass = normalize(item.class);
         
@@ -117,7 +111,7 @@ const HeroSection = () => {
 
       if (matches.length > 0) {
         setResults(matches);
-        setRecommendations([]); // Clear recommendations after search
+        setRecommendations([]); 
         setImageErrors({});
       } else {
         const suggestions = findSimilarMedicines(searchTerm);
@@ -134,7 +128,6 @@ const HeroSection = () => {
     }
   };
 
-  // Improved similar medicines search
   const findSimilarMedicines = useCallback((term) => {
     if (!term || term.length < 2) return [];
     
@@ -145,7 +138,6 @@ const HeroSection = () => {
         const name = normalize(item.name_of_medicine);
         const indications = normalize(item.main_indications);
         
-        // Check for partial matches in name and indications
         return (
           name.includes(searchTerm.substring(0, 3)) ||
           searchTerm.includes(name.substring(0, 3)) ||
@@ -153,9 +145,9 @@ const HeroSection = () => {
         );
       })
       .map(item => item.name_of_medicine)
-      .filter((v, i, a) => a.indexOf(v) === i) // Remove duplicates
-      .slice(0, 5); // Limit to 5 suggestions
-  }, [remedies]); // Add remedies as dependency
+      .filter((v, i, a) => a.indexOf(v) === i) 
+      .slice(0, 5); 
+  }, [remedies]); 
 
   useEffect(() => {
     const timer = setTimeout(() => {
