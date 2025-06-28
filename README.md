@@ -49,67 +49,110 @@ MediQ is a comprehensive healthcare management platform that bridges traditional
   </tr>
 </table>
 
-## 📸 Screenshots 
+## 📸 Application Showcase
 
+### 🎨 Theme Options
 <div align="center">
-  <img src="src/components/assets/images/1.png" width="400"/>
-  <img src="src/components/assets/images/2.png" alt="Light Mode" width="400"/>
-  <img src="src/components/assets/images/3.png" alt="Light Mode" width="400"/>
-  <img src="src/components/assets/images/4.png" alt="Light Mode" width="400"/>
-  &nbsp;&nbsp;
-  <img src="src/components/assets/images/5.png" alt="Dark Mode" width="400"/>
-  <img src="src/components/assets/images/6.png" alt="Dark Mode" width="400"/>
-  <img src="src/components/assets/images/7.png" alt="Dark Mode" width="400"/>
+  <img src="src/components/assets/images/1.png" alt="Homepage Light Mode" width="45%"/>
+  <img src="src/components/assets/images/2.png" alt="Homepage Dark Mode" width="45%"/>
   <br/>
-  <em>Light Mode & Dark Mode Interface</em>
+  <em>Homepage in Light Mode (left) and Dark Mode (right) - Showcasing the dual theme functionality</em>
 </div>
 
-<br/>
-
+### 🔐 Authentication System
 <div align="center">
-  <img src="src/components/assets/images/8.png"  width="300"/>
-  &nbsp;&nbsp;
-  <img src="src/components/assets/images/9.png"  width="300"/>
-  <img src="src/components/assets/images/10.png"  width="300"/>
-  <img src="src/components/assets/images/11.png"  width="300"/>
-  <img src="src/components/assets/images/12.png"  width="300"/>
-  <img src="src/components/assets/images/13.png"  width="300"/>
-  <img src="src/components/assets/images/14.png"  width="300"/>
-  <img src="src/components/assets/images/15.png"  width="300"/>
-  <img src="src/components/assets/images/16.png"  width="300"/>
-  <img src="src/components/assets/images/17.png"  width="300"/>
-  <img src="src/components/assets/images/18.png"  width="300"/>
-  <img src="src/components/assets/images/19.png"  width="300"/>
-  <img src="src/components/assets/images/20.png"  width="300"/>
-  <img src="src/components/assets/images/21.png"  width="300"/>
-  <img src="src/components/assets/images/22.png"  width="300"/>
-  <img src="src/components/assets/images/23.png"  width="300"/>
-  <img src="src/components/assets/images/24.png"  width="300"/>
-  <img src="src/components/assets/images/25.png"  width="300"/>
-  <img src="src/components/assets/images/26.png"  width="300"/>
-  <img src="src/components/assets/images/27.png"  width="300"/>
-  <img src="src/components/assets/images/28.png"  width="300"/>
-  <img src="src/components/assets/images/29.png"  width="300"/>
-  <img src="src/components/assets/images/30.png"  width="300"/>
-  <img src="src/components/assets/images/31.png"  width="300"/>
-  <img src="src/components/assets/images/32.png"  width="300"/>
-  <img src="src/components/assets/images/33.png"  width="300"/>
-  <img src="src/components/assets/images/34.png"  width="300"/>
-  <img src="src/components/assets/images/35.png"  width="300"/>
-  <img src="src/components/assets/images/36.png"  width="300"/>
-  <img src="src/components/assets/images/37.png"  width="300"/>
-  <img src="src/components/assets/images/38.png"  width="300"/>
-  <img src="src/components/assets/images/39.png"  width="300"/>
-  <img src="src/components/assets/images/40.png"  width="300"/>
-  <img src="src/components/assets/images/41.png"  width="300"/>
-  <img src="src/components/assets/images/42.png"  width="300"/>
-  <img src="src/components/assets/images/43.png"  width="300"/>
-  <img src="src/components/assets/images/44.png"  width="300"/>
-  <img src="src/components/assets/images/45.png"  width="300"/>
-  <img src="src/components/assets/images/46.png"  width="300"/>
-  <img src="src/components/assets/images/47.png"  width="300"/>
-  <img src="src/components/assets/images/48.png"  width="300"/>
-</div
+  <img src="src/components/assets/images/3.png" alt="Login Page" width="45%"/>
+  <img src="src/components/assets/images/4.png" alt="Signup Page" width="45%"/>
+  <br/>
+  <em>Secure login and registration system with modern UI design</em>
+</div>
+
+### 🏠 Main Dashboard & Navigation
+<div align="center">
+  <img src="src/components/assets/images/5.png" alt="Main Dashboard" width="45%"/>
+  <img src="src/components/assets/images/6.png" alt="Navigation Menu" width="45%"/>
+  <br/>
+  <em>Intuitive dashboard with easy navigation and quick access to key features</em>
+</div>
+
+### 🏥 Healthcare Services
+<div align="center">
+  <img src="src/components/assets/images/7.png" alt="Services Overview" width="45%"/>
+  <img src="src/components/assets/images/8.png" alt="Service Details" width="45%"/>
+  <br/>
+  <em>Comprehensive healthcare services with detailed information and booking options</em>
+</div>
+
+### 💊 Ayurvedic Medicine & Remedies
+<div align="center">
+  <img src="src/components/assets/images/9.png" alt="Medicine Database" width="30%"/>
+  <img src="src/components/assets/images/10.png" alt="Medicine Details" width="30%"/>
+  <img src="src/components/assets/images/11.png" alt="Home Remedies" width="30%"/>
+  <br/>
+  <em>Extensive database of Ayurvedic medicines and traditional home remedies</em>
+</div>
+
+### 📅 Appointment Management
+<div align="center">
+  <img src="src/components/assets/images/12.png" alt="Appointment Booking" width="45%"/>
+  <img src="src/components/assets/images/13.png" alt="Appointment Calendar" width="45%"/>
+  <br/>
+  <em>Easy appointment scheduling with calendar integration and real-time availability</em>
+</div>
+
+### 👤 User Profile & Settings
+<div align="center">
+  <img src="src/components/assets/images/14.png" alt="User Profile" width="30%"/>
+  <img src="src/components/assets/images/15.png" alt="Profile Settings" width="30%"/>
+  <img src="src/components/assets/images/16.png" alt="Account Management" width="30%"/>
+  <br/>
+  <em>Personalized user profiles with customizable settings and health tracking</em>
+</div>
+
+### 🔍 Search & Discovery
+<div align="center">
+  <img src="src/components/assets/images/17.png" alt="Search Interface" width="45%"/>
+  <img src="src/components/assets/images/18.png" alt="Search Results" width="45%"/>
+  <br/>
+  <em>Advanced search functionality for medicines, remedies, and healthcare providers</em>
+</div>
+
+### 📱 Mobile Responsive Design
+<div align="center">
+  <img src="src/components/assets/images/19.png" alt="Mobile Homepage" width="25%"/>
+  <img src="src/components/assets/images/20.png" alt="Mobile Menu" width="25%"/>
+  <img src="src/components/assets/images/21.png" alt="Mobile Services" width="25%"/>
+  <img src="src/components/assets/images/22.png" alt="Mobile Profile" width="25%"/>
+  <br/>
+  <em>Fully responsive design optimized for mobile devices and tablets</em>
+</div>
+
+### 📊 Health Analytics & Reports
+<div align="center">
+  <img src="src/components/assets/images/23.png" alt="Health Dashboard" width="45%"/>
+  <img src="src/components/assets/images/24.png" alt="Health Reports" width="45%"/>
+  <br/>
+  <em>Comprehensive health analytics and personalized health reports</em>
+</div>
+
+### 💬 Support & Communication
+<div align="center">
+  <img src="src/components/assets/images/25.png" alt="Contact Us" width="30%"/>
+  <img src="src/components/assets/images/26.png" alt="Chat Support" width="30%"/>
+  <img src="src/components/assets/images/27.png" alt="FAQ Section" width="30%"/>
+  <br/>
+  <em>Multiple support channels including live chat, contact forms, and comprehensive FAQ</em>
+</div>
+
+### 🌐 Additional Features
+<div align="center">
+  <img src="src/components/assets/images/28.png" alt="About Us" width="22%"/>
+  <img src="src/components/assets/images/29.png" alt="Team Page" width="22%"/>
+  <img src="src/components/assets/images/30.png" alt="Blog Section" width="22%"/>
+  <img src="src/components/assets/images/31.png" alt="Newsletter" width="22%"/>
+  <br/>
+  <em>Rich content pages including team information, blog posts, and newsletter subscription</em>
+</div>
 
 ## 🚀 Quick Start
 
@@ -171,12 +214,15 @@ Experience the full functionality of our healthcare platform.
 - ✅ Responsive UI with Dark/Light Mode
 - ✅ Basic Appointment Booking Interface
 - ✅ Service Information Pages
+- ✅ Ayurvedic Medicine Database
+- ✅ User Profile Management
 
 **Upcoming Features:**
-- 🔄 Complete Ayurvedic Medicine Database
-- 🔄 Advanced Appointment Management
-- 🔄 User Dashboard with Health Tracking
-- 🔄 Real-time Notifications
+- 🔄 Advanced Health Analytics
+- 🔄 Real-time Chat Support
+- 🔄 Telemedicine Integration
+- 🔄 Mobile App Development
+- 🔄 AI-powered Health Recommendations
 
 ## 📋 Available Scripts
 
@@ -235,7 +281,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
           <img src="https://github.com/Sheethal-2005.png" width="100px;" alt="Sheethal"/><br/>
           <sub><b>Sheethal</b></sub>
         </a><br/>
-        <sub> Developer</sub>
+        <sub>Developer</sub>
       </td>
     </tr>
   </table>
