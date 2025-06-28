@@ -75,7 +75,43 @@ MediQ is a comprehensive healthcare management platform that bridges traditional
   <img src="src/components/assets/images/12.png"  width="300"/>
   <br/>
   <em>Authentication System</em>
-</div>
+  <img src="src/components/assets/images/13.png"  width="300"/>
+  <img src="src/components/assets/images/14.png"  width="300"/>
+  <img src="src/components/assets/images/15.png"  width="300"/>
+  <img src="src/components/assets/images/16.png"  width="300"/>
+  <img src="src/components/assets/images/17.png"  width="300"/>
+  <img src="src/components/assets/images/18.png"  width="300"/>
+  <img src="src/components/assets/images/19.png"  width="300"/>
+  <img src="src/components/assets/images/20.png"  width="300"/>
+  <img src="src/components/assets/images/21.png"  width="300"/>
+  <img src="src/components/assets/images/22.png"  width="300"/>
+  <img src="src/components/assets/images/23.png"  width="300"/>
+  <img src="src/components/assets/images/24.png"  width="300"/>
+  <img src="src/components/assets/images/25.png"  width="300"/>
+  <img src="src/components/assets/images/26.png"  width="300"/>
+  <img src="src/components/assets/images/27.png"  width="300"/>
+  <img src="src/components/assets/images/28.png"  width="300"/>
+  <img src="src/components/assets/images/29.png"  width="300"/>
+  <img src="src/components/assets/images/30.png"  width="300"/>
+  <img src="src/components/assets/images/31.png"  width="300"/>
+  <img src="src/components/assets/images/32.png"  width="300"/>
+  <img src="src/components/assets/images/33.png"  width="300"/>
+  <img src="src/components/assets/images/34.png"  width="300"/>
+  <img src="src/components/assets/images/35.png"  width="300"/>
+  <img src="src/components/assets/images/36.png"  width="300"/>
+  <img src="src/components/assets/images/37.png"  width="300"/>
+  <img src="src/components/assets/images/38.png"  width="300"/>
+  <img src="src/components/assets/images/39.png"  width="300"/>
+  <img src="src/components/assets/images/40.png"  width="300"/>
+  <img src="src/components/assets/images/41.png"  width="300"/>
+  <img src="src/components/assets/images/42.png"  width="300"/>
+  <img src="src/components/assets/images/43.png"  width="300"/>
+  <img src="src/components/assets/images/44.png"  width="300"/>
+  <img src="src/components/assets/images/45.png"  width="300"/>
+  <img src="src/components/assets/images/46.png"  width="300"/>
+  <img src="src/components/assets/images/47.png"  width="300"/>
+  <img src="src/components/assets/images/48.png"  width="300"/>
+</div
 
 ## 🚀 Quick Start
 
