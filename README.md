@@ -49,12 +49,17 @@ MediQ is a comprehensive healthcare management platform that bridges traditional
   </tr>
 </table>
 
-## 📸 Screenshots
+## 📸 Screenshots 
 
 <div align="center">
-  <img src="src/components/images/light.jpg" alt="Light Mode" width="400"/>
+  <img src="src/components/assets/images/1.png" width="400"/>
+  <img src="src/components/assets/images/2.png" alt="Light Mode" width="400"/>
+  <img src="src/components/assets/images/3.png" alt="Light Mode" width="400"/>
+  <img src="src/components/assets/images/4.png" alt="Light Mode" width="400"/>
   &nbsp;&nbsp;
-  <img src="src/components/images/dark.jpg" alt="Dark Mode" width="400"/>
+  <img src="src/components/assets/images/5.png" alt="Dark Mode" width="400"/>
+  <img src="src/components/assets/images/6.png" alt="Dark Mode" width="400"/>
+  <img src="src/components/assets/images/7.png" alt="Dark Mode" width="400"/>
   <br/>
   <em>Light Mode & Dark Mode Interface</em>
 </div>
