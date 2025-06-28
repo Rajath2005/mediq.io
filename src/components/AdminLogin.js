@@ -74,7 +74,7 @@ const AdminLogin = () => {
           required
         />
       </div>
-      <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+      <button type="submit" className="btn btn-success w-100" disabled={loading}>
         {loading ? "Logging in..." : "Login as Admin"}
       </button>
       {error && <div className="alert alert-danger mt-3 animate__animated animate__shakeX" role="alert">{error}</div>}
