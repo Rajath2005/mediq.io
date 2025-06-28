@@ -13,6 +13,7 @@
 [![React](https://img.shields.io/badge/React-18.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dc116df2-c390-4c70-8b12-5970b460beff/deploy-status)](https://app.netlify.com/projects/mediq-health/deploys)
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-4CAF50?style=for-the-badge)](https://rajath2005.github.io/mediq.io/)
 [![GitHub Stars](https://img.shields.io/github/stars/Rajath2005/mediq.io?style=for-the-badge&logo=github)](https://github.com/Rajath2005/mediq.io/stargazers)
@@ -206,6 +207,7 @@ mediq.io/
 Experience the full functionality of our healthcare platform.
 
 ## 🎯 Development Status
+[![Netlify Status](https://api.netlify.com/api/v1/badges/dc116df2-c390-4c70-8b12-5970b460beff/deploy-status)](https://app.netlify.com/projects/mediq-health/deploys)
 
 > **Note**: MediQ is currently in active development. New features and improvements are being added regularly.
 
