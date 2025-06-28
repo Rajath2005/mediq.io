@@ -67,9 +67,12 @@ MediQ is a comprehensive healthcare management platform that bridges traditional
 <br/>
 
 <div align="center">
-  <img src="src/components/images/login.jpg" alt="Login Interface" width="300"/>
+  <img src="src/components/assets/images/8.png"  width="300"/>
   &nbsp;&nbsp;
-  <img src="src/components/images/Sign up .jpg" alt="Signup Interface" width="300"/>
+  <img src="src/components/assets/images/9.png"  width="300"/>
+  <img src="src/components/assets/images/10.png"  width="300"/>
+  <img src="src/components/assets/images/11.png"  width="300"/>
+  <img src="src/components/assets/images/12.png"  width="300"/>
   <br/>
   <em>Authentication System</em>
 </div>
