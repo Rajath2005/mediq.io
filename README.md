@@ -16,7 +16,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/dc116df2-c390-4c70-8b12-5970b460beff/deploy-status)](https://app.netlify.com/projects/mediq-health/deploys)
 
 [![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-4CAF50?style=for-the-badge)](https://rajath2005.github.io/mediq.io/)
-[![GitHub Stars](https://img.shields.io/github/stars/Rajath2005/mediq.io?style=for-the-badge&logo=github)](https://github.com/Rajath2005/mediq.io/stargazers)
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 </div>
