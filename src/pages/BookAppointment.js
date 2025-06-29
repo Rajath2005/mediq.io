@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from './supabaseClient';
 import "animate.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import useDocumentTitle from "../hooks/useDocumentTitle";
@@ -57,16 +56,8 @@ const BookAppointment = () => {
       setFetchingSlots(true);
       
       try {
-        const { data, error } = await supabase
-          .from('appointments')
-          .select('*')
-          .eq('date', formData.date)
-          .eq('doctor', formData.doctor);
-          
-        if (error) {
-          console.error('Error fetching booked slots:', error);
-          return;
-        }
+        // Simulate fetching booked slots from Firestore
+        const data = []; // Replace with actual Firestore fetching logic
         
         // Filter the available slots based on booked appointments
         const bookedTimes = data.map(app => app.time);
@@ -131,51 +122,37 @@ const BookAppointment = () => {
     setError(""); // Clear any previous errors
 
     try {
-      // Insert data into Supabase
-      const { data, error } = await supabase
-        .from('appointments')
-        .insert([
-          {
-            name: formData.name,
-            phone: formData.phone,
-            doctor: formData.doctor,
-            date: formData.date,
-            time: formData.timeSlot,
-            status: 'confirmed'
-          }
-        ]);
-
-      if (error) {
-        console.error('Supabase Error:', error);
-        setError(`Failed to book appointment: ${error.message}`);
-      } else {
-        // Send SMS notification
-        await sendSMSNotification(
-          formData.phone,
-          formData.doctor,
-          formData.date,
-          formData.timeSlot
-        );
-        
-        setSuccess(true);
-        alert(`Appointment booked with ${formData.doctor} on ${formData.date} at ${formData.timeSlot}`);
-        setFormData({
-          name: "",
-          phone: "",
-          doctor: "",
-          date: "",
-          timeSlot: ""
-        });
-        
-        // Refresh available slots
-        const { data: updatedData } = await supabase
-          .from('appointments')
-          .select('*')
-          .eq('date', formData.date)
-          .eq('doctor', formData.doctor);
-          
-        setBookedAppointments(updatedData || []);
-      }
+      // Simulate inserting data into Firestore
+      const data = {
+        name: formData.name,
+        phone: formData.phone,
+        doctor: formData.doctor,
+        date: formData.date,
+        time: formData.timeSlot,
+        status: 'confirmed'
+      };
+      
+      // Simulate SMS notification
+      await sendSMSNotification(
+        formData.phone,
+        formData.doctor,
+        formData.date,
+        formData.timeSlot
+      );
+      
+      setSuccess(true);
+      alert(`Appointment booked with ${formData.doctor} on ${formData.date} at ${formData.timeSlot}`);
+      setFormData({
+        name: "",
+        phone: "",
+        doctor: "",
+        date: "",
+        timeSlot: ""
+      });
+      
+      // Refresh available slots
+      const updatedData = []; // Replace with actual Firestore fetching logic
+      setBookedAppointments(updatedData || []);
     } catch (err) {
       console.error('Unexpected Error:', err);
       setError(`An unexpected error occurred: ${err.message}`);

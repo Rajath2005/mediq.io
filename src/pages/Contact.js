@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Contact.css';
 import Button from '../components/Button';
 import useDocumentTitle from '../hooks/useDocumentTitle';
-import { supabase } from '../supabaseClient';
 import AlertMessage from '../components/AlertMessage'; // adjust the path as needed
-
+import { db } from '../firebase'; // Import Firestore instance
+import { collection, addDoc } from 'firebase/firestore';
 
 const Contact = () => {
   useDocumentTitle('Contact Us - MediQ');
@@ -27,17 +27,15 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { error } = await supabase.from('messages').insert([formData]);
-
-    if (error) {
-      console.error('Submission error:', error);
-      setStatus('❌ Failed to send message. Please try again.');
-      setAlertType('danger');
-    } else {
+    try {
+      await addDoc(collection(db, 'messages'), formData);
       setStatus('✅ Message sent successfully!');
       setAlertType('success');
       setFormData({ fullname: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Firestore submission error:', error);
+      setStatus('❌ Failed to send message. Please try again.');
+      setAlertType('danger');
     }
   };
 
@@ -57,8 +55,6 @@ const Contact = () => {
 
         {/* Bootstrap Alert */}
         {status && <AlertMessage type={alertType} message={status} />}
-
-        
 
         <form className="form" onSubmit={handleSubmit} data-form>
           <div className="input-wrapper">

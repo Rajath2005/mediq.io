@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from '../supabaseClient';
 import "animate.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import useDocumentTitle from "../hooks/useDocumentTitle";
@@ -23,7 +22,6 @@ const ManageAppointments = () => {
   const [filterDate, setFilterDate] = useState("");
   const [filterDoctor, setFilterDoctor] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   const doctors = ["Dr. John Smith", "Dr. Alice Johnson", "Dr. Rajeev Kapoor"];
 
@@ -31,24 +29,9 @@ const ManageAppointments = () => {
     const fetchAppointments = async () => {
       setLoading(true);
       try {
-        let query = supabase.from('appointments').select('*');
-        
-        if (filterDate) {
-          query = query.eq('date', filterDate);
-        }
-        
-        if (filterDoctor) {
-          query = query.eq('doctor', filterDoctor);
-        }
-        
-        // Sort by date and time
-        query = query.order('date', { ascending: true }).order('time', { ascending: true });
-        
-        const { data, error } = await query;
-        
-        if (error) {
-          throw error;
-        }
+        // Simulate fetching appointments from Firestore
+        const response = await fetch('/api/appointments'); // Adjust the API endpoint as needed
+        const data = await response.json();
         
         setAppointments(data);
       } catch (err) {
@@ -61,33 +44,23 @@ const ManageAppointments = () => {
 
     fetchAppointments();
     
-    // Set up real-time subscription
-    const appointmentsSubscription = supabase
-      .channel('appointments-changes')
-      .on('postgres_changes', 
-        { event: '*', schema: 'public', table: 'appointments' }, 
-        () => {
-          // Refresh data when changes occur
-          setRefreshTrigger(prev => prev + 1);
-        }
-      )
-      .subscribe();
-      
-    return () => {
-      supabase.removeChannel(appointmentsSubscription);
-    };
-  }, [filterDate, filterDoctor, refreshTrigger]);
+    // Removed: Supabase real-time subscription code
+  }, [filterDate, filterDoctor]);
 
   const handleStatusChange = async (id, newStatus) => {
     setActionLoading(true);
     try {
-      const { error } = await supabase
-        .from('appointments')
-        .update({ status: newStatus })
-        .eq('id', id);
-        
-      if (error) {
-        throw error;
+      // Simulate updating appointment status in Firestore
+      const response = await fetch(`/api/appointments/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
       
       // Update the local state to reflect the change
@@ -111,13 +84,13 @@ const ManageAppointments = () => {
     
     setActionLoading(true);
     try {
-      const { error } = await supabase
-        .from('appointments')
-        .delete()
-        .eq('id', id);
-        
-      if (error) {
-        throw error;
+      // Simulate deleting appointment from Firestore
+      const response = await fetch(`/api/appointments/${id}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
       
       // Remove the appointment from the local state

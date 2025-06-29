@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./SuggestShopForm.css";
+import { db } from "../firebase"; 
+import { collection, addDoc } from "firebase/firestore"; 
 
 const SuggestShopForm = () => {
   const [formData, setFormData] = useState({
@@ -17,17 +19,22 @@ const SuggestShopForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // You can integrate API or save to database here
-    console.log("Shop Suggested:", formData);
-    setSubmitted(true);
-    setFormData({
-      name: "",
-      address: "",
-      phone: "",
-      openingHours: ""
-    });
+    try {
+      // Add the form data to Firestore collection "shopSuggestions"
+      await addDoc(collection(db, "shopSuggestions"), formData);
+      console.log("Shop Suggested:", formData);
+      setSubmitted(true);
+      setFormData({
+        name: "",
+        address: "",
+        phone: "",
+        openingHours: ""
+      });
+    } catch (error) {
+      console.error("Error saving shop suggestion:", error);
+    }
   };
 
   return (

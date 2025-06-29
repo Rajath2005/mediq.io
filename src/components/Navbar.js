@@ -6,8 +6,6 @@ import { FaMoon, FaSun, FaUserShield } from "react-icons/fa";
 import UserProfileDropdown from './UserProfileDropdown';
 import 'animate.css';
 import { useTheme } from '../contexts/ThemeContext';
-import Swal from 'sweetalert2';
-import { supabase2 } from '../supabaseClient2';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navbar = () => {
@@ -51,111 +49,14 @@ const Navbar = () => {
     }
   };
 
-  const handleEmergency = async () => {
-    try {
-      const { data: tableInfo, error: tableError } = await supabase2
-        .from('emergency_settings')
-        .select('*')
-        .limit(1);
-      
-      if (tableError) {
-        console.error('Failed to fetch table structure:', tableError);
-        Swal.fire('Database Error', `Failed to retrieve emergency settings: ${tableError.message}`, 'error');
-        return;
-      }
-      
-      console.log('Sample row with column names:', tableInfo[0]);
-      
-      const { data, error } = await supabase2
-        .from('emergency_settings')
-        .select('*');
-      
-      if (error) {
-        console.error('Failed to fetch emergency settings:', error);
-        Swal.fire('Database Error', `Failed to retrieve emergency settings: ${error.message}`, 'error');
-        return;
-      }
-      
-      if (!data || data.length === 0) {
-        Swal.fire('No Data', 'No emergency settings found in the database.', 'warning');
-        return;
-      }
-      
-      const firstRow = data[0];
-      
-      const hospitalNameColumn = 
-        'hospital_name' in firstRow ? 'hospital_name' : 
-        'name' in firstRow ? 'name' : 
-        'hospital' in firstRow ? 'hospital' : 
-        Object.keys(firstRow).find(key => key.includes('hospital') || key.includes('name'));
-        
-      const phoneNumberColumn = 
-        'ambulance_number' in firstRow ? 'ambulance_number' : 
-        'phone_number' in firstRow ? 'phone_number' : 
-        'contact' in firstRow ? 'contact' : 
-        'number' in firstRow ? 'number' : 
-        Object.keys(firstRow).find(key => key.includes('phone') || key.includes('number') || key.includes('contact'));
-        
-      const smsNumberColumn = 
-        'sms_number' in firstRow ? 'sms_number' : 
-        'sms_contact' in firstRow ? 'sms_contact' : 
-        'sms' in firstRow ? 'sms' : 
-        phoneNumberColumn;
-      
-      if (!hospitalNameColumn || !phoneNumberColumn) {
-        console.error('Could not determine required column names', firstRow);
-        Swal.fire('Configuration Error', 'Could not determine the correct column names in the database.', 'error');
-        return;
-      }
-      
-      console.log('Using columns:', { hospitalNameColumn, phoneNumberColumn, smsNumberColumn });
-      
-      const options = {};
-      const mappedData = data.map((item, index) => ({
-        ...item,
-        id: index.toString(),
-        hospitalName: item[hospitalNameColumn],
-        phoneNumber: item[phoneNumberColumn],
-        smsNumber: item[smsNumberColumn] || item[phoneNumberColumn]
-      }));
-      
-      mappedData.forEach((item) => {
-        options[item.id] = `${item.hospitalName} - ${item.phoneNumber}`;
-      });
-  
-      const { value: selectedId } = await Swal.fire({
-        title: 'Choose Hospital and Ambulance Number',
-        input: 'select',
-        inputOptions: options,
-        inputPlaceholder: 'Select a hospital',
-        showCancelButton: true,
-      });
-  
-      if (selectedId) {
-        const selectedEntry = mappedData.find(entry => entry.id === selectedId);
-  
-        if (!selectedEntry) {
-          Swal.fire('Error', 'Selected hospital not found.', 'error');
-          return;
-        }
-  
-        const { hospitalName, phoneNumber, smsNumber } = selectedEntry;
-  
-        window.location.href = `tel:${phoneNumber}`;
-  
-        const locationLink = `https://maps.google.com?q=${encodeURIComponent(window.location.href)}`;
-        const message = `Emergency! Please help. My location is: ${locationLink}`;
-        window.open(`sms:${smsNumber}?body=${encodeURIComponent(message)}`);
-  
-        Swal.fire('Calling...', `You are calling ${hospitalName} - ${phoneNumber}`, 'info');
-      }
-    } catch (error) {
-      console.error('Unexpected error in handleEmergency:', error);
-      Swal.fire('Error', `An unexpected error occurred: ${error.message}`, 'error');
+  const handleEmergency = () => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else {
+      navigate('/emergency-settings');
     }
   };
 
-  // Custom navigation based on user role
   const getDashboardLink = () => {
     if (isAdmin) {
       return "/admin-dashboard";
@@ -163,7 +64,6 @@ const Navbar = () => {
     return "/dashboard";
   };
 
-  // Determine login buttons based on authentication state
   const renderAuthButtons = () => {
     if (isAuthenticated) {
       return (
@@ -192,7 +92,6 @@ const Navbar = () => {
     }
   };
 
-  // Determine what services menu items to show based on user role
   const renderServicesMenu = () => {
     const commonItems = (
       <>
@@ -228,7 +127,6 @@ const Navbar = () => {
       </>
     );
 
-    // Only show emergency settings to admins
     if (isAdmin) {
       return (
         <>
