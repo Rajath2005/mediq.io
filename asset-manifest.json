@@ -1,25 +1,23 @@
 {
   "files": {
     "main.css": "./static/css/main.a7c8cabe.css",
-    "main.js": "./static/js/main.8a10bb36.js",
-    "static/js/952.621c4637.chunk.js": "./static/js/952.621c4637.chunk.js",
+    "main.js": "./static/js/main.cb86e874.js",
     "static/js/453.c981a88f.chunk.js": "./static/js/453.c981a88f.chunk.js",
+    "static/media/Rajath.jpg": "./static/media/Rajath.3aa205afd757079fcf3a.jpg",
     "static/media/Rithesh.jpeg": "./static/media/Rithesh.ae4e18c245b718c892d4.jpeg",
     "static/media/hero.jpeg": "./static/media/hero.9fea1b396855a68cb95b.jpeg",
     "static/media/back.jpeg": "./static/media/back.1719bda263644d0ea9c9.jpeg",
-    "static/media/Rajath.jpg": "./static/media/Rajath.d008e1cf13485804f249.jpg",
     "static/media/logo.jpg": "./static/media/logo.54ecc15492359a057a76.jpg",
     "static/media/Sanath.jpeg": "./static/media/Sanath.0da3911753e3036d831a.jpeg",
     "static/media/sheethal.jpg": "./static/media/sheethal.e377693379f0a8bd6f9e.jpg",
     "static/media/github.png": "./static/media/github.6fd7c5c394daa62543dd.png",
     "index.html": "./index.html",
     "main.a7c8cabe.css.map": "./static/css/main.a7c8cabe.css.map",
-    "main.8a10bb36.js.map": "./static/js/main.8a10bb36.js.map",
-    "952.621c4637.chunk.js.map": "./static/js/952.621c4637.chunk.js.map",
+    "main.cb86e874.js.map": "./static/js/main.cb86e874.js.map",
     "453.c981a88f.chunk.js.map": "./static/js/453.c981a88f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a7c8cabe.css",
-    "static/js/main.8a10bb36.js"
+    "static/js/main.cb86e874.js"
   ]
 }
