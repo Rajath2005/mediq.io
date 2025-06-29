@@ -15,7 +15,6 @@ import ServicesPage from './pages/ServicesPage';
 import Login from "./components/Login";
 import AdminLogin from "./components/AdminLogin"; 
 import Signup from "./components/Signup";
-import Profile from "./components/Profile/Profile";
 import Dashboard from "./components/Dashboard";
 import Appointments from "./pages/Appointments";
 import Preloader from "./components/Preloader";
@@ -91,7 +90,6 @@ const App = () => {
                   <Route path="/signup" element={<Signup />} />
                   
                   <Route path="/dashboard" element={<UserRoute><Dashboard /></UserRoute>} />
-                  <Route path="/profile" element={<UserRoute><Profile /></UserRoute>} />
                   <Route path="/appointments" element={<UserRoute><Appointments /></UserRoute>} />
                   <Route path="/book-appointment/:hospitalId/:doctorId" element={<UserRoute><BookAppointment /></UserRoute>} />
                   
