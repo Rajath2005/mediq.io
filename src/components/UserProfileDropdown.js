@@ -85,12 +85,6 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         </li>
         <li><hr className="dropdown-divider" /></li>
         
-        <li>
-          <Link to="/profile" className="dropdown-item">
-            Profile
-          </Link>
-        </li>
-
         {isAdmin ? (
           <>
             <li>
@@ -118,13 +112,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
             </li>
           </>
         )}
-        
-        <li>
-          <Link to="/settings" className="dropdown-item">
-            Settings
-          </Link>
-        </li>
-        
+    
         <li><hr className="dropdown-divider" /></li>
         <li>
           <button 
