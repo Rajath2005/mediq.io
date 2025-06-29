@@ -323,14 +323,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
           <img src="https://github.com/Sanath00007.png" width="100px;" alt="Sanath"/><br/>
           <sub><b>Sanath</b></sub>
         </a><br/>
-        <sub>Frontend Developer</sub>
+        <sub> Developer</sub>
       </td>
       <td align="center">
         <a href="https://github.com/Rithesh0115">
           <img src="https://github.com/Rithesh0115.png" width="100px;" alt="Rithesh"/><br/>
           <sub><b>Rithesh</b></sub>
         </a><br/>
-        <sub>UI/UX Developer</sub>
+        <sub>Developer</sub>
       </td>
       <td align="center">
         <a href="https://github.com/Sheethal-2005">
