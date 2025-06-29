@@ -1,37 +1,10 @@
 // src/pages/PrivacyPolicy/PrivacyPolicy.js
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './PrivacyPolicy.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css';
 
 const PrivacyPolicy = (props) => {
-  const [agree, setAgree] = useState(false);
-  const [scrolledToBottom, setScrolledToBottom] = useState(false);
-
-  const handleScroll = (e) => {
-    const element = e.target;
-    const bottom = Math.abs(element.scrollHeight - element.scrollTop - element.clientHeight) < 50;
-    if (bottom) {
-      setScrolledToBottom(true);
-    }
-  };
-
-  const handleAccept = (e) => {
-    e.preventDefault();
-    if (agree && scrolledToBottom) {
-      localStorage.setItem('privacyAccepted', 'true');
-      // Redirect to another page or perform another action
-    } else {
-      const errorMessage = !scrolledToBottom 
-        ? 'Please scroll through the entire Privacy Policy to continue.' 
-        : 'Please agree to the Privacy Policy to continue.';
-        
-      document.getElementById('privacyToast').classList.add('show');
-      document.getElementById('privacyToastMessage').innerText = errorMessage;
-      setTimeout(() => document.getElementById('privacyToast').classList.remove('show'), 3000);
-    }
-  };
-
   return (
     <div className="privacy-policy-page d-flex justify-content-center align-items-center" style={{ minHeight: '80vh', marginTop: '80px' }}>
       <div className="privacy-policy-container w-100" style={{ maxWidth: '800px' }}>
