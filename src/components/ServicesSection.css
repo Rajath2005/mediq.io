@@ -167,6 +167,40 @@ p {
   color: #0000007e;
 }
 
+.main-services-title {
+  text-align: center;
+  font-size: 2.5rem;
+  color: #1b5e20;
+  font-weight: 800;
+  margin-bottom: 8px;
+  margin-top: 0;
+  letter-spacing: 2px;
+  animation-delay: 0.1s;
+}
+
+.our-services-sub {
+  text-align: center;
+  font-size: 1.15rem;
+  color: #2e7d32;
+  font-weight: 600;
+  margin-top: -6px;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  animation-delay: 0.2s;
+}
+
+.services-section .section-heading {
+  margin-bottom: 10px !important;
+}
+
+.services-section .row {
+  margin-bottom: 0;
+}
+
+.services-section .card {
+  margin-top: 0;
+}
+
 @media screen and (min-width: 768px) {
   section {
     padding: 0 2em;
