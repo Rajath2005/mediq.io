@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { neon } from '@neondatabase/serverless';
+// import { neon } from '@neondatabase/serverless';
 import Swal from 'sweetalert2';
 import {
   FaPlus, FaTrash, FaEye, FaEyeSlash, FaSave, FaHospital, FaPhone, FaSms
 } from 'react-icons/fa';
 
 // ✅ Neon connection string (replace with yours securely in production!)
-const sql = neon('postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require');
+// const sql = neon('postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require');
 
 const EmergencySettingsPage = () => {
   const [smsNumber, setSmsNumber] = useState('');
@@ -18,7 +18,8 @@ const EmergencySettingsPage = () => {
   const fetchSettings = async () => {
     setLoading(true);
     try {
-      const rows = await sql`SELECT * FROM emergency_settings`;
+      // const rows = await sql`SELECT * FROM emergency_settings`;
+      const rows = [];
       setAllSettings(rows);
     } catch (error) {
       console.error('Fetch error:', error);
@@ -36,12 +37,12 @@ const EmergencySettingsPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      for (const entry of entries) {
-        await sql`
-          INSERT INTO emergency_settings (sms_number, hospital_name, ambulance_number)
-          VALUES (${smsNumber}, ${entry.hospitalName}, ${entry.ambulanceNumber})
-        `;
-      }
+      // for (const entry of entries) {
+      //   await sql`
+      //     INSERT INTO emergency_settings (sms_number, hospital_name, ambulance_number)
+      //     VALUES (${smsNumber}, ${entry.hospitalName}, ${entry.ambulanceNumber})
+      //   `;
+      // }
       Swal.fire('Saved!', 'Emergency settings updated.', 'success');
       fetchSettings();
     } catch (error) {
@@ -65,7 +66,7 @@ const EmergencySettingsPage = () => {
 
     if (confirm.isConfirmed) {
       try {
-        await sql`DELETE FROM emergency_settings WHERE id = ${id}`;
+        // await sql`DELETE FROM emergency_settings WHERE id = ${id}`;
         fetchSettings();
         Swal.fire('Deleted!', 'Contact removed.', 'success');
       } catch (error) {
