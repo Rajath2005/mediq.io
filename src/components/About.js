@@ -12,7 +12,8 @@ const AboutUs = () => {
           <h2>Welcome to MediQ</h2>
           <div className="underline"></div>
           <p>
-            MediQ is your digital gateway to authentic Ayurvedic healthcare. We're building a comprehensive platform that brings together traditional medicine wisdom and modern convenience, making it easier for you to find natural remedies, book appointments, and manage your wellness journey.
+Your online resource for traditional Ayurvedic medicine is MediQ. We're developing a one-stop shop that blends the knowledge of traditional medicine with modern conveniences, enabling you to quickly find natural cures, schedule consultations, and monitor your health.
+
           </p>
           <button className="view-more">
             <Link to="#">● DISCOVER MORE</Link>
@@ -24,7 +25,7 @@ const AboutUs = () => {
           <h2>Our Mission</h2>
           <div className="underline"></div>
           <p>
-            We're on a mission to bridge the gap between ancient Ayurvedic healing and today's digital world. Our team is passionate about creating a platform where you can easily access medicine details, discover home remedies, and seamlessly book healthcare appointments - all in one place.
+We're on a mission to bridge the gap between ancient Ayurvedic healing and today's digital world. Our team is committed to developing a platform that will allow you to conveniently arrange medical visits, find home remedies, and obtain medication details in one location.
           </p>
         </div>
       </section>
