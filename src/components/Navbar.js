@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import logo from "./images/logo.jpg";
-import { FaMoon, FaSun} from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
 import UserProfileDropdown from "./UserProfileDropdown";
 import "animate.css";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
 import Swal from "sweetalert2";
- import { neon } from "@neondatabase/serverless";
+import { neon } from "@neondatabase/serverless";
 
 // ✅ Neon DB connection
- const sql = neon('postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require');
+const sql = neon(
+  "postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require"
+);
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
@@ -57,7 +59,6 @@ const Navbar = () => {
 
     try {
       const data = await sql`SELECT * FROM emergency_settings`;
-      
       Swal.close();
 
       if (!data || data.length === 0) {
@@ -112,8 +113,14 @@ const Navbar = () => {
         title: "🚨 Emergency Contacts",
         html: tableHtml,
         icon: "info",
-        confirmButtonText: "Close",
         width: "700px",
+        showCancelButton: true,
+        confirmButtonText: "Close",
+        cancelButtonText: "➕ Add Contact",
+      }).then((result) => {
+        if (result.dismiss === Swal.DismissReason.cancel) {
+          navigate("/emergency-settings");
+        }
       });
     } catch (error) {
       Swal.close();
@@ -246,7 +253,7 @@ const Navbar = () => {
                     Nearby Hospitals
                   </Link>
                 </li>
-                <li><hr className="dropdown-divider"/></li>
+                <li><hr className="dropdown-divider" /></li>
                 <li>
                   <Link
                     className="dropdown-item"
@@ -293,10 +300,7 @@ const Navbar = () => {
               />
             )}
 
-            <button
-              className="btn btn-outline-dark"
-              onClick={toggleDarkMode}
-            >
+            <button className="btn btn-outline-dark" onClick={toggleDarkMode}>
               {darkMode ? (
                 <FaSun className="animate__animated animate__rotateIn" />
               ) : (
