@@ -44,7 +44,7 @@ const teamMembers = [
     image: SheethalImg,
     gmail: 'siddudrai@gmail.com',
     github: 'https://github.com/Sheethal-2005',
-    linkedin: 'https://www.linkedin.com/in/shrinidhi-k-v-794653290',
+    linkedin: 'https://www.linkedin.com/in/siddu-d-rai-904686290?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3B%2Bery4hbVSXCJJOzD6EnOvQ%3D%3D',
   },
 ];
 
