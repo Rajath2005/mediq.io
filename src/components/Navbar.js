@@ -8,10 +8,10 @@ import "animate.css";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
 import Swal from "sweetalert2";
-// import { neon } from "@neondatabase/serverless";
+ import { neon } from "@neondatabase/serverless";
 
 // ✅ Neon DB connection
-// const sql = neon('postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require');
+ const sql = neon('postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require');
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
@@ -56,8 +56,8 @@ const Navbar = () => {
     });
 
     try {
-      // const data = await sql`SELECT * FROM emergency_settings`;
-      const data = [];
+      const data = await sql`SELECT * FROM emergency_settings`;
+      
       Swal.close();
 
       if (!data || data.length === 0) {
