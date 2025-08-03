@@ -28,6 +28,7 @@ import DoctorList from './pages/booking/DoctorList';
 import BookAppointment from './pages/booking/BookAppointment';
 import EmergencySettingsPage from './pages/EmergencySettingsPage';
 import ManageAppointments from './components/ManageAppointments';
+import Chatbot from "./components/Chatbot";
 import './App.css';
 import CookieConsent from "./components/CookieConsent";
 
@@ -87,6 +88,7 @@ const App = () => {
                   <Route path="/login" element={<Login />} />
                   <Route path="/admin-login" element={<AdminLogin />} />
                   <Route path="/signup" element={<Signup />} />
+                  <Route path="/chatbot" element={<Chatbot />} />
                   
                   <Route path="/appointments" element={<UserRoute><Appointments /></UserRoute>} />
                   <Route path="/book-appointment/:hospitalId/:doctorId" element={<UserRoute><BookAppointment /></UserRoute>} />
@@ -107,6 +109,7 @@ const App = () => {
               </div>
               <Footer />
               {showCookieConsent && <CookieConsent onConsentGiven={() => setShowCookieConsent(false)} />}
+              <Chatbot />
             </div>
           </Router>
         </HelmetProvider>
