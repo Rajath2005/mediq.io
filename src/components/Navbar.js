@@ -186,16 +186,23 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/about" onClick={handleServiceSelection}>
-                About Us
+              <Link
+                className="nav-link"
+                to="/search-medicines"
+                onClick={handleServiceSelection}
+              >
+                Ayurvedic Medicines
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/contact" onClick={handleServiceSelection}>
-                Contact Us
+              <Link
+                className="nav-link"
+                to="/home-remedies"
+                onClick={handleServiceSelection}
+              >
+                Home Remedies
               </Link>
             </li>
-
             <li className="nav-item dropdown" ref={dropdownRef}>
               <button
                 className="nav-link dropdown-toggle"
@@ -205,25 +212,25 @@ const Navbar = () => {
                 }}
                 type="button"
               >
-                Services
+                More
               </button>
               <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
                 <li>
                   <Link
                     className="dropdown-item"
-                    to="/search-medicines"
+                    to="/about"
                     onClick={handleServiceSelection}
                   >
-                    Search Ayurvedic Medicines
+                    About Us
                   </Link>
                 </li>
                 <li>
                   <Link
                     className="dropdown-item"
-                    to="/home-remedies"
+                    to="/contact"
                     onClick={handleServiceSelection}
                   >
-                    Search Home Remedies
+                    Contact Us
                   </Link>
                 </li>
                 <li>
