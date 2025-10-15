@@ -10,7 +10,9 @@ import {
   FaInfoCircle, 
   FaChevronRight,
   FaHistory,
-  FaStar
+  FaStar,
+  FaListUl,
+  FaExclamationTriangle
 } from 'react-icons/fa';
 
 const HomeRemediesPage = () => {
@@ -29,6 +31,7 @@ const HomeRemediesPage = () => {
     'Upset Stomach', 'Allergies', 'Insomnia'
   ];
 
+  // 🔹 Fetch the updated remedies JSON
   useEffect(() => {
     setIsLoading(true);
     fetch('https://raw.githubusercontent.com/sanath00007/ayurveda-api/main/remedies.json')
@@ -44,18 +47,19 @@ const HomeRemediesPage = () => {
       });
   }, []);
 
+  // 🔹 Handle searching and recommendations
   useEffect(() => {
     if (searchTerm.trim() === '') {
       setResults([]);
-      
-      // Show recommendations based on common conditions
+
+      // Show random recommendations from common conditions
       const randomRecommendations = [...commonConditions]
         .sort(() => 0.5 - Math.random())
         .slice(0, 4);
-      
+
       setRecommendations(
-        remedies.filter(item => 
-          randomRecommendations.some(condition => 
+        remedies.filter(item =>
+          randomRecommendations.some(condition =>
             item.condition.toLowerCase().includes(condition.toLowerCase())
           )
         )
@@ -63,11 +67,10 @@ const HomeRemediesPage = () => {
       return;
     }
 
-    // Find exact or partial matches
     const exactMatch = remedies.find(item =>
       item.condition.toLowerCase() === searchTerm.toLowerCase()
     );
-    
+
     const partialMatches = remedies.filter(item =>
       item.condition.toLowerCase().includes(searchTerm.toLowerCase()) &&
       item.condition.toLowerCase() !== searchTerm.toLowerCase()
@@ -75,60 +78,42 @@ const HomeRemediesPage = () => {
 
     if (exactMatch) {
       setResults([exactMatch]);
-      
-      // Add to recent searches if not already there
+
       if (!recentSearches.includes(exactMatch.condition)) {
         const updatedSearches = [exactMatch.condition, ...recentSearches].slice(0, 5);
         setRecentSearches(updatedSearches);
       }
-      
-      // Find similar remedies for recommendations
-      const recommendations = remedies
-        .filter(item => 
-          item.condition !== exactMatch.condition && 
-          (item.remedy.toLowerCase().includes(exactMatch.remedy.split(' ')[0].toLowerCase()) ||
-           exactMatch.remedy.toLowerCase().includes(item.remedy.split(' ')[0].toLowerCase()))
+
+      const similar = remedies
+        .filter(item =>
+          item.condition !== exactMatch.condition &&
+          item.category?.toLowerCase() === exactMatch.category?.toLowerCase()
         )
         .slice(0, 3);
-      
-      setRecommendations(recommendations);
+      setRecommendations(similar);
+
     } else if (partialMatches.length > 0) {
       setResults(partialMatches.slice(0, 3));
       setRecommendations([]);
     } else {
       setResults([{ error: 'No remedy found for this condition.' }]);
-      
-      // Show spelling suggestions or similar conditions
       const suggestions = remedies
         .filter(item => {
           const words = searchTerm.toLowerCase().split(' ');
-          return words.some(word => 
-            word.length > 3 && 
+          return words.some(word =>
+            word.length > 3 &&
             item.condition.toLowerCase().includes(word.substring(0, Math.floor(word.length * 0.7)))
           );
         })
         .slice(0, 3);
-      
       setRecommendations(suggestions);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, remedies]);
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
-  const handleRecommendationClick = (condition) => {
-    setSearchTerm(condition);
-  };
-
-  const handleRecentSearchClick = (condition) => {
-    setSearchTerm(condition);
-  };
-
-  const clearSearch = () => {
-    setSearchTerm('');
-  };
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+  const handleRecommendationClick = (condition) => setSearchTerm(condition);
+  const handleRecentSearchClick = (condition) => setSearchTerm(condition);
+  const clearSearch = () => setSearchTerm('');
 
   return (
     <div className="improved-home-remedies-page">
@@ -137,7 +122,7 @@ const HomeRemediesPage = () => {
         <p>Discover ancient wisdom for modern wellness</p>
       </div>
 
-      {/* Disclaimer moved to top for visibility */}
+      {/* Disclaimer */}
       <div className="global-disclaimer">
         <FaInfoCircle className="disclaimer-icon" />
         <div>
@@ -153,7 +138,7 @@ const HomeRemediesPage = () => {
               <h2><FaSearch /> Find a Remedy</h2>
               <p>Search by condition or symptoms</p>
             </div>
-            
+
             <div className="search-input-container">
               <input
                 type="text"
@@ -163,9 +148,7 @@ const HomeRemediesPage = () => {
                 className="search-input"
               />
               {searchTerm && (
-                <button className="clear-button" onClick={clearSearch}>
-                  ×
-                </button>
+                <button className="clear-button" onClick={clearSearch}>×</button>
               )}
             </div>
 
@@ -180,12 +163,8 @@ const HomeRemediesPage = () => {
                   <div className="recent-searches">
                     <h3><FaHistory /> Recent Searches</h3>
                     <div className="recent-search-tags">
-                      {recentSearches.map((term, index) => (
-                        <span 
-                          key={index} 
-                          className="recent-search-tag"
-                          onClick={() => handleRecentSearchClick(term)}
-                        >
+                      {recentSearches.map((term, i) => (
+                        <span key={i} className="recent-search-tag" onClick={() => handleRecentSearchClick(term)}>
                           {term}
                         </span>
                       ))}
@@ -193,29 +172,44 @@ const HomeRemediesPage = () => {
                   </div>
                 )}
 
-                {results.length > 0 ? (
+                {results.length > 0 && (
                   <div className="results">
-                    {results.map((item, index) => (
-                      <div key={index} className={`result-card ${item.error ? 'error-card' : ''}`}>
+                    {results.map((item, i) => (
+                      <div key={i} className={`result-card ${item.error ? 'error-card' : ''}`}>
                         {item.error ? (
-                          <div className="error-message">
-                            <FaInfoCircle /> 
-                            <p>{item.error}</p>
-                          </div>
+                          <div className="error-message"><FaInfoCircle /> <p>{item.error}</p></div>
                         ) : (
                           <>
                             <div className="result-header">
                               <h3>{item.condition}</h3>
-                              <span className="category-tag">Ayurvedic</span>
+                              <span className="category-tag">{item.category || 'Ayurvedic'}</span>
                             </div>
+
                             <div className="remedy-content">
                               <h4>Remedy</h4>
                               <p>{item.remedy}</p>
                             </div>
+
+                            {item.ingredients && (
+                              <div className="ingredients">
+                                <h4><FaListUl /> Ingredients</h4>
+                                <ul>
+                                  {item.ingredients.map((ing, idx) => <li key={idx}>{ing}</li>)}
+                                </ul>
+                              </div>
+                            )}
+
                             {item.instructions && (
                               <div className="instructions">
                                 <h4>Instructions</h4>
                                 <p>{item.instructions}</p>
+                              </div>
+                            )}
+
+                            {item.precautions && (
+                              <div className="precautions">
+                                <h4><FaExclamationTriangle /> Precautions</h4>
+                                <p>{item.precautions}</p>
                               </div>
                             )}
                           </>
@@ -223,27 +217,19 @@ const HomeRemediesPage = () => {
                       </div>
                     ))}
                   </div>
-                ) : null}
+                )}
 
                 {recommendations.length > 0 && (
                   <div className="recommendations">
-                    <h3>
-                      {searchTerm ? 'You might also be interested in' : 'Common remedies'}
-                    </h3>
+                    <h3>{searchTerm ? 'You might also be interested in' : 'Common remedies'}</h3>
                     <div className="recommendation-cards">
-                      {recommendations.map((item, index) => (
-                        <div 
-                          key={index} 
-                          className="recommendation-card"
-                          onClick={() => handleRecommendationClick(item.condition)}
-                        >
+                      {recommendations.map((item, i) => (
+                        <div key={i} className="recommendation-card" onClick={() => handleRecommendationClick(item.condition)}>
                           <div className="recommendation-header">
                             <FaLeaf className="recommendation-icon" />
                             <h4>{item.condition}</h4>
                           </div>
-                          <p className="recommendation-preview">
-                            {item.remedy.substring(0, 60)}...
-                          </p>
+                          <p className="recommendation-preview">{item.remedy.substring(0, 60)}...</p>
                           <button className="view-more-btn">
                             View Remedy <FaChevronRight />
                           </button>
@@ -259,8 +245,8 @@ const HomeRemediesPage = () => {
           <div className="top-remedies">
             <h3><FaStar /> Popular Remedies</h3>
             <ul className="top-remedies-list">
-              {commonConditions.map((condition, index) => (
-                <li key={index} onClick={() => handleRecommendationClick(condition)}>
+              {commonConditions.map((condition, i) => (
+                <li key={i} onClick={() => handleRecommendationClick(condition)}>
                   <FaLeaf className="list-icon" /> {condition}
                 </li>
               ))}
@@ -277,7 +263,7 @@ const HomeRemediesPage = () => {
                 <p>Explore safe, time-tested herbal remedies from ancient medical traditions.</p>
               </div>
             </div>
-            
+
             <div className="feature">
               <FaSearchPlus className="feature-icon" />
               <div>
@@ -285,7 +271,7 @@ const HomeRemediesPage = () => {
                 <p>Find remedies instantly by typing your symptoms or condition.</p>
               </div>
             </div>
-            
+
             <div className="feature">
               <FaBookMedical className="feature-icon" />
               <div>
