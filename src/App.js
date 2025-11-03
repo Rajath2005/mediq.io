@@ -31,6 +31,10 @@ import ManageAppointments from './components/ManageAppointments';
 import './App.css';
 import CookieConsent from "./components/CookieConsent";
 
+import Chatbot from './chatbot/chatbot';  // Import chatbot component
+
+
+
 const AdminRoute = ({ children }) => {
   const { isAuthenticated, isAdmin } = useAuth();
   return isAuthenticated && isAdmin ? children : <Navigate to="/admin-login" />;
@@ -80,6 +84,7 @@ const App = () => {
             <div className="app-container d-flex flex-column min-vh-100" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
               <Navbar />
               <div className="flex-grow-1" style={{ flex: 1 }}>
+                <Chatbot />
                 <Routes>
                   <Route path="/" element={<><Hero /><ServicesSection /></>} />
                   <Route path="/about" element={<AboutUs />} />
