@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./chatbot.css";
 
 export default function Chatbot({ 
-  ayurUrl = "http://localhost:5000/",
+  ayurUrl = process.env.REACT_APP_AYUR_URL || "http://localhost:5000/",
   position = "bottom-right"
 }) {
   const [showMenu, setShowMenu] = useState(false);
