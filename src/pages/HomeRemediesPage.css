@@ -1,543 +1,249 @@
-/* =======================
-   Professional Home Remedies Page
-   ======================= */
-
+/* 🌿 Base Page Layout */
 .improved-home-remedies-page {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #2c3e50;
-  background: #f8f9fa;
+  background: linear-gradient(180deg, #f9fffd, #eef7f4);
   min-height: 100vh;
-  padding: 0;
 }
 
-/* Page Header */
+/* 🌱 Header */
 .page-header {
-  background: linear-gradient(135deg, #2d7a5f 0%, #1e5a45 100%);
-  padding: 60px 20px 40px;
+  background: linear-gradient(135deg, #b8f3e9, #eafff9);
+  padding: 3rem 1rem;
   text-align: center;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
-.page-header h1 {
+.header-content h1 {
+  color: #0f5d4f;
   font-size: 2.5rem;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-weight: 700;
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
 }
 
-.header-icon {
-  font-size: 2.2rem;
-}
-
-.page-header p {
+.header-content p {
+  color: #317d6b;
   font-size: 1.1rem;
-  opacity: 0.95;
-  font-weight: 300;
+  font-weight: 400;
 }
 
-/* Global Disclaimer */
+/* 🩺 Disclaimer */
 .global-disclaimer {
-  background: #fff3cd;
-  border-left: 4px solid #ffc107;
-  padding: 16px 20px;
-  margin: 24px auto;
-  max-width: 1200px;
-  border-radius: 6px;
+  background: #f9fdfa;
+  border-left: 4px solid #38b2ac;
+  padding: 0.9rem 1rem;
+  margin: 20px auto;
+  max-width: 850px;
+  border-radius: 10px;
+  color: #2c3e50;
   display: flex;
-  gap: 12px;
   align-items: flex-start;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .disclaimer-icon {
-  font-size: 1.4rem;
-  color: #856404;
+  color: #38b2ac;
+  font-size: 1.3rem;
   margin-top: 2px;
-  flex-shrink: 0;
 }
 
-.global-disclaimer h3 {
-  color: #856404;
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 6px 0;
-}
-
-.global-disclaimer p {
-  color: #856404;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Main Layout */
+/* 🧘‍♀️ Main Layout */
 .main-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 1rem 1.5rem 3rem;
+}
+
+.search-panel {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 2fr 1fr;
   gap: 30px;
 }
 
 @media (max-width: 992px) {
-  .main-content {
+  .search-panel {
     grid-template-columns: 1fr;
   }
-  
-  .info-section {
-    order: -1;
-  }
 }
 
-/* Search Container */
-.search-container {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  margin-bottom: 20px;
+/* 🔍 Search Bar */
+.search-bar-container {
+  background: linear-gradient(135deg, #fffbf2, #f0f4f8);
+  padding: 1.2rem 1.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.search-header h2 {
-  font-size: 1.4rem;
-  color: #2c3e50;
-  font-weight: 600;
-  margin: 0 0 8px 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.search-bar-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
-.search-header p {
-  color: #6c757d;
-  font-size: 0.9rem;
-  margin: 0 0 20px 0;
-}
-
-/* Search Input */
-.search-input-container {
-  position: relative;
-  margin-bottom: 24px;
-}
-
-.search-input {
+.search-bar {
   width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
-  font-family: inherit;
-}
-
-.search-input:focus {
-  border-color: #2d7a5f;
+  padding: 1.2rem 1.5rem;
+  border-radius: 1rem;
+  border: 2px solid #ddd;
+  font-size: 1.1rem;
+  background: #fff;
+  color: #333;
+  transition: all 0.3s ease;
   outline: none;
 }
 
-.search-input::placeholder {
-  color: #adb5bd;
+.search-bar:focus {
+  border-color: #38b2ac;
+  box-shadow: 0 0 5px 2px rgba(56, 178, 172, 0.3);
 }
 
 .clear-button {
   position: absolute;
-  right: 12px;
+  right: 24px;
   top: 50%;
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #6c757d;
-  font-size: 1.6rem;
+  color: #888;
+  font-size: 1.5rem;
   cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: color 0.2s ease;
 }
 
 .clear-button:hover {
-  color: #2d7a5f;
+  color: #2c9290;
 }
 
-/* Loading Spinner */
-.loading-indicator {
-  text-align: center;
-  padding: 40px 0;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid #e0e0e0;
-  border-radius: 50%;
-  border-top-color: #2d7a5f;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 12px;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.loading-indicator p {
-  color: #6c757d;
-  font-size: 0.9rem;
-}
-
-/* Recent Searches */
-.recent-searches {
-  margin-bottom: 24px;
-}
-
-.recent-searches h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 12px 0;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.recent-search-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.recent-search-tag {
-  background: #f1f3f5;
-  color: #495057;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 1px solid #dee2e6;
-}
-
-.recent-search-tag:hover {
-  background: #2d7a5f;
-  color: white;
-  border-color: #2d7a5f;
-}
-
-/* Result Cards */
-.results {
-  margin-bottom: 24px;
-}
-
-.result-card {
+/* 🪷 Suggestions */
+.suggestions-box {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  margin-bottom: 16px;
-  border-left: 4px solid #2d7a5f;
+  border-radius: 1rem;
+  margin-top: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
-.result-card.error-card {
-  border-left-color: #dc3545;
-}
-
-.error-message {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #dc3545;
-}
-
-.error-message svg {
-  font-size: 1.2rem;
-  flex-shrink: 0;
-}
-
-.result-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.result-header h3 {
-  font-size: 1.5rem;
-  color: #2c3e50;
-  font-weight: 600;
-  margin: 0;
-}
-
-.category-tag {
-  background: #e7f5f0;
-  color: #2d7a5f;
-  padding: 4px 12px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.remedy-content,
-.ingredients,
-.instructions,
-.precautions {
-  margin-bottom: 16px;
-}
-
-.remedy-content h4,
-.ingredients h4,
-.instructions h4,
-.precautions h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #495057;
-  margin: 0 0 8px 0;
+.suggestion-item {
+  padding: 12px 18px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #333;
+  transition: all 0.2s ease;
 }
 
-.remedy-content p,
+.suggestion-item:hover {
+  background: #e6fffa;
+  color: #2c9290;
+  padding-left: 25px;
+}
+
+.suggestion-icon {
+  color: #38b2ac;
+}
+
+/* 🌼 Remedy Card */
+.remedy-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-top: 2rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+.remedy-card h2 {
+  font-size: 1.8rem;
+  color: #0f5d4f;
+  margin-bottom: 10px;
+}
+
+.remedy-subtitle {
+  color: #38b2ac;
+  margin-bottom: 1.2rem;
+  font-style: italic;
+}
+
+/* Lists inside card */
+.ingredients ul {
+  list-style: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 .instructions p,
 .precautions p {
-  color: #495057;
+  color: #333;
   line-height: 1.6;
-  margin: 0;
-  font-size: 0.95rem;
-}
-
-.ingredients ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.ingredients li {
-  color: #495057;
-  padding: 6px 0;
-  padding-left: 20px;
-  position: relative;
-  font-size: 0.95rem;
-}
-
-.ingredients li:before {
-  content: "•";
-  color: #2d7a5f;
-  font-weight: bold;
-  position: absolute;
-  left: 0;
-}
-
-.instructions,
-.precautions {
-  background: #f8f9fa;
-  border-radius: 6px;
-  padding: 14px;
 }
 
 .precautions {
-  background: #fff3cd;
-  border: 1px solid #ffc107;
+  background: #fffdf7;
+  border-left: 4px solid #ffcc00;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
 }
 
-.precautions h4 {
-  color: #856404;
+/* Ingredient link */
+.ingredient-link {
+  color: #38b2ac;
+  text-decoration: underline;
 }
 
-.precautions p {
-  color: #856404;
-}
-
-/* Recommendations */
-.recommendations {
-  margin-top: 24px;
-}
-
-.recommendations h3 {
-  font-size: 1.2rem;
+.ingredient-link:hover {
+  color: #2c9290;
   font-weight: 600;
+}
+
+/* 🌟 Popular Remedies */
+.top-remedies {
+  background: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  height: fit-content;
+}
+
+.top-remedies h3 {
   color: #2c3e50;
-  margin: 0 0 16px 0;
-}
-
-.recommendation-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-}
-
-.recommendation-card {
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.recommendation-card:hover {
-  border-color: #2d7a5f;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-}
-
-.recommendation-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.recommendation-icon {
-  color: #2d7a5f;
-  font-size: 1.2rem;
-}
-
-.recommendation-header h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0;
-}
-
-.recommendation-preview {
-  color: #6c757d;
-  font-size: 0.85rem;
-  line-height: 1.4;
-  margin: 8px 0;
-}
-
-.view-more-btn {
-  color: #2d7a5f;
-  font-size: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 500;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  transition: gap 0.2s ease;
-}
-
-.view-more-btn:hover {
-  gap: 8px;
-}
-
-/* Sidebar */
-.info-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.top-remedies,
-.features {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
-.top-remedies h3,
-.features h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 16px 0;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.top-remedies-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
 
 .top-remedies-list li {
+  padding: 12px;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #333;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  color: #495057;
-  font-size: 0.9rem;
 }
 
 .top-remedies-list li:hover {
-  background: #f8f9fa;
-  color: #2d7a5f;
+  background: #e6fffa;
+  color: #2c9290;
+  transform: translateX(4px);
 }
 
-.list-icon {
-  color: #2d7a5f;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-}
-
-/* Feature Cards */
-.feature {
-  display: flex;
-  gap: 14px;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.feature:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.feature-icon {
-  font-size: 1.5rem;
-  color: #2d7a5f;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.feature h4 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2c3e50;
-  margin: 0 0 6px 0;
-}
-
-.feature p {
-  font-size: 0.85rem;
-  color: #6c757d;
-  line-height: 1.5;
-  margin: 0;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .page-header h1 {
-    font-size: 2rem;
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .page-header p {
-    font-size: 1rem;
-  }
-  
-  .main-content {
-    padding: 20px 16px;
-  }
-  
-  .recommendation-cards {
-    grid-template-columns: 1fr;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
