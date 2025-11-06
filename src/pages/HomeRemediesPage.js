@@ -3,7 +3,6 @@ import "./HomeRemediesPage.css";
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import {
   FaLeaf,
-  FaSearch,
   FaInfoCircle,
   FaStar,
   FaListUl,
@@ -113,6 +112,9 @@ const HomeRemediesPage = () => {
     setSuggestions([]);
   };
 
+  // show a small loading indicator while the remedies list is being fetched
+  // uses `isLoading` so ESLint doesn't complain about the variable being unused
+
   const isKnownIngredient = (word) =>
     knownIngredients.some(
       (ing) => ing.toLowerCase() === word.toLowerCase().replace(/[^a-z]/gi, "")
@@ -171,6 +173,12 @@ const HomeRemediesPage = () => {
                     <FaLeaf className="suggestion-icon" /> {s}
                   </div>
                 ))}
+              </div>
+            )}
+
+            {isLoading && (
+              <div className="loading-indicator" aria-live="polite">
+                <FaLeaf className="loading-icon" /> Loading remedies...
               </div>
             )}
 
