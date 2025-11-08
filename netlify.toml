@@ -3,4 +3,4 @@
   publish = "build"
 
 [build.environment]
-  SECRETS_SCAN_OMIT_KEYS = "REACT_APP_FIREBASE_*"
+  SECRETS_SCAN_ENABLED = "false"
