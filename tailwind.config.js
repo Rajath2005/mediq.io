@@ -7,8 +7,6 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-};
-module.exports = {
   corePlugins: {
     preflight: false, // Disable Tailwind's base reset
   },
