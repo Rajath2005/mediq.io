@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Navbar.css";
 import logo from "./images/logo.jpg";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
 import UserProfileDropdown from "./UserProfileDropdown";
-import "animate.css";
 import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { neon } from "@neondatabase/serverless";
 
-// ✅ Neon DB connection
 const sql = neon(
   "postgresql://emergency_owner:npg_VQbCf3imhr8a@ep-small-shape-a8g2w5tp-pooler.eastus2.azure.neon.tech/emergency?sslmode=require&channel_binding=require"
 );
@@ -18,32 +16,56 @@ const sql = neon(
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
   const { isAuthenticated, isAdmin, signOut } = useAuth();
-  const [isNavExpanded, setIsNavExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsDropdownOpen(false);
       }
-      if (!event.target.closest(".navbar")) {
-        setIsNavExpanded(false);
-      }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+    setIsDropdownOpen(false);
+    setIsMobileDropdownOpen(false);
+  }, [location]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
 
   const handleServiceSelection = () => {
     setIsDropdownOpen(false);
-    setIsNavExpanded(false);
+    setIsMobileMenuOpen(false);
+    setIsMobileDropdownOpen(false);
   };
 
   const handleLogout = async () => {
     try {
       await signOut();
+      setIsMobileMenuOpen(false);
       navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
@@ -51,6 +73,8 @@ const Navbar = () => {
   };
 
   const handleEmergency = async () => {
+    setIsMobileMenuOpen(false);
+    
     Swal.fire({
       title: "Loading Emergency Contacts...",
       allowOutsideClick: false,
@@ -103,11 +127,7 @@ const Navbar = () => {
         `;
       });
 
-      tableHtml += `
-            </tbody>
-          </table>
-        </div>
-      `;
+      tableHtml += `</tbody></table></div>`;
 
       Swal.fire({
         title: "🚨 Emergency Contacts",
@@ -136,188 +156,266 @@ const Navbar = () => {
     }
   };
 
+  const toggleDesktopDropdown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const toggleMobileDropdown = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsMobileDropdownOpen(!isMobileDropdownOpen);
+  };
+
   return (
-    <nav
-      className={`navbar navbar-expand-lg w-100 ${
-        darkMode ? "navbar-dark bg-dark" : "bg-light"
-      }`}
-      style={{ zIndex: 1060 }}
-    >
-      <div className="container-fluid px-3">
-        <Link
-          className="navbar-brand d-flex align-items-center"
-          to="/"
-          onClick={() => setIsNavExpanded(false)}
-        >
-          <img
-            src={logo}
-            alt="Logo"
-            className="navbar-logo me-2 animate__animated animate__pulse"
-            style={{ width: "40px", height: "40px" }}
-          />
-          <span className="brand-text">MediQ</span>
-          {isAdmin && <span className="admin-badge ms-2">Admin</span>}
-        </Link>
+    <>
+      <nav className={`custom-navbar ${darkMode ? "dark" : "light"}`}>
+        <div className="navbar-container">
+          {/* Logo and Brand */}
+          <Link className="navbar-brand" to="/" onClick={handleServiceSelection}>
+            <img src={logo} alt="MediQ Logo" className="navbar-logo" />
+            <span className="brand-text">MediQ</span>
+            {isAdmin && <span className="admin-badge">Admin</span>}
+          </Link>
 
-        <button
-          className="btn btn-danger d-lg-none me-2"
-          onClick={handleEmergency}
-        >
-          Emergency
-        </button>
+          {/* Desktop Navigation */}
+          <div className="desktop-nav">
+            <ul className="nav-links">
+              <li>
+                <Link to="/" onClick={handleServiceSelection}>
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/search-medicines" onClick={handleServiceSelection}>
+                  Ayurvedic Medicines
+                </Link>
+              </li>
+              <li>
+                <Link to="/home-remedies" onClick={handleServiceSelection}>
+                  Home Remedies
+                </Link>
+              </li>
+              <li className="dropdown" ref={dropdownRef}>
+                <button 
+                  className="dropdown-toggle"
+                  onClick={toggleDesktopDropdown}
+                  type="button"
+                  aria-expanded={isDropdownOpen}
+                  aria-haspopup="true"
+                >
+                  More
+                </button>
+                <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+                  <li>
+                    <Link to="/about" onClick={handleServiceSelection}>
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" onClick={handleServiceSelection}>
+                      Contact Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/hospitals" onClick={handleServiceSelection}>
+                      Book Appointment
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
+                      Ayurvedic Medical Shops
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/nearby-hospitals" onClick={handleServiceSelection}>
+                      Nearby Hospitals
+                    </Link>
+                  </li>
+                  <li className="divider"></li>
+                  <li>
+                    <Link to="/emergency-settings" onClick={handleServiceSelection}>
+                      🚨 Emergency Settings
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </ul>
 
-        <button
-          className="navbar-toggler border-0"
-          type="button"
-          onClick={() => setIsNavExpanded(!isNavExpanded)}
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          className={`collapse navbar-collapse ${
-            isNavExpanded ? "show animate__animated animate__fadeIn" : ""
-          }`}
-        >
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link" to="/" onClick={handleServiceSelection}>
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link"
-                to="/search-medicines"
-                onClick={handleServiceSelection}
-              >
-                Ayurvedic Medicines
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link"
-                to="/home-remedies"
-                onClick={handleServiceSelection}
-              >
-                Home Remedies
-              </Link>
-            </li>
-            <li className="nav-item dropdown" ref={dropdownRef}>
-              <button
-                className="nav-link dropdown-toggle"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsDropdownOpen(!isDropdownOpen);
-                }}
-                type="button"
-              >
-                More
+            <div className="nav-actions">
+              <button className="btn btn-danger emergency-btn" onClick={handleEmergency}>
+                🚨 Emergency Call
               </button>
-              <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to="/about"
-                    onClick={handleServiceSelection}
-                  >
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to="/contact"
-                    onClick={handleServiceSelection}
-                  >
-                    Contact Us
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to="/hospitals"
-                    onClick={handleServiceSelection}
-                  >
-                    Book Appointment
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to="/ayurvedic-shops"
-                    onClick={handleServiceSelection}
-                  >
-                    Ayurvedic Medical Shops
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to="/nearby-hospitals"
-                    onClick={handleServiceSelection}
-                  >
-                    Nearby Hospitals
-                  </Link>
-                </li>
-                <li><hr className="dropdown-divider" /></li>
-                <li>
-                  <Link
-                    className="dropdown-item"
-                    to="/emergency-settings"
-                    onClick={handleServiceSelection}
-                  >
-                    🚨 Emergency Settings
-                  </Link>
-                </li>
-              </ul>
-            </li>
-          </ul>
 
-          <div className="d-flex align-items-center gap-3">
-            <button
-              onClick={handleEmergency}
-              className="btn btn-danger d-none d-lg-block animate__animated animate__pulse animate__infinite animate__slow"
-            >
-              Emergency Call
-            </button>
-
-            {!isAuthenticated ? (
-              <>
-                <Link
-                  to="/signup"
-                  className="btn btn-outline-success"
-                  onClick={() => setIsNavExpanded(false)}
-                >
-                  Sign Up
-                </Link>
-                <Link
-                  to="/login"
-                  className="btn btn-outline-info"
-                  onClick={() => setIsNavExpanded(false)}
-                >
-                  Log In
-                </Link>
-              </>
-            ) : (
-              <UserProfileDropdown
-                isAuthenticated={isAuthenticated}
-                isAdmin={isAdmin}
-                onLogout={handleLogout}
-              />
-            )}
-
-            <button className="btn btn-outline-dark" onClick={toggleDarkMode}>
-              {darkMode ? (
-                <FaSun className="animate__animated animate__rotateIn" />
+              {!isAuthenticated ? (
+                <>
+                  <Link to="/signup" className="btn btn-success" onClick={handleServiceSelection}>
+                    Sign Up
+                  </Link>
+                  <Link to="/login" className="btn btn-info" onClick={handleServiceSelection}>
+                    Log In
+                  </Link>
+                </>
               ) : (
-                <FaMoon className="animate__animated animate__rotateIn" />
+                <UserProfileDropdown
+                  isAuthenticated={isAuthenticated}
+                  isAdmin={isAdmin}
+                  onLogout={handleLogout}
+                />
               )}
+
+              <button 
+                className="btn btn-icon theme-toggle" 
+                onClick={toggleDarkMode}
+                aria-label="Toggle theme"
+              >
+                {darkMode ? <FaSun /> : <FaMoon />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Controls */}
+          <div className="mobile-controls">
+            <button className="btn btn-danger btn-sm" onClick={handleEmergency}>
+              🚨 Emergency
+            </button>
+            <button 
+              className="mobile-menu-toggle"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
             </button>
           </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
+          <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+            <div className="mobile-menu-header">
+              <span className="brand-text">MediQ Menu</span>
+              <button 
+                className="close-btn"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Close menu"
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <ul className="mobile-nav-links">
+              <li>
+                <Link to="/" onClick={handleServiceSelection}>
+                  🏠 Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/search-medicines" onClick={handleServiceSelection}>
+                  🌿 Ayurvedic Medicines
+                </Link>
+              </li>
+              <li>
+                <Link to="/home-remedies" onClick={handleServiceSelection}>
+                  💊 Home Remedies
+                </Link>
+              </li>
+              
+              <li className="mobile-dropdown">
+                <button 
+                  className="dropdown-toggle"
+                  onClick={toggleMobileDropdown}
+                  type="button"
+                >
+                  📋 More {isMobileDropdownOpen ? '▲' : '▼'}
+                </button>
+                {isMobileDropdownOpen && (
+                  <ul className="mobile-dropdown-menu">
+                    <li>
+                      <Link to="/about" onClick={handleServiceSelection}>
+                        ℹ️ About Us
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/contact" onClick={handleServiceSelection}>
+                        📞 Contact Us
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/hospitals" onClick={handleServiceSelection}>
+                        🏥 Book Appointment
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
+                        🏪 Ayurvedic Shops
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/nearby-hospitals" onClick={handleServiceSelection}>
+                        📍 Nearby Hospitals
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/emergency-settings" onClick={handleServiceSelection}>
+                        🚨 Emergency Settings
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            </ul>
+
+            <div className="mobile-actions">
+              {!isAuthenticated ? (
+                <>
+                  <Link 
+                    to="/signup" 
+                    className="btn btn-success btn-block" 
+                    onClick={handleServiceSelection}
+                  >
+                    Sign Up
+                  </Link>
+                  <Link 
+                    to="/login" 
+                    className="btn btn-info btn-block" 
+                    onClick={handleServiceSelection}
+                  >
+                    Log In
+                  </Link>
+                </>
+              ) : (
+                <div className="mobile-user-section">
+                  <UserProfileDropdown
+                    isAuthenticated={isAuthenticated}
+                    isAdmin={isAdmin}
+                    onLogout={handleLogout}
+                  />
+                </div>
+              )}
+
+              <button 
+                className="btn btn-block btn-secondary theme-toggle" 
+                onClick={toggleDarkMode}
+              >
+                {darkMode ? (
+                  <>
+                    <FaSun /> Switch to Light Mode
+                  </>
+                ) : (
+                  <>
+                    <FaMoon /> Switch to Dark Mode
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
