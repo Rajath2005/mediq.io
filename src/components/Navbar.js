@@ -208,6 +208,16 @@ const Navbar = () => {
                   More
                 </button>
                 <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
+                   <li>
+                <a
+                  href="https://ayurvedic-disease-api.onrender.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleServiceSelection}
+                >
+                  Disease Scan
+                </a>
+              </li>
                   <li>
                     <Link to="/about" onClick={handleServiceSelection}>
                       About Us
