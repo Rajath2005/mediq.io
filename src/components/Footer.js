@@ -22,13 +22,13 @@ const Footer = () => {
               <a href="https://github.com/Rajath2005/mediq.io" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="GitHub">
                 <FaGithub />
               </a>
-              <a href="#" className="social-icon-link" aria-label="Twitter">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Twitter">
                 <FaTwitter />
               </a>
-              <a href="#" className="social-icon-link" aria-label="LinkedIn">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="LinkedIn">
                 <FaLinkedin />
               </a>
-              <a href="#" className="social-icon-link" aria-label="Instagram">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="social-icon-link" aria-label="Instagram">
                 <FaInstagram />
               </a>
             </div>
@@ -102,7 +102,7 @@ const Footer = () => {
           </div>
           <div className="footer-legal">
             <Link to="/privacy">Privacy Policy</Link>
-            <Link to="#">Terms of Service</Link>
+            <Link to="/terms">Terms of Service</Link>
           </div>
         </div>
       </div>
