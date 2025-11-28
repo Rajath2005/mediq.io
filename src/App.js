@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './contexts/AuthContext';
@@ -13,7 +13,7 @@ import Contact from './pages/Contact';
 import AboutUs from './pages/AboutPage';
 import ServicesPage from './pages/ServicesPage';
 import Login from "./components/Login";
-import AdminLogin from "./components/AdminLogin"; 
+import AdminLogin from "./components/AdminLogin";
 import Signup from "./components/Signup";
 import Appointments from "./pages/Appointments";
 import Preloader from "./components/Preloader";
@@ -28,12 +28,11 @@ import DoctorList from './pages/booking/DoctorList';
 import BookAppointment from './pages/booking/BookAppointment';
 import EmergencySettingsPage from './pages/EmergencySettingsPage';
 import ManageAppointments from './components/ManageAppointments';
+import ChatbotPage from './pages/ChatbotPage';
 import './App.css';
 import CookieConsent from "./components/CookieConsent";
 
 import Chatbot from './chatbot/chatbot';  // Import chatbot component
-
-
 
 const AdminRoute = ({ children }) => {
   const { isAuthenticated, isAdmin } = useAuth();
@@ -48,6 +47,24 @@ const UserRoute = ({ children }) => {
   return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
+// Layout component to handle conditional rendering of Navbar and Footer
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const isChatbotPage = location.pathname === '/chatbot';
+
+  return (
+    <div className="app-container d-flex flex-column min-vh-100" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      {!isChatbotPage && <Navbar />}
+      <div className="flex-grow-1" style={{ flex: 1 }}>
+        {/* Only show the floating chatbot on non-chatbot pages to avoid duplication */}
+        {!isChatbotPage && <Chatbot />}
+        {children}
+      </div>
+      {!isChatbotPage && <Footer />}
+    </div>
+  );
+};
+
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showCookieConsent, setShowCookieConsent] = useState(false);
@@ -57,19 +74,19 @@ const App = () => {
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
-    
+
     const cookieConsentPreference = localStorage.getItem('cookieConsent');
     if (!cookieConsentPreference) {
       const cookieTimer = setTimeout(() => {
         setShowCookieConsent(true);
       }, 10000);
-      
+
       return () => {
         clearTimeout(loadingTimer);
         clearTimeout(cookieTimer);
       };
     }
-    
+
     return () => clearTimeout(loadingTimer);
   }, []);
 
@@ -81,38 +98,34 @@ const App = () => {
       <ThemeProvider>
         <HelmetProvider>
           <Router>
-            <div className="app-container d-flex flex-column min-vh-100" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-              <Navbar />
-              <div className="flex-grow-1" style={{ flex: 1 }}>
-                <Chatbot />
-                <Routes>
-                  <Route path="/" element={<><Hero /><ServicesSection /></>} />
-                  <Route path="/about" element={<AboutUs />} />
-                  <Route path="/services" element={<ServicesPage />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/admin-login" element={<AdminLogin />} />
-                  <Route path="/signup" element={<Signup />} />
-                  
-                  <Route path="/appointments" element={<UserRoute><Appointments /></UserRoute>} />
-                  <Route path="/book-appointment/:hospitalId/:doctorId" element={<UserRoute><BookAppointment /></UserRoute>} />
-                  
-                  <Route path="/manage-appointments" element={<AdminRoute><ManageAppointments /></AdminRoute>} />
-                  <Route path="/emergency-settings" element={<UserRoute><EmergencySettingsPage /></UserRoute>} />
-                  
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/ayurvedic-shops" element={<AyurvedaMedicals />} />
-                  <Route path="/suggest-shop" element={<SuggestShopForm />} />
-                  <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
-                  <Route path="/home-remedies" element={<HomeRemediesPage />} />
-                  <Route path="/search-medicines" element={<SearchPage />} />
-                  <Route path="/privacy" element={<PrivacyPolicy />} />
-                  <Route path="/hospitals" element={<HospitalList />} />
-                  <Route path="/hospitals/:hospitalId/doctors" element={<DoctorList />} />
-                </Routes>
-              </div>
-              <Footer />
+            <Layout>
+              <Routes>
+                <Route path="/" element={<><Hero /><ServicesSection /></>} />
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/admin-login" element={<AdminLogin />} />
+                <Route path="/signup" element={<Signup />} />
+
+                <Route path="/appointments" element={<UserRoute><Appointments /></UserRoute>} />
+                <Route path="/book-appointment/:hospitalId/:doctorId" element={<UserRoute><BookAppointment /></UserRoute>} />
+
+                <Route path="/manage-appointments" element={<AdminRoute><ManageAppointments /></AdminRoute>} />
+                <Route path="/emergency-settings" element={<UserRoute><EmergencySettingsPage /></UserRoute>} />
+
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/ayurvedic-shops" element={<AyurvedaMedicals />} />
+                <Route path="/suggest-shop" element={<SuggestShopForm />} />
+                <Route path="/nearby-hospitals" element={<NearbyHospitals />} />
+                <Route path="/home-remedies" element={<HomeRemediesPage />} />
+                <Route path="/search-medicines" element={<SearchPage />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/hospitals" element={<HospitalList />} />
+                <Route path="/hospitals/:hospitalId/doctors" element={<DoctorList />} />
+                <Route path="/chatbot" element={<ChatbotPage />} />
+              </Routes>
               {showCookieConsent && <CookieConsent onConsentGiven={() => setShowCookieConsent(false)} />}
-            </div>
+            </Layout>
           </Router>
         </HelmetProvider>
       </ThemeProvider>

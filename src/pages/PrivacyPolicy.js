@@ -1,97 +1,102 @@
-// src/pages/PrivacyPolicy/PrivacyPolicy.js
-import React from 'react';
+import React, { useEffect } from 'react';
 import './PrivacyPolicy.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'animate.css';
 
-const PrivacyPolicy = (props) => {
+const PrivacyPolicy = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="privacy-policy-page d-flex justify-content-center align-items-center" style={{ minHeight: '80vh', marginTop: '80px' }}>
-      <div className="privacy-policy-container w-100" style={{ maxWidth: '800px' }}>
-        <div className="privacy-policy-header text-center">
-          <h1 className="text-primary">AyuDost Privacy Policy</h1>
-        </div>
+    <div className="privacy-page">
+      <div className="privacy-container">
+        {/* Sidebar Navigation */}
+        <aside className="privacy-sidebar">
+          <h3 className="sidebar-title">Table of Contents</h3>
+          <nav>
+            <ul className="sidebar-nav">
+              <li><button onClick={() => scrollToSection('introduction')} className="nav-link">Introduction</button></li>
+              <li><button onClick={() => scrollToSection('data-collection')} className="nav-link">Data Collection</button></li>
+              <li><button onClick={() => scrollToSection('usage')} className="nav-link">How We Use Data</button></li>
+              <li><button onClick={() => scrollToSection('cookies')} className="nav-link">Cookies & Tracking</button></li>
+              <li><button onClick={() => scrollToSection('security')} className="nav-link">Data Security</button></li>
+              <li><button onClick={() => scrollToSection('contact')} className="nav-link">Contact Us</button></li>
+            </ul>
+          </nav>
+        </aside>
 
-        <p className="last-updated text-muted text-center">
-          <strong>Last Updated: April 9, 2025</strong>
-        </p>
+        {/* Main Content */}
+        <main className="privacy-content">
+          <div className="page-header">
+            <h1 className="page-title">Privacy Policy</h1>
+            <p className="last-updated">Last Updated: November 28, 2025</p>
+          </div>
 
-        <div className="privacy-policy-content scrollable">
-          <h1>Privacy Policy</h1>
-          <p>Last updated: May 03, 2025</p>
-          <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
-          <p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy.</p>
+          <section id="introduction" className="policy-section">
+            <h2 className="section-title">Introduction</h2>
+            <p className="policy-text">
+              Welcome to AyuDost. We value your trust and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our website and services.
+            </p>
+            <p className="policy-text">
+              By accessing or using AyuDost, you agree to the terms of this Privacy Policy. If you do not agree with these terms, please do not use our services.
+            </p>
+          </section>
 
-          <section className="policy-section">
-            <h2>Interpretation and Definitions</h2>
-            <h3>Interpretation</h3>
-            <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
-
-            <h3>Definitions</h3>
-            <p>For the purposes of this Privacy Policy:</p>
-            <ul>
-              <li><p><strong>Account</strong> means a unique account created for You to access our Service or parts of our Service.</p></li>
-              <li><p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where "control" means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p></li>
-              <li><p><strong>Company</strong> (referred to as either "the Company", "We", "Us" or "Our" in this Agreement) refers to AyuDost.</p></li>
-              <li><p><strong>Cookies</strong> are small files that are placed on Your computer, mobile device or any other device by a website, containing the details of Your browsing history on that website among its many uses.</p></li>
-              <li><p><strong>Country</strong> refers to: Karnataka, India</p></li>
-              <li><p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone or a digital tablet.</p></li>
-              <li><p><strong>Personal Data</strong> is any information that relates to an identified or identifiable individual.</p></li>
-              <li><p><strong>Service</strong> refers to the Website.</p></li>
-              <li><p><strong>Service Provider</strong> means any natural or legal person who processes the data on behalf of the Company.</p></li>
-              <li><p><strong>Usage Data</strong> refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself.</p></li>
-              <li><p><strong>Website</strong> refers to AyuDost, accessible from <a href="https://mediq-health.netlify.app/" rel="noreferrer" target="_blank">https://mediq-health.netlify.app/</a></p></li>
-              <li><p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</p></li>
+          <section id="data-collection" className="policy-section">
+            <h2 className="section-title">Information We Collect</h2>
+            <p className="policy-text">We collect several types of information to provide and improve our service to you:</p>
+            <ul className="policy-list">
+              <li><strong>Personal Data:</strong> While using our service, we may ask you to provide us with certain personally identifiable information, such as your email address, name, and phone number.</li>
+              <li><strong>Usage Data:</strong> We may also collect information on how the service is accessed and used, including your computer's Internet Protocol (IP) address, browser type, and pages visited.</li>
             </ul>
           </section>
 
-          <section className="policy-section">
-            <h2>Collecting and Using Your Personal Data</h2>
-            <h3>Types of Data Collected</h3>
-
-            <h4>Personal Data</h4>
-            <p>While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:</p>
-            <ul>
-              <li><p>Email address</p></li>
-              <li><p>First name and last name</p></li>
-              <li><p>Usage Data</p></li>
-            </ul>
-
-            <h4>Usage Data</h4>
-            <p>Usage Data is collected automatically when using the Service.</p>
-            <p>Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
-
-            <h4>Tracking Technologies and Cookies</h4>
-            <p>We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information. Tracking technologies used are beacons, tags, and scripts to collect and track information and to improve and analyze Our Service. The technologies We use may include:</p>
-            <ul>
-              <li><strong>Cookies or Browser Cookies.</strong> A cookie is a small file placed on Your Device. You can instruct Your browser to refuse all Cookies or to indicate when a Cookie is being sent.</li>
-              <li><strong>Web Beacons.</strong> Certain sections of our Service and our emails may contain small electronic files known as web beacons that permit the Company to count users who have visited those pages or opened an email.</li>
-            </ul>
-
-            <h3>Use of Your Personal Data</h3>
-            <p>The Company may use Personal Data for the following purposes:</p>
-            <ul>
-              <li><p><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.</p></li>
-              <li><p><strong>To manage Your Account</strong> and provide You with access to different functionalities.</p></li>
-              <li><p><strong>To contact You</strong> by email, telephone calls, SMS, or other forms of electronic communication.</p></li>
-              <li><p><strong>To provide You</strong> with news, special offers and general information about other goods, services and events.</p></li>
+          <section id="usage" className="policy-section">
+            <h2 className="section-title">How We Use Your Data</h2>
+            <p className="policy-text">AyuDost uses the collected data for various purposes:</p>
+            <ul className="policy-list">
+              <li>To provide and maintain our service</li>
+              <li>To notify you about changes to our service</li>
+              <li>To allow you to participate in interactive features when you choose to do so</li>
+              <li>To provide customer support</li>
+              <li>To gather analysis or valuable information so that we can improve our service</li>
             </ul>
           </section>
 
-          <section className="policy-section">
-            <h2>Security of Your Personal Data</h2>
-            <p>The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.</p>
+          <section id="cookies" className="policy-section">
+            <h2 className="section-title">Cookies and Tracking</h2>
+            <p className="policy-text">
+              We use cookies and similar tracking technologies to track the activity on our service and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier.
+            </p>
+            <p className="policy-text">
+              You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our service.
+            </p>
           </section>
 
-          <section className="policy-section">
-            <h2>Contact Us</h2>
-            <p>If you have any questions about this Privacy Policy, You can contact us:</p>
-            <ul>
-              <li><p>By email: mediq2005@gmail.com</p></li>
-              <li><p>By visiting this page on our website: <a href="https://mediq-health.netlify.app/#/contact" rel="noreferrer" target="_blank">https://mediq-health.netlify.app/#/contact</a></p></li>
+          <section id="security" className="policy-section">
+            <h2 className="section-title">Data Security</h2>
+            <p className="policy-text">
+              The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.
+            </p>
+          </section>
+
+          <section id="contact" className="policy-section">
+            <h2 className="section-title">Contact Us</h2>
+            <p className="policy-text">
+              If you have any questions about this Privacy Policy, please contact us:
+            </p>
+            <ul className="policy-list">
+              <li>By email: support@ayudost.ai</li>
+              <li>By visiting the contact page on our website</li>
             </ul>
           </section>
-        </div>
+        </main>
       </div>
     </div>
   );

@@ -1,65 +1,140 @@
+/* Cookie Consent Premium Styles */
 .cookie-consent-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    border-top: 1px solid #e9ecef;
-    padding: 1rem;
-    z-index: 1050;
-    transition: all 0.5s ease-in-out;
-    transform: translateY(0);
-    animation: slideIn 0.5s forwards;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 400px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 25px;
+  z-index: 9999;
+  font-family: 'Inter', sans-serif;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cookie-consent-container.exiting {
+  animation: slideDown 0.5s forwards;
+  pointer-events: none;
+}
+
+.cookie-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cookie-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cookie-icon {
+  font-size: 1.8rem;
+}
+
+.cookie-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0F172A;
+  margin: 0;
+}
+
+.cookie-message {
+  font-size: 0.95rem;
+  color: #64748B;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.btn-cookie {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-accept {
+  background: #1DA584;
+  color: white;
+  box-shadow: 0 4px 12px rgba(29, 165, 132, 0.2);
+}
+
+.btn-accept:hover {
+  background: #158066;
+  transform: translateY(-2px);
+}
+
+.btn-reject {
+  background: #F1F5F9;
+  color: #475569;
+}
+
+.btn-reject:hover {
+  background: #E2E8F0;
+  color: #1E293B;
+}
+
+.btn-settings {
+  background: transparent;
+  color: #64748B;
+  border: 1px solid #E2E8F0;
+}
+
+.btn-settings:hover {
+  border-color: #CBD5E1;
+  color: #334155;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
   }
-  
-  .cookie-consent-container.exiting {
-    animation: slideOut 0.5s forwards;
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
-  
-  .cookie-message {
-    margin-bottom: 0;
-    font-size: 0.95rem;
-    color: #495057;
+}
+
+@keyframes slideDown {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .btn {
-    margin: 0.25rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+  .cookie-consent-container {
+    width: auto;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    padding: 20px;
   }
-  
-  /* Gap utility since some Bootstrap versions don't have it */
-  .gap-2 {
-    gap: 0.5rem;
+
+  .cookie-actions {
+    flex-direction: column;
   }
-  
-  /* Animation keyframes */
-  @keyframes slideIn {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
+
+  .btn-cookie {
+    width: 100%;
+    padding: 12px;
   }
-  
-  @keyframes slideOut {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(100%);
-    }
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .cookie-consent-container {
-      padding: 1rem;
-    }
-  
-    .btn {
-      margin-top: 0.5rem;
-      padding: 0.375rem 0.75rem;
-      font-size: 0.875rem;
-    }
-  }
+}

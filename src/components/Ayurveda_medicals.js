@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 /* eslint-disable-next-line no-unused-vars */
 import { FaDirections, FaPhone, FaClock, FaHeart, FaBookmark, FaMapMarkerAlt, FaLocationArrow, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -168,7 +168,6 @@ const AyurvedaMedicals = () => {
   const [filter, setFilter] = useState("");
   const [location, setLocation] = useState(null);
   const [locationError, setLocationError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
   const [isSearchingLocation, setIsSearchingLocation] = useState(false);
 
   // Function to fetch shops from Overpass API
@@ -227,34 +226,7 @@ const AyurvedaMedicals = () => {
     }
   };
 
-  const searchLocation = async () => {
-    if (!searchQuery.trim()) return;
 
-    setIsSearchingLocation(true);
-    setLoading(true);
-    setError(null);
-    setLocationError(null);
-
-    try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}`);
-      const data = await response.json();
-
-      if (data && data.length > 0) {
-        const { lat, lon, display_name } = data[0];
-        setLocation({ lat: parseFloat(lat), lon: parseFloat(lon), name: display_name });
-        fetchShops(lat, lon);
-      } else {
-        setError(`Could not find location: "${searchQuery}"`);
-        setLoading(false);
-        setIsSearchingLocation(false);
-      }
-    } catch (err) {
-      console.error("Error geocoding location:", err);
-      setError("Failed to search for location.");
-      setLoading(false);
-      setIsSearchingLocation(false);
-    }
-  };
 
   const handleUseLocation = () => {
     setLoading(true);
@@ -290,7 +262,6 @@ const AyurvedaMedicals = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (filter) {
-      setSearchQuery(filter);
       searchLocationByValue(filter);
     }
   };
@@ -366,6 +337,11 @@ const AyurvedaMedicals = () => {
         {locationError && (
           <div className="error-banner">
             {locationError}
+          </div>
+        )}
+        {error && (
+          <div className="error-banner">
+            {error}
           </div>
         )}
 
