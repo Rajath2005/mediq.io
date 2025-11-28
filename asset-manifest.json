@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "./static/css/main.8259af7d.css",
-    "main.js": "./static/js/main.88d77094.js",
-    "static/js/453.c981a88f.chunk.js": "./static/js/453.c981a88f.chunk.js",
+    "main.css": "./static/css/main.12c353b0.css",
+    "main.js": "./static/js/main.8be5dced.js",
+    "static/js/453.bf281d55.chunk.js": "./static/js/453.bf281d55.chunk.js",
     "static/media/Rajath.jpg": "./static/media/Rajath.3aa205afd757079fcf3a.jpg",
     "static/media/Rithesh.jpeg": "./static/media/Rithesh.ae4e18c245b718c892d4.jpeg",
     "static/media/hero.jpeg": "./static/media/hero.9fea1b396855a68cb95b.jpeg",
     "static/media/back.jpeg": "./static/media/back.1719bda263644d0ea9c9.jpeg",
-    "static/media/logo.jpg": "./static/media/logo.54ecc15492359a057a76.jpg",
     "static/media/Sanath.jpeg": "./static/media/Sanath.0da3911753e3036d831a.jpeg",
     "static/media/sheethal.jpg": "./static/media/sheethal.e377693379f0a8bd6f9e.jpg",
+    "static/media/logo.jpg": "./static/media/logo.578f3401c29357b7cc0c.jpg",
     "static/media/github.png": "./static/media/github.6fd7c5c394daa62543dd.png",
     "index.html": "./index.html",
-    "main.8259af7d.css.map": "./static/css/main.8259af7d.css.map",
-    "main.88d77094.js.map": "./static/js/main.88d77094.js.map",
-    "453.c981a88f.chunk.js.map": "./static/js/453.c981a88f.chunk.js.map"
+    "main.12c353b0.css.map": "./static/css/main.12c353b0.css.map",
+    "main.8be5dced.js.map": "./static/js/main.8be5dced.js.map",
+    "453.bf281d55.chunk.js.map": "./static/js/453.bf281d55.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.8259af7d.css",
-    "static/js/main.88d77094.js"
+    "static/css/main.12c353b0.css",
+    "static/js/main.8be5dced.js"
   ]
 }
