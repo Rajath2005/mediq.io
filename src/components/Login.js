@@ -8,7 +8,7 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 import AlertMessage from "./AlertMessage";
 
 const Login = () => {
-  useDocumentTitle('Login or Sign Up - Start Your Health Journey | MediQ');
+  useDocumentTitle('Login or Sign Up - Start Your Health Journey | AyuDost');
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +17,7 @@ const Login = () => {
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const from = location.state?.from || '/';
 
   const handleLogin = async (e) => {
@@ -44,7 +44,7 @@ const Login = () => {
       setError(null);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      
+
       if (result.user) {
         navigate('/');
       }
@@ -60,7 +60,7 @@ const Login = () => {
       setLoading(true);
       setError(null);
       let provider;
-      
+
       if (providerName === 'github') {
         provider = new GithubAuthProvider();
       } else if (providerName === 'google') {
@@ -71,7 +71,7 @@ const Login = () => {
         setLoading(false);
         return;
       }
-      
+
       const result = await signInWithPopup(auth, provider);
       if (result.user) {
         navigate('/');

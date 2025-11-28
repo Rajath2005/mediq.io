@@ -49,12 +49,12 @@ const teamMembers = [
 ];
 
 const AboutUs = () => {
-  useDocumentTitle('About MediQ - Empowering Smarter Healthcare');
+  useDocumentTitle('About AyuDost - Empowering Smarter Healthcare');
   return (
     <div>
       <About />
       <div className="container">
-        <motion.p 
+        <motion.p
           className="team-head-text"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -64,8 +64,8 @@ const AboutUs = () => {
         </motion.p>
         <div className="responsive-container-block">
           {teamMembers.map((member, index) => (
-            <motion.div 
-              className="card-container" 
+            <motion.div
+              className="card-container"
               key={index}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -73,11 +73,11 @@ const AboutUs = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div 
+              <motion.div
                 className="card"
                 whileHover={{ boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.2)" }}
               >
-                <motion.div 
+                <motion.div
                   className="team-image-wrapper"
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 300 }}
@@ -88,7 +88,7 @@ const AboutUs = () => {
                     alt={member.name}
                   />
                 </motion.div>
-                <motion.p 
+                <motion.p
                   className="name"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -96,7 +96,7 @@ const AboutUs = () => {
                 >
                   {member.name}
                 </motion.p>
-                <motion.p 
+                <motion.p
                   className="position"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -104,7 +104,7 @@ const AboutUs = () => {
                 >
                   {member.position}
                 </motion.p>
-                <motion.div 
+                <motion.div
                   className="social-icons"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}

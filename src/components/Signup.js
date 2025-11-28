@@ -10,7 +10,7 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 
 
 const Signup = () => {
-  useDocumentTitle('Login or Sign Up - Start Your Health Journey | MediQ');
+  useDocumentTitle('Login or Sign Up - Start Your Health Journey | AyuDost');
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,7 +26,7 @@ const Signup = () => {
       setLoading(true);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      
+
       if (result.user) {
         // Create user profile in Firestore
         await setDoc(doc(db, 'users', result.user.uid), {
@@ -34,7 +34,7 @@ const Signup = () => {
           full_name: result.user.displayName,
           created_at: new Date().toISOString()
         });
-        
+
         navigate('/');
       }
     } catch (error) {
@@ -43,11 +43,11 @@ const Signup = () => {
     } finally {
       setLoading(false);
     }
-  };  const handleOAuthLogin = async (providerName) => {
+  }; const handleOAuthLogin = async (providerName) => {
     try {
       setLoading(true);
       let provider;
-      
+
       if (providerName === 'github') {
         provider = new GithubAuthProvider();
       } else {
@@ -55,7 +55,7 @@ const Signup = () => {
         setLoading(false);
         return;
       }
-      
+
       const result = await signInWithPopup(auth, provider);
       if (result.user) {
         navigate('/');
@@ -67,7 +67,7 @@ const Signup = () => {
       setLoading(false);
     }
   };
-  
+
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -110,21 +110,21 @@ const Signup = () => {
     <div className="auth-container">
       <h2>Create New Account</h2>
       <div className="oauth-buttons">
-            <button
-              className="oauth-btn github"
-              onClick={() => handleOAuthLogin("github")}
-            >
-              Continue with GitHub
-            </button>
-            <button 
-              type="button" 
-              onClick={handleGoogleSignUp}
-              className="google-sign-in-button"
-              disabled={loading}
-            >
-              Sign in with Google
-            </button>
-          </div>
+        <button
+          className="oauth-btn github"
+          onClick={() => handleOAuthLogin("github")}
+        >
+          Continue with GitHub
+        </button>
+        <button
+          type="button"
+          onClick={handleGoogleSignUp}
+          className="google-sign-in-button"
+          disabled={loading}
+        >
+          Sign in with Google
+        </button>
+      </div>
       <div className="divider">or</div>
       <form onSubmit={handleSignUp}>
         <div className="form-group">

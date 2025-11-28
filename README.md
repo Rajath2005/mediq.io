@@ -1,7 +1,7 @@
-# MediQ 🏥
+# AyuDost 🏥
 
 <div align="center">
-  <img src="src/components/images/logo.jpg" alt="MediQ Logo" width="120" height="120" style="border-radius: 20px;"/>
+  <img src="src/components/images/logo.jpg" alt="AyuDost Logo" width="120" height="120" style="border-radius: 20px;"/>
   <br/>
   <strong>Modern Healthcare Management Platform</strong>
   <br/>
@@ -24,7 +24,7 @@
 
 ## 🌟 Overview
 
-MediQ is a comprehensive healthcare management platform that bridges traditional Ayurvedic medicine with modern digital convenience. Built with React and modern web technologies, it provides users with tools to manage appointments, discover Ayurvedic medicines, and access personalized health resources.
+AyuDost is a comprehensive healthcare management platform that bridges traditional Ayurvedic medicine with modern digital convenience. Built with React and modern web technologies, it provides users with tools to manage appointments, discover Ayurvedic medicines, and access personalized health resources.
 
 ## ✨ Key Features
 
@@ -305,7 +305,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👥 Team
 
 <div align="center">
-  <strong>Built with ❤️ by the MediQ Team</strong>
+  <strong>Built with ❤️ by the AyuDost Team</strong>
   <br/><br/>
   
   <table>
@@ -344,7 +344,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support & Contact
 
-- 🌐 **Website**: [MediQ Live Demo](https://rajath2005.github.io/mediq.io/)
+- 🌐 **Website**: [AyuDost Live Demo](https://rajath2005.github.io/mediq.io/)
 - 📧 **Contact**: [Get in Touch](https://rajath2005.github.io/mediq.io/#/contact)
 - 🐛 **Issues**: [Report Bug](https://github.com/Rajath2005/mediq.io/issues)
 - 💡 **Feature Requests**: [Request Feature](https://github.com/Rajath2005/mediq.io/issues)
@@ -352,7 +352,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 <div align="center">
-  <strong>⭐ If you find MediQ helpful, please give it a star!</strong>
+  <strong>⭐ If you find AyuDost helpful, please give it a star!</strong>
   <br/>
   <em>Your support helps us continue improving healthcare accessibility</em>
 </div>

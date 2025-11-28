@@ -7,7 +7,7 @@ import { db } from '../firebase'; // Import Firestore instance
 import { collection, addDoc } from 'firebase/firestore';
 
 const Contact = () => {
-  useDocumentTitle('Contact Us - MediQ');
+  useDocumentTitle('Contact Us - AyuDost');
 
   const [formData, setFormData] = useState({
     fullname: '',

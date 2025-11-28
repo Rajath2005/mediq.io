@@ -74,7 +74,7 @@ const Navbar = () => {
 
   const handleEmergency = async () => {
     setIsMobileMenuOpen(false);
-    
+
     Swal.fire({
       title: "Loading Emergency Contacts...",
       allowOutsideClick: false,
@@ -174,8 +174,8 @@ const Navbar = () => {
         <div className="navbar-container">
           {/* Logo and Brand */}
           <Link className="navbar-brand" to="/" onClick={handleServiceSelection}>
-            <img src={logo} alt="MediQ Logo" className="navbar-logo" />
-            <span className="brand-text">MediQ</span>
+            <img src={logo} alt="AyuDost Logo" className="navbar-logo" />
+            <span className="brand-text">AyuDost</span>
             {isAdmin && <span className="admin-badge">Admin</span>}
           </Link>
 
@@ -198,7 +198,7 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="dropdown" ref={dropdownRef}>
-                <button 
+                <button
                   className="dropdown-toggle"
                   onClick={toggleDesktopDropdown}
                   type="button"
@@ -208,16 +208,16 @@ const Navbar = () => {
                   More
                 </button>
                 <ul className={`dropdown-menu ${isDropdownOpen ? "show" : ""}`}>
-                   <li>
-                <a
-                  href="https://ayurvedic-disease-api.onrender.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={handleServiceSelection}
-                >
-                  Disease Scan
-                </a>
-              </li>
+                  <li>
+                    <a
+                      href="https://ayurvedic-disease-api.onrender.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleServiceSelection}
+                    >
+                      Disease Scan
+                    </a>
+                  </li>
                   <li>
                     <Link to="/about" onClick={handleServiceSelection}>
                       About Us
@@ -280,8 +280,8 @@ const Navbar = () => {
                 />
               )}
 
-              <button 
-                className="btn btn-icon theme-toggle" 
+              <button
+                className="btn btn-icon theme-toggle"
                 onClick={toggleDarkMode}
                 aria-label="Toggle theme"
               >
@@ -295,7 +295,7 @@ const Navbar = () => {
             <button className="btn btn-danger btn-sm" onClick={handleEmergency}>
               🚨 Emergency
             </button>
-            <button 
+            <button
               className="mobile-menu-toggle"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
@@ -312,8 +312,8 @@ const Navbar = () => {
         <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-header">
-              <span className="brand-text">MediQ Menu</span>
-              <button 
+              <span className="brand-text">AyuDost Menu</span>
+              <button
                 className="close-btn"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Close menu"
@@ -338,9 +338,9 @@ const Navbar = () => {
                   💊 Home Remedies
                 </Link>
               </li>
-              
+
               <li className="mobile-dropdown">
-                <button 
+                <button
                   className="dropdown-toggle"
                   onClick={toggleMobileDropdown}
                   type="button"
@@ -387,16 +387,16 @@ const Navbar = () => {
             <div className="mobile-actions">
               {!isAuthenticated ? (
                 <>
-                  <Link 
-                    to="/signup" 
-                    className="btn btn-success btn-block" 
+                  <Link
+                    to="/signup"
+                    className="btn btn-success btn-block"
                     onClick={handleServiceSelection}
                   >
                     Sign Up
                   </Link>
-                  <Link 
-                    to="/login" 
-                    className="btn btn-info btn-block" 
+                  <Link
+                    to="/login"
+                    className="btn btn-info btn-block"
                     onClick={handleServiceSelection}
                   >
                     Log In
@@ -412,8 +412,8 @@ const Navbar = () => {
                 </div>
               )}
 
-              <button 
-                className="btn btn-block btn-secondary theme-toggle" 
+              <button
+                className="btn btn-block btn-secondary theme-toggle"
                 onClick={toggleDarkMode}
               >
                 {darkMode ? (

@@ -42,7 +42,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="footer-copyright">
         <small className="text-muted">
-          &copy; {new Date().getFullYear()} MediQ. All rights reserved. | Built by❤️{' '}
+          &copy; {new Date().getFullYear()} AyuDost. All rights reserved. | Built by❤️{' '}
           <a
             href="https://github.com/Binary-Explorers"
             target="_blank"

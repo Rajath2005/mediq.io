@@ -1,6 +1,6 @@
-# Contributing to MediQ 🏥
+# Contributing to AyuDost 🏥
 
-Welcome! MediQ is an Ayurvedic healthcare platform built with React. We appreciate your help in making healthcare more accessible.
+Welcome! AyuDost is an Ayurvedic healthcare platform built with React. We appreciate your help in making healthcare more accessible.
 
 ## 🚀 Quick Setup
 
@@ -35,7 +35,7 @@ Visit `http://localhost:3000` to see your changes.
 
 ## 🏥 Healthcare Focus
 
-Remember: MediQ provides educational Ayurvedic information only. Always include medical disclaimers and respect user privacy.
+Remember: AyuDost provides educational Ayurvedic information only. Always include medical disclaimers and respect user privacy.
 
 ## 📞 Need Help?
 
