@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "./static/css/main.a5f9079e.css",
-    "main.js": "./static/js/main.c18e33d5.js",
+    "main.css": "./static/css/main.c29f7a66.css",
+    "main.js": "./static/js/main.e6e87a19.js",
     "static/js/453.bf281d55.chunk.js": "./static/js/453.bf281d55.chunk.js",
     "static/media/Rajath.jpg": "./static/media/Rajath.3aa205afd757079fcf3a.jpg",
     "static/media/Rithesh.jpeg": "./static/media/Rithesh.ae4e18c245b718c892d4.jpeg",
+    "static/media/brand_story.png": "./static/media/brand_story.720d2e6b0d68a7621cf1.png",
     "static/media/hero.jpeg": "./static/media/hero.9fea1b396855a68cb95b.jpeg",
     "static/media/back.jpeg": "./static/media/back.1719bda263644d0ea9c9.jpeg",
     "static/media/Sanath.jpeg": "./static/media/Sanath.0da3911753e3036d831a.jpeg",
     "static/media/sheethal.jpg": "./static/media/sheethal.e377693379f0a8bd6f9e.jpg",
     "static/media/logo.jpg": "./static/media/logo.578f3401c29357b7cc0c.jpg",
-    "static/media/github.png": "./static/media/github.6fd7c5c394daa62543dd.png",
     "index.html": "./index.html",
-    "main.a5f9079e.css.map": "./static/css/main.a5f9079e.css.map",
-    "main.c18e33d5.js.map": "./static/js/main.c18e33d5.js.map",
+    "main.c29f7a66.css.map": "./static/css/main.c29f7a66.css.map",
+    "main.e6e87a19.js.map": "./static/js/main.e6e87a19.js.map",
     "453.bf281d55.chunk.js.map": "./static/js/453.bf281d55.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a5f9079e.css",
-    "static/js/main.c18e33d5.js"
+    "static/css/main.c29f7a66.css",
+    "static/js/main.e6e87a19.js"
   ]
 }
