@@ -6,10 +6,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from "react-router-dom";
 
 const ManageAppointments = () => {
-  useDocumentTitle('Manage Appointments | MediQ Admin');
+  useDocumentTitle('Manage Appointments | AyuDost Admin');
   const { isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (!isAuthenticated || !isAdmin) {
       navigate('/login', { state: { from: '/manage-appointments' } });
@@ -32,7 +32,7 @@ const ManageAppointments = () => {
         // Simulate fetching appointments from Firestore
         const response = await fetch('/api/appointments'); // Adjust the API endpoint as needed
         const data = await response.json();
-        
+
         setAppointments(data);
       } catch (err) {
         console.error("Error fetching appointments:", err);
@@ -43,7 +43,7 @@ const ManageAppointments = () => {
     };
 
     fetchAppointments();
-    
+
     // Removed: Supabase real-time subscription code
   }, [filterDate, filterDoctor]);
 
@@ -58,14 +58,14 @@ const ManageAppointments = () => {
         },
         body: JSON.stringify({ status: newStatus }),
       });
-      
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      
+
       // Update the local state to reflect the change
-      setAppointments(prevAppointments => 
-        prevAppointments.map(app => 
+      setAppointments(prevAppointments =>
+        prevAppointments.map(app =>
           app.id === id ? { ...app, status: newStatus } : app
         )
       );
@@ -81,20 +81,20 @@ const ManageAppointments = () => {
     if (!window.confirm("Are you sure you want to delete this appointment?")) {
       return;
     }
-    
+
     setActionLoading(true);
     try {
       // Simulate deleting appointment from Firestore
       const response = await fetch(`/api/appointments/${id}`, {
         method: 'DELETE',
       });
-      
+
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-      
+
       // Remove the appointment from the local state
-      setAppointments(prevAppointments => 
+      setAppointments(prevAppointments =>
         prevAppointments.filter(app => app.id !== id)
       );
     } catch (err) {
@@ -109,7 +109,7 @@ const ManageAppointments = () => {
     // In a real implementation, you would integrate with an SMS service
     // This is a simulation
     console.log(`Reminder SMS would be sent to ${phone} for appointment with ${doctor} on ${date} at ${time}`);
-    
+
     // Simulate API call to SMS service
     return new Promise(resolve => {
       setTimeout(() => {
@@ -156,7 +156,7 @@ const ManageAppointments = () => {
       cancelled: "bg-danger",
       no_show: "bg-warning text-dark"
     };
-    
+
     return (
       <span className={`badge ${statusClasses[status] || "bg-secondary"}`}>
         {status.replace("_", " ").toUpperCase()}
@@ -174,9 +174,9 @@ const ManageAppointments = () => {
   return (
     <div className="container mt-5 animate__animated animate__fadeIn">
       <h2 className="mb-4 text-center">Manage Appointments</h2>
-      
+
       {error && <div className="alert alert-danger">{error}</div>}
-      
+
       <div className="card mb-4 shadow-sm">
         <div className="card-header bg-light">
           <h5 className="mb-0">Filter Appointments</h5>
@@ -206,8 +206,8 @@ const ManageAppointments = () => {
               </select>
             </div>
             <div className="col-md-2 d-flex align-items-end mb-3">
-              <button 
-                className="btn btn-secondary w-100" 
+              <button
+                className="btn btn-secondary w-100"
                 onClick={clearFilters}
               >
                 Clear Filters
@@ -216,7 +216,7 @@ const ManageAppointments = () => {
           </div>
         </div>
       </div>
-      
+
       {loading ? (
         <div className="text-center my-5">
           <div className="spinner-border text-primary" role="status">
@@ -251,35 +251,35 @@ const ManageAppointments = () => {
                   <td>{getStatusBadge(appointment.status)}</td>
                   <td>
                     <div className="btn-group">
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-success"
                         onClick={() => handleStatusChange(appointment.id, 'completed')}
                         disabled={actionLoading || appointment.status === 'completed'}
                       >
                         Complete
                       </button>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-danger"
                         onClick={() => handleStatusChange(appointment.id, 'cancelled')}
                         disabled={actionLoading || appointment.status === 'cancelled'}
                       >
                         Cancel
                       </button>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-warning"
                         onClick={() => handleStatusChange(appointment.id, 'no_show')}
                         disabled={actionLoading || appointment.status === 'no_show'}
                       >
                         No Show
                       </button>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-primary"
                         onClick={() => handleSendReminder(appointment)}
                         disabled={actionLoading}
                       >
                         Remind
                       </button>
-                      <button 
+                      <button
                         className="btn btn-sm btn-outline-secondary"
                         onClick={() => handleDeleteAppointment(appointment.id)}
                         disabled={actionLoading}
@@ -294,7 +294,7 @@ const ManageAppointments = () => {
           </table>
         </div>
       )}
-      
+
       <div className="card mt-4 shadow-sm">
         <div className="card-header bg-light">
           <h5 className="mb-0">Statistics</h5>
