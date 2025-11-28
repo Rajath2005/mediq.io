@@ -174,8 +174,8 @@ const Navbar = () => {
         <div className="navbar-container">
           {/* Logo and Brand */}
           <Link className="navbar-brand" to="/" onClick={handleServiceSelection}>
-            <img src={logo} alt="MediQ Logo" className="navbar-logo" />
-            <span className="brand-text">MediQ</span>
+            <img src={logo} alt="AyuDost Logo" className="navbar-logo" />
+            <span className="brand-text">AyuDost</span>
             {isAdmin && <span className="admin-badge">Admin</span>}
           </Link>
 
@@ -312,7 +312,7 @@ const Navbar = () => {
         <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
             <div className="mobile-menu-header">
-              <span className="brand-text">MediQ Menu</span>
+              <span className="brand-text">AyuDost Menu</span>
               <button 
                 className="close-btn"
                 onClick={() => setIsMobileMenuOpen(false)}
