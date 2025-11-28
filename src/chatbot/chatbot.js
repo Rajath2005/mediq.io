@@ -25,6 +25,17 @@ export default function Chatbot({
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
+    // Listen for external open events
+    useEffect(() => {
+        const handleOpenEvent = () => {
+            setShowCompact(true);
+            document.body.style.overflow = "hidden";
+        };
+
+        window.addEventListener('openChatbot', handleOpenEvent);
+        return () => window.removeEventListener('openChatbot', handleOpenEvent);
+    }, []);
+
     // Show welcome message on page load (once per session)
     useEffect(() => {
         const hasSeenWelcome = sessionStorage.getItem("ayudhv-welcome-shown");

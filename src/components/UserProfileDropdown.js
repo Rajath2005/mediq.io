@@ -49,7 +49,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
 
   return (
     <div className="dropdown">
-      <button 
+      <button
         ref={dropdownButtonRef}
         className="btn btn-outline-primary dropdown-toggle d-flex align-items-center"
         type="button"
@@ -57,9 +57,9 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         aria-expanded="false"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <img 
-          src={avatarUrl || '/images/default-avatar.png'} 
-          alt="Profile" 
+        <img
+          src={avatarUrl || '/images/default-avatar.png'}
+          alt="Profile"
           className="rounded-circle me-2"
           style={{ width: '24px', height: '24px', objectFit: 'cover' }}
         />
@@ -70,9 +70,9 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
         <li>
           <div className="px-4 py-3">
             <div className="d-flex align-items-center">
-              <img 
-                src={avatarUrl || '/images/default-avatar.png'} 
-                alt="Profile" 
+              <img
+                src={avatarUrl || '/images/default-avatar.png'}
+                alt="Profile"
                 className="rounded-circle me-2"
                 style={{ width: '32px', height: '32px', objectFit: 'cover' }}
               />
@@ -84,7 +84,7 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
           </div>
         </li>
         <li><hr className="dropdown-divider" /></li>
-        
+
         {isAdmin ? (
           <>
             <li>
@@ -106,18 +106,23 @@ const UserProfileDropdown = ({ isAuthenticated }) => {
               </Link>
             </li>
             <li>
-              <Link to="/hospitals" className="dropdown-item">
+              <a
+                href="https://ayudost-connect-62435.lovable.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="dropdown-item"
+              >
                 Book Appointment
-              </Link>
+              </a>
             </li>
           </>
         )}
-    
+
         <li><hr className="dropdown-divider" /></li>
         <li>
-          <button 
+          <button
             type="button"
-            className="dropdown-item text-danger" 
+            className="dropdown-item text-danger"
             onClick={handleLogout}
           >
             Sign Out

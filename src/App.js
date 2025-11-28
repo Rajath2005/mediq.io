@@ -33,6 +33,7 @@ import './App.css';
 import CookieConsent from "./components/CookieConsent";
 
 import Chatbot from './chatbot/chatbot';  // Import chatbot component
+import ScrollToTop from './components/ScrollToTop';
 
 const AdminRoute = ({ children }) => {
   const { isAuthenticated, isAdmin } = useAuth();
@@ -64,6 +65,8 @@ const Layout = ({ children }) => {
     </div>
   );
 };
+
+
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -98,6 +101,7 @@ const App = () => {
       <ThemeProvider>
         <HelmetProvider>
           <Router>
+            <ScrollToTop />
             <Layout>
               <Routes>
                 <Route path="/" element={<><Hero /><ServicesSection /></>} />

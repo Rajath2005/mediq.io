@@ -18,7 +18,7 @@ const Navbar = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const { isAuthenticated, signOut } = useAuth();
-  
+
   // Close dropdown and nav menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -55,12 +55,12 @@ const Navbar = () => {
 
   const handleEmergency = async () => {
     console.log('Emergency button clicked');
-    
+
     try {
       // First, check if user is authenticated
       const currentUser = auth.currentUser;
       console.log('Current user:', currentUser);
-      
+
       if (!currentUser) {
         await Swal.fire({
           title: 'Authentication Required',
@@ -91,18 +91,18 @@ const Navbar = () => {
 
       console.log('Attempting to fetch from Firebase...');
       console.log('Database instance:', db);
-      
+
       // Test basic Firebase connection first..
       try {
         const testRef = collection(db, 'emergency_settings');
         console.log('Collection reference created:', testRef);
-        
+
         const snapshot = await getDocs(testRef);
         console.log('Firebase query successful');
         console.log('Snapshot:', snapshot);
         console.log('Snapshot size:', snapshot.size);
         console.log('Snapshot empty:', snapshot.empty);
-        
+
         Swal.close();
 
         if (snapshot.empty) {
@@ -129,7 +129,7 @@ const Navbar = () => {
         snapshot.forEach((doc) => {
           console.log('Document ID:', doc.id);
           console.log('Document data:', doc.data());
-          
+
           const data = doc.data();
           const entries = data.entries || [];
           const smsNumber = data.sms_number || '';
@@ -228,11 +228,11 @@ const Navbar = () => {
         console.error('Firestore operation failed:', firestoreError);
         console.error('Error code:', firestoreError.code);
         console.error('Error message:', firestoreError.message);
-        
+
         Swal.close();
-        
+
         let errorMessage = 'Unable to access emergency contacts. ';
-        
+
         if (firestoreError.code === 'permission-denied') {
           errorMessage += 'Access denied. Please check your permissions or contact support.';
         } else if (firestoreError.code === 'unavailable') {
@@ -260,7 +260,7 @@ const Navbar = () => {
     } catch (generalError) {
       console.error('General error in handleEmergency:', generalError);
       Swal.close();
-      
+
       await Swal.fire({
         title: 'Unexpected Error',
         text: `Something went wrong: ${generalError.message}`,
@@ -331,9 +331,15 @@ const Navbar = () => {
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
-                  <Link className="dropdown-item" to="/hospitals" onClick={handleServiceSelection}>
+                  <a
+                    className="dropdown-item"
+                    href="https://ayudost-connect-62435.lovable.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={handleServiceSelection}
+                  >
                     Book Appointment
-                    </Link>
+                  </a>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>

@@ -360,9 +360,15 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/hospitals" onClick={handleServiceSelection}>
+                      <a
+                        href="https://ayudost-connect-62435.lovable.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={handleServiceSelection}
+                        style={{ display: 'block', padding: '10px 15px', color: 'inherit', textDecoration: 'none' }}
+                      >
                         🏥 Book Appointment
-                      </Link>
+                      </a>
                     </li>
                     <li>
                       <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
