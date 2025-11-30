@@ -40,17 +40,17 @@ const Contact = () => {
     {
       icon: <FaEnvelope />,
       title: 'Email Us',
-      info: 'support@ayudost.com',
+      info: 'mediq2005@gmail.com',
       subInfo: 'We reply within 24 hours',
-      link: 'mailto:support@ayudost.com',
+      link: 'mailto:mediq2005@gmail.com',
       color: '#3498db'
     },
     {
       icon: <FaPhone />,
       title: 'Call Us',
-      info: '+91 1234567890',
+      info: '+917483975463',
       subInfo: 'Mon-Fri, 9AM-6PM IST',
-      link: 'tel:+911234567890',
+      link: 'tel:+97483975463',
       color: '#2ecc71'
     },
     {
@@ -398,17 +398,55 @@ const Contact = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.6, duration: 0.6 }}
       >
-        <h2 className="section-title">Find Us Here</h2>
-        <figure className="map-container">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.96964260091!2d75.18195149280423!3d12.780482458704421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4bd112e521305%3A0xc08171b778a56885!2sVivekananda%20College%20of%20Engineering%20%26%20Technology%2C%20Puttur!5e0!3m2!1sen!2sin!4v1744008708213!5m2!1sen!2sin"
-            style={{ border: 0 }}
-            allowFullScreen=""
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Google Maps Location"
-          />
-        </figure>
+        <div className="map-header">
+          <h2 className="section-title">Find Us Here</h2>
+          <p className="section-description">
+            Visit our office or get directions to reach us easily
+          </p>
+        </div>
+
+        <div className="map-wrapper">
+          <figure className="map-container">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.96964260091!2d75.18195149280423!3d12.780482458704421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba4bd112e521305%3A0xc08171b778a56885!2sVivekananda%20College%20of%20Engineering%20%26%20Technology%2C%20Puttur!5e0!3m2!1sen!2sin!4v1744008708213!5m2!1sen!2sin"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Google Maps Location"
+            />
+          </figure>
+
+          {/* Address Card Overlay */}
+          <motion.div
+            className="address-card"
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
+          >
+            <div className="address-card-header">
+              <FaMapMarkerAlt className="address-icon" />
+              <h3>Our Location</h3>
+            </div>
+            <div className="address-details">
+              <p className="address-line">
+                <strong>Vivekananda College of Engineering & Technology</strong>
+              </p>
+              <p className="address-line">Puttur, Karnataka</p>
+              <p className="address-line">India - 574203</p>
+            </div>
+            <motion.a
+              href="https://www.google.com/maps/dir//Vivekananda+College+of+Engineering+%26+Technology,+Puttur/@12.780482,75.181951,17z"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="directions-btn"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaMapMarkerAlt /> Get Directions
+            </motion.a>
+          </motion.div>
+        </div>
       </motion.section>
     </motion.article>
   );

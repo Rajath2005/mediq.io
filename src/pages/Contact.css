@@ -410,27 +410,118 @@
 
 .mapbox {
     margin-top: 60px;
-    text-align: center;
 }
 
-.mapbox .section-title {
-    margin-bottom: 30px;
+.map-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.map-header .section-title {
+    margin-bottom: 12px;
+}
+
+.map-header .section-description {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+}
+
+.map-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 30px;
+    width: 100%;
 }
 
 .map-container {
     width: 100%;
     height: 500px;
+    margin: 0;
+    position: relative;
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
-    border: 3px solid var(--border);
-    margin: 0;
 }
 
 .map-container iframe {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+/* Address Card - Side Panel */
+.address-card {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--border);
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+
+.address-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border);
+}
+
+.address-icon {
+    font-size: 1.8rem;
+    color: var(--accent);
+}
+
+.address-card-header h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.address-details {
+    margin-bottom: 20px;
+}
+
+.address-line {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.address-line strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.directions-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(63, 163, 77, 0.3);
+    transition: all 0.3s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.directions-btn:hover {
+    box-shadow: 0 6px 25px rgba(63, 163, 77, 0.4);
+    transform: translateY(-2px);
+}
+
+.directions-btn svg {
+    font-size: 1.1rem;
 }
 
 /* ============================================
@@ -445,6 +536,14 @@
 
     .contact-title {
         font-size: 2.8rem;
+    }
+
+    .map-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .address-card {
+        position: static;
     }
 }
 
@@ -561,6 +660,18 @@
         border-radius: 15px;
     }
 
+    .address-card {
+        padding: 20px 15px;
+    }
+
+    .address-card-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .address-icon {
+        font-size: 1.5rem;
+    }
+
     .social-links {
         gap: 15px;
     }
@@ -608,6 +719,11 @@ body.dark-mode .faq-answer {
 
 body.dark-mode .social-link {
     background: var(--bg-secondary);
+}
+
+body.dark-mode .address-card {
+    background: var(--bg-tertiary);
+    border-color: var(--border);
 }
 
 /* ============================================
