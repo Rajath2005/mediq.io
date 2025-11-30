@@ -103,71 +103,76 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Login</h2>
-      {resetSent ? (
-        <AlertMessage type="success" message="Password reset instructions have been sent to your email." />
-      ) : (
-        <>
-          <div className="oauth-buttons">
-            <button
-              className="oauth-btn github"
-              onClick={() => handleOAuthLogin("github")}
-            >
-              Continue with GitHub
-            </button>
-            <button
-              type="button"
-              onClick={handleGoogleSignIn}
-              className="google-sign-in-button"
-              disabled={loading}
-            >
-              Sign in with Google
-            </button>
-          </div>
-          <div className="divider">or</div>
-          <form onSubmit={handleLogin}>
-            {error && <AlertMessage type="danger" message={error} />}
-            <div className="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={loading}
-              />
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={loading}
-              />
-            </div>
-            <button type="submit" className="button button-login" disabled={loading}>
-              {loading ? "Logging in..." : "Login"}
-            </button>
-            <div className="auth-links">
+    <div className="auth-page">
+      <div className="auth-container">
+        <h2>Welcome Back</h2>
+        <p className="auth-subtitle">Sign in to continue your wellness journey</p>
+        {resetSent ? (
+          <AlertMessage type="success" message="Password reset instructions have been sent to your email." />
+        ) : (
+          <>
+            <div className="oauth-buttons">
               <button
-                type="button"
-                onClick={handlePasswordReset}
-                className="reset-link"
+                className="oauth-btn github"
+                onClick={() => handleOAuthLogin("github")}
                 disabled={loading}
               >
-                Forgot password?
+                Continue with GitHub
               </button>
-              <p>
-                Don't have an account? <Link to="/signup">Sign Up</Link>
-              </p>
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                className="google-sign-in-button"
+                disabled={loading}
+              >
+                Sign in with Google
+              </button>
             </div>
-          </form>
-
-        </>
-      )}
+            <div className="divider">or</div>
+            <form onSubmit={handleLogin}>
+              {error && <AlertMessage type="danger" message={error} />}
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  disabled={loading}
+                />
+              </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  disabled={loading}
+                />
+              </div>
+              <button type="submit" className="button button-login" disabled={loading}>
+                {loading ? "Logging in..." : "Login"}
+              </button>
+              <div className="auth-links">
+                <button
+                  type="button"
+                  onClick={handlePasswordReset}
+                  className="reset-link"
+                  disabled={loading}
+                >
+                  Forgot password?
+                </button>
+                <p className="auth-link">
+                  Don't have an account? <Link to="/signup">Sign Up</Link>
+                </p>
+              </div>
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 };

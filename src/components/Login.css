@@ -1,207 +1,77 @@
-.auth-container {
-  max-width: 500px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-  background-color: white;
-  transition: all 0.3s ease;
+/* Import Shared Auth Styles */
+@import './Auth.css';
+
+/* Login-Specific Styles */
+.login-container {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body.dark-mode .auth-container {
-  background-color: #21262d;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.auth-container h2 {
-  text-align: center;
-  color: #333;
-  margin-bottom: 24px;
-}
-
-body.dark-mode .auth-container h2 {
-  color: #e6edf3;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-  text-align: left;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #333;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-body.dark-mode .form-group label {
-  color: #8b949e;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #fff;
-  transition: all 0.3s ease;
-}
-
-body.dark-mode .form-group input {
-  background-color: #2d333b;
-  border-color: #30363d;
-  color: #c9d1d9;
-}
-
-body.dark-mode .form-group input:focus {
-  border-color: #58a6ff;
-  background-color: #2d333b;
-  box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.2);
-}
-
-.error-message {
-  background-color: #fff5f5;
-  color: #e53e3e;
-  padding: 12px;
-  border-radius: 4px;
-  margin-bottom: 16px;
-  border: 1px solid #feb2b2;
-}
-
-body.dark-mode .error-message {
-  background-color: rgba(229, 62, 62, 0.1);
-  border-color: rgba(229, 62, 62, 0.3);
-  color: #f56565;
-}
-
-.success-message {
-  background-color: #f0fff4;
-  color: #2f855a;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  border: 1px solid #9ae6b4;
-}
-
-body.dark-mode .success-message {
-  background-color: rgba(47, 133, 90, 0.1);
-  border-color: rgba(154, 230, 180, 0.3);
-  color: #48bb78;
-}
-
-.auth-link {
-  text-align: center;
-  margin-top: 16px;
-  color: #666;
-}
-
-body.dark-mode .auth-link {
-  color: #8b949e;
-}
-
-.auth-link a {
-  color: #38b2ac;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-body.dark-mode .auth-link a {
-  color: #58a6ff;
-}
-
-.button {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 1rem;
-}
-
-.button-login {
-  background-color: #38b2ac;
-  color: white;
-}
-
-body.dark-mode .button-login {
-  background-color: #238636;
-}
-
-body.dark-mode .button-login:hover {
-  background-color: #2ea043;
-}
-
-.button-signup {
-  background-color: #10b981;
-  color: white;
-}
-
-body.dark-mode .button-signup {
-  background-color: #238636;
-}
-
-body.dark-mode .button-signup:hover {
-  background-color: #2ea043;
-}
-
-.google-sign-in-button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-weight: 500;
-  color: #444;
-  transition: all 0.3s ease;
-}
-
-body.dark-mode .google-sign-in-button {
-  background-color: #2d333b;
-  border-color: #30363d;
-  color: #c9d1d9;
-}
-
-body.dark-mode .google-sign-in-button:hover {
-  background-color: #373e47;
-}
-
-.auth-links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
-  gap: 1rem;
-}
-
+/* Password Reset Link Styling */
 .reset-link {
-  background: none;
-  border: none;
-  color: #38b2ac;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Remember Me Checkbox (if added) */
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
   cursor: pointer;
-  padding: 0;
-  font-size: 0.9rem;
-  text-decoration: underline;
+  accent-color: var(--auth-primary);
 }
 
-body.dark-mode .reset-link {
-  color: #58a6ff;
+.remember-me label {
+  font-size: 0.875rem;
+  color: var(--auth-text);
+  cursor: pointer;
+  margin: 0;
 }
 
-.reset-link:hover {
-  color: #2c9a94;
+body.dark-mode .remember-me label {
+  color: var(--auth-text-dark);
 }
 
-body.dark-mode .reset-link:hover {
-  color: #79b9ff;
+/* Login Button Specific */
+.button-login {
+  margin-top: 1rem;
+}
+
+/* OAuth Section Spacing */
+.oauth-buttons {
+  margin-top: 2rem;
+}
+
+/* Enhanced Focus States for Login */
+.form-group input:focus {
+  border-color: var(--auth-primary);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .auth-links {
+    gap: 0.75rem;
+  }
+
+  .reset-link {
+    font-size: 0.8125rem;
+  }
 }

@@ -50,7 +50,7 @@
   font-size: clamp(2.5rem, 5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.1;
-  margin-bottom: 1.8rem;
+  margin-bottom: 1.5rem;
   background: linear-gradient(45deg, #2d6a4f, #1b4332);
   background-clip: text;
   -webkit-background-clip: text;
@@ -59,16 +59,16 @@
 }
 
 .hero-description {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   line-height: 1.5;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
   color: #4a5568;
 }
 
 .search-bar-container {
   position: relative;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
   z-index: 10;
   background: rgba(255, 255, 255, 0.9);
   padding: 0.7rem;
@@ -481,7 +481,7 @@
 .button-container {
   display: flex;
   gap: 1rem;
-  margin-top: 20px;
+  margin-top: 1.5rem;
   position: relative;
   z-index: 5;
 }
@@ -518,22 +518,34 @@
 /* Responsive */
 @media (max-width: 768px) {
   .hero-section {
-    min-height: 80vh;
-    padding: 1rem;
-    text-align: left;
+    min-height: auto;
+    padding: 1.5rem 1rem;
+    text-align: center;
   }
 
   .hero-container {
     grid-template-columns: 1fr;
     text-align: center;
-    gap: 2rem;
-    padding: 1rem;
+    gap: 1.5rem;
+    padding: 0;
+  }
+
+  .hero-left {
+    max-width: 100%;
   }
 
   .hero-title {
-    font-size: 2.3rem;
-    line-height: 1.2;
+    font-size: 2rem;
+    line-height: 1.3;
     margin-bottom: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
   }
 
   .hero-right {
@@ -543,22 +555,54 @@
   .search-bar-container {
     flex-direction: column;
     padding: 1rem;
-    gap: 1rem;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
   }
 
   .search-bar {
     width: 100%;
-    text-align: center;
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 15px;
   }
 
   .search-button {
     width: 100%;
     justify-content: center;
+    padding: 14px 1.5rem;
+    font-size: 16px;
   }
 
   .button-container {
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
+    gap: 1rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .button-container a {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .button-container .styled-wrapper {
+    width: 100%;
+  }
+
+  .button-container button {
+    width: 100%;
+    padding: 14px 2rem;
+    font-size: 16px;
+  }
+
+  .recommendations-container {
+    margin-top: 10px;
+    padding: 12px;
+  }
+
+  .recommendation-tag {
+    font-size: 13px;
+    padding: 5px 10px;
   }
 }

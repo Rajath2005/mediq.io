@@ -107,84 +107,95 @@ const Signup = () => {
   };
 
   return (
-    <div className="auth-container">
-      <h2>Create New Account</h2>
-      <div className="oauth-buttons">
-        <button
-          className="oauth-btn github"
-          onClick={() => handleOAuthLogin("github")}
-        >
-          Continue with GitHub
-        </button>
-        <button
-          type="button"
-          onClick={handleGoogleSignUp}
-          className="google-sign-in-button"
-          disabled={loading}
-        >
-          Sign in with Google
-        </button>
+    <div className="auth-page">
+      <div className="auth-container">
+        <h2>Create Your Account</h2>
+        <p className="auth-subtitle">Join us on your journey to natural wellness</p>
+        <div className="oauth-buttons">
+          <button
+            className="oauth-btn github"
+            onClick={() => handleOAuthLogin("github")}
+            disabled={loading}
+          >
+            Continue with GitHub
+          </button>
+          <button
+            type="button"
+            onClick={handleGoogleSignUp}
+            className="google-sign-in-button"
+            disabled={loading}
+          >
+            Sign in with Google
+          </button>
+        </div>
+        <div className="divider">or</div>
+        <form onSubmit={handleSignUp}>
+          <div className="name-fields">
+            <div className="form-group">
+              <label>First Name</label>
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="John"
+                required
+                disabled={loading}
+              />
+            </div>
+            <div className="form-group">
+              <label>Last Name</label>
+              <input
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Doe"
+                required
+                disabled={loading}
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              required
+              disabled={loading}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              disabled={loading}
+            />
+          </div>
+          <div className="form-group">
+            <label>Confirm Password</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+              disabled={loading}
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="button button-signup" disabled={loading}>
+            {loading ? "Signing up..." : "Sign Up"}
+          </button>
+        </form>
+        <p className="auth-link">
+          Already have an account? <Link to="/login">Log In</Link>
+        </p>
       </div>
-      <div className="divider">or</div>
-      <form onSubmit={handleSignUp}>
-        <div className="form-group">
-          <label>First Name</label>
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div className="form-group">
-          <label>Last Name</label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div className="form-group">
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        <div className="form-group">
-          <label>Confirm Password</label>
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-            disabled={loading}
-          />
-        </div>
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit" className="button button-signup" disabled={loading}>
-          {loading ? "Signing up..." : "Sign Up"}
-        </button>
-      </form>
-      <p className="auth-link">
-        Already have an account? <Link to="/login">Log In</Link>
-      </p>
     </div>
   );
 };

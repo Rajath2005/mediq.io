@@ -225,19 +225,14 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li>
-                    <Link to="/chatbot" onClick={handleServiceSelection}>
+                    <a
+                      href="https://ayudost-chatbot.onrender.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={handleServiceSelection}
+                    >
                       AI Chatbot
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/about" onClick={handleServiceSelection}>
-                      About Us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/contact" onClick={handleServiceSelection}>
-                      Contact Us
-                    </Link>
+                    </a>
                   </li>
                   <li>
                     <a
@@ -248,6 +243,16 @@ const Navbar = () => {
                     >
                       Book appointments
                     </a>
+                  </li>
+                  <li>
+                    <Link to="/about" onClick={handleServiceSelection}>
+                      About Us
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/contact" onClick={handleServiceSelection}>
+                      Contact Us
+                    </Link>
                   </li>
                   <li>
                     <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
@@ -375,19 +380,15 @@ const Navbar = () => {
                   {isMobileDropdownOpen && (
                     <ul className="mobile-dropdown-menu">
                       <li>
-                        <Link to="/about" onClick={handleServiceSelection}>
-                          ℹ️ About Us
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/chatbot" onClick={handleServiceSelection}>
+                        <a
+                          href="https://ayudost-chatbot.onrender.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleServiceSelection}
+                          style={{ display: 'block', padding: '10px 15px', color: 'inherit', textDecoration: 'none' }}
+                        >
                           🤖 AI Chatbot
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/contact" onClick={handleServiceSelection}>
-                          📞 Contact Us
-                        </Link>
+                        </a>
                       </li>
                       <li>
                         <a
@@ -400,6 +401,7 @@ const Navbar = () => {
                           🏥 Book Appointment
                         </a>
                       </li>
+
                       <li>
                         <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
                           🏪 Ayurvedic Shops
