@@ -1,8 +1,8 @@
 /* --- Footer Global Styles --- */
 .footer {
-  background-color: #0F172A;
+  background-color: var(--bg-secondary);
   /* Dark premium background */
-  color: #94A3B8;
+  color: var(--text-muted);
   /* Soft gray text */
   padding: 80px 0 30px;
   font-family: 'Inter', sans-serif;
@@ -49,7 +49,7 @@
 .footer-brand-name {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #F8FAFC;
+  color: var(--text-primary);
   /* White */
   letter-spacing: -0.5px;
 }
@@ -70,17 +70,17 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--bg-tertiary);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #F8FAFC;
+  color: var(--text-primary);
   transition: all 0.3s ease;
   font-size: 1rem;
 }
 
 .social-icon-link:hover {
-  background: #1DA584;
+  background: var(--accent);
   /* Brand Teal */
   transform: translateY(-3px);
 }
@@ -89,7 +89,7 @@
 .footer-col h3 {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F8FAFC;
+  color: var(--text-primary);
   margin-bottom: 25px;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .footer-links li a {
-  color: #94A3B8;
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 0.95rem;
   transition: all 0.2s ease;
@@ -111,7 +111,7 @@
 }
 
 .footer-links li a:hover {
-  color: #1DA584;
+  color: var(--accent);
   /* Brand Teal */
   transform: translateX(5px);
 }
@@ -131,23 +131,23 @@
 .newsletter-input {
   padding: 12px 15px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  border: 1px solid var(--divider);
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
   font-size: 0.9rem;
   outline: none;
   transition: border-color 0.3s ease;
 }
 
 .newsletter-input:focus {
-  border-color: #1DA584;
+  border-color: var(--accent);
 }
 
 .newsletter-btn {
   padding: 12px;
   border-radius: 8px;
   border: none;
-  background: #1DA584;
+  background: var(--accent);
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -155,12 +155,12 @@
 }
 
 .newsletter-btn:hover {
-  background: #158066;
+  background: var(--accent-hover);
 }
 
 /* --- Footer Bottom --- */
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--divider);
   padding-top: 30px;
   display: flex;
   justify-content: space-between;
@@ -179,14 +179,14 @@
 }
 
 .footer-legal a {
-  color: #94A3B8;
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.2s ease;
 }
 
 .footer-legal a:hover {
-  color: #F8FAFC;
+  color: var(--text-primary);
 }
 
 /* --- Responsive --- */
@@ -210,12 +210,12 @@
 }
 
 .brand-link {
-  color: #F8FAFC;
+  color: var(--text-primary);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .brand-link:hover {
-  color: #1DA584;
+  color: var(--accent);
 }

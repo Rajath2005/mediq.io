@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react";
 import './Hero.css';
-import 'animate.css';
+import { motion } from "framer-motion";
 import heroImage from './images/hero.jpeg';
 import { Link } from "react-router-dom";
 import Button from '../components/Button';
-import { FaSearch, FaImage } from "react-icons/fa";
+import { FaSearch, FaImage, FaLeaf, FaFlask, FaHeart, FaBookMedical, FaExclamationTriangle, FaMortarPestle, FaFire, FaSun, FaMoon, FaCheckCircle, FaPrescriptionBottleAlt, FaBookOpen } from "react-icons/fa";
 import { useAuth } from '../contexts/AuthContext';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { Helmet } from 'react-helmet-async';
@@ -30,19 +30,20 @@ const HeroSection = () => {
   const getImageUrl = (medicine) => {
     if (!medicine) return null;
 
+    let imagePath = null;
 
-    if (medicine.images) {
-
-      if (medicine.images.trim() !== '') {
-        return `${imageBaseUrl}${medicine.images}`;
-      }
+    if (medicine.images && medicine.images.trim() !== '') {
+      imagePath = medicine.images.trim();
+    } else if (medicine.image && medicine.image.trim() !== '') {
+      imagePath = medicine.image.trim();
     }
 
-
-    if (medicine.image && medicine.image.trim() !== '') {
-      return `${imageBaseUrl}${medicine.image}`;
+    if (imagePath) {
+      // Remove any leading slashes to prevent double slashes
+      imagePath = imagePath.replace(/^\/+/, '');
+      const fullUrl = `${imageBaseUrl}${imagePath}`;
+      return fullUrl;
     }
-
 
     const formattedName = medicine.name_of_medicine?.toLowerCase()
       .replace(/\s+/g, '-')
@@ -68,10 +69,23 @@ const HeroSection = () => {
   };
 
   useEffect(() => {
-    fetch("https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/ayur-med.json")
+    fetch("https://raw.githubusercontent.com/Sanath00007/ayurveda-api/refs/heads/main/ayur-med-updated.json")
       .then((res) => res.json())
       .then((data) => {
-        setRemedies(data);
+        if (Array.isArray(data)) {
+          // Clean the data
+          const cleanedData = data.map(item => {
+            const cleanedItem = { ...item };
+            // Remove newlines and trim spaces from string fields
+            Object.keys(cleanedItem).forEach(key => {
+              if (typeof cleanedItem[key] === 'string') {
+                cleanedItem[key] = cleanedItem[key].replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ').trim();
+              }
+            });
+            return cleanedItem;
+          });
+          setRemedies(cleanedData);
+        }
         setLoading(false);
       })
       .catch((err) => {
@@ -82,18 +96,25 @@ const HeroSection = () => {
 
   const normalize = (str) => str?.toLowerCase().replace(/\s+/g, " ").trim() || "";
 
-  const handleSearch = async (exactMatch = false) => {
+  const handleSearch = async (e, exactMatch = false) => {
+    if (e && e.preventDefault) e.preventDefault();
+
     if (!searchTerm.trim()) {
       setResults([]);
       setRecommendations([]);
       return;
     }
 
+    setLoading(true);
+    setResults([]); // Clear previous results immediately
+
     try {
       const term = normalize(searchTerm);
 
+      // Local Search
       const matches = remedies.filter((item) => {
         const medicineName = normalize(item.name_of_medicine);
+        const synonyms = normalize(item.synonyms);
 
         if (exactMatch) {
           return medicineName === term;
@@ -104,6 +125,7 @@ const HeroSection = () => {
 
         return (
           medicineName.includes(term) ||
+          synonyms?.includes(term) ||
           indications?.includes(term) ||
           medicineClass?.includes(term)
         );
@@ -116,14 +138,15 @@ const HeroSection = () => {
       } else {
         const suggestions = findSimilarMedicines(searchTerm);
         setResults([{
-          error: `No remedy found for "${searchTerm}". ${suggestions.length > 0 ? 'Check the suggestions below.' : ''
-            }`
+          error: `No remedy found for "${searchTerm}". ${suggestions.length > 0 ? 'Check the suggestions below.' : ''}`
         }]);
         setRecommendations(suggestions);
       }
+      setLoading(false);
     } catch (error) {
       console.error('Search error:', error);
       setResults([{ error: 'An error occurred while searching. Please try again.' }]);
+      setLoading(false);
     }
   };
 
@@ -174,15 +197,30 @@ const HeroSection = () => {
       <div className="hero-section">
         <div className="hero-container">
           <div className="hero-left">
-            <h1 className="hero-title animate__animated animate__fadeInDown">
+            <motion.h1
+              className="hero-title"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
               Your Journey to Natural Wellness Starts Here
-            </h1>
-            <p className="hero-description animate__animated animate__fadeInUp animate__delay-1s">
+            </motion.h1>
+            <motion.p
+              className="hero-description"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
               Discover the ancient wisdom of Ayurveda combined with modern science.
               Find the perfect natural remedies for your well-being.
-            </p>
+            </motion.p>
 
-            <div className="search-bar-container animate__animated animate__fadeIn animate__delay-1s">
+            <motion.div
+              className="search-bar-container"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
               <input
                 type="text"
                 placeholder="Search for Ayurvedic medicines..."
@@ -194,18 +232,21 @@ const HeroSection = () => {
                 }}
                 onFocus={() => setSearchFocus(true)}
                 onBlur={() => setSearchFocus(false)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                className="search-bar"
-                style={{
-                  border: '1px solid #ccc',
-                  borderRadius: '4px',
-                  boxShadow: searchFocus ? '0 0 0 2px rgba(108, 92, 231, 0.2)' : 'none',
-                  transition: 'all 0.3s ease'
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch(e);
+                  }
                 }}
+                className="search-bar"
               />
-              <button className="search-button" onClick={handleSearch}>
+              <motion.button
+                className="search-button"
+                onClick={(e) => handleSearch(e)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 <FaSearch /> Search
-              </button>
+              </motion.button>
 
               {/* Show recommendations while typing */}
               {recommendations.length > 0 && (
@@ -218,16 +259,11 @@ const HeroSection = () => {
                         onClick={() => {
                           setSearchTerm(med);
                           setRecommendations([]);
-                          handleSearch(true); // Pass true for exact match when clicking recommendation
+                          handleSearch(null, true); // Pass true for exact match when clicking recommendation
                         }}
                         onMouseEnter={() => setHoveredTag(index)}
                         onMouseLeave={() => setHoveredTag(null)}
                         className="recommendation-tag"
-                        style={{
-                          backgroundColor:
-                            hoveredTag === index ? '#5649c0' : '#6c5ce7',
-                          transform: hoveredTag === index ? 'translateY(-2px)' : 'none',
-                        }}
                       >
                         {med}
                       </span>
@@ -235,72 +271,127 @@ const HeroSection = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
 
-            {/* Only show results after searching */}
-            {!loading && results.length > 0 && (
-              <div className="search-results animate__animated animate__fadeIn">
-                {results.map((item, index) =>
-                  item.error ? (
-                    <p key={index} className="text-danger">{item.error}</p>
-                  ) : (
-                    <div key={index} className="search-results-card">
-                      <h3 className="medicine-name">{item.name_of_medicine}</h3>
-                      {!imageErrors[item.name_of_medicine] ? (
-                        <img
-                          src={getImageUrl(item)}
-                          alt={item.name_of_medicine}
-                          className="medicine-image"
-                          onError={() =>
-                            setImageErrors((prev) => ({
-                              ...prev,
-                              [item.name_of_medicine]: true,
-                            }))
-                          }
-                        />
-                      ) : (
-                        <div className="fallback-image">
-                          <FaImage size={32} />
-                          <span>Image not available</span>
-                        </div>
-                      )}
-                      <div className="medicine-details">
-                        <span className="medicine-label">Indications: </span>
-                        <span className="medicine-indications">{item.main_indications}</span>
-                      </div>
-                      <div className="medicine-details">
-                        <span className="medicine-label">Dose: </span>
-                        <span className="medicine-dose">{item.dose}</span>
-                      </div>
-                      <div className="medicine-details">
-                        <span className="medicine-label">Note: </span>
-                        <span className="medicine-dose">
-                          Dosage for adults and children: Please contact your physician.
-                        </span>
-                      </div>
-                      <div className="medicine-details">
-                        <span className="medicine-label">Pack Size: </span>
-                        <span className="medicine-pack-size">{item.dispensing_pack_size}</span>
-                      </div>
-                      <div className="medicine-details">
-                        <span className="medicine-label">Class: </span>
-                        <span className="medicine-class">{item.class}</span>
-                      </div>
-                      <div className="medicine-details">
-                        <span className="medicine-label">Reference: </span>
-                        <span className="medicine-reference">{item.reference_text}</span>
-                      </div>
-                      <div className="medical-disclaimer">
-                        <p>Medical Disclaimer:
-                          Ayurvedic medicines listed are based on traditional practices and are for informational use only. Consult a healthcare professional before use..</p>
-                      </div>
-                    </div>
-                  )
-                )}
+            {/* Loading State */}
+            {loading && (
+              <div className="search-loading">
+                <div className="spinner"></div>
+                <p>Searching...</p>
               </div>
             )}
 
-            <div className="button-container d-flex gap-4 mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+            {/* Only show results after searching */}
+            {!loading && results.length > 0 && (
+              <motion.div
+                className="search-results-container"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
+                {results.map((item, index) =>
+                  item.error ? (
+                    <div key={index} className="error-card">
+                      <p className="text-danger">{item.error}</p>
+                    </div>
+                  ) : (
+                    <motion.div
+                      key={index}
+                      className="hero-result-card"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <div className="hero-card-main">
+                        <div className="hero-card-image-col">
+                          {!imageErrors[item.name_of_medicine] ? (
+                            <img
+                              src={getImageUrl(item)}
+                              alt={item.name_of_medicine}
+                              className="hero-med-img"
+                              onError={() =>
+                                setImageErrors((prev) => ({
+                                  ...prev,
+                                  [item.name_of_medicine]: true,
+                                }))
+                              }
+                            />
+                          ) : (
+                            <div className="hero-med-fallback">
+                              <FaImage />
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="hero-card-content-col">
+                          <div className="hero-header-row">
+                            <div>
+                              <h3 className="hero-med-name">{item.name_of_medicine}</h3>
+                              {item.synonyms && <p className="hero-med-synonyms">{item.synonyms}</p>}
+                            </div>
+                            <span className="hero-class-badge">{item.class || "Class A"}</span>
+                          </div>
+
+                          <div className="hero-indications-box">
+                            <span className="hero-label-sm">Indications</span>
+                            <p className="hero-text-primary">{item.main_indications}</p>
+                            {item.main_indications_sanskrit && <p className="hero-text-sanskrit">{item.main_indications_sanskrit}</p>}
+                          </div>
+
+                          <div className="hero-props-strip">
+                            <div className="hero-prop-item">
+                              <FaFire className="hero-icon-xs virya" /> <span>{item.virya || "-"}</span>
+                            </div>
+                            <div className="hero-prop-divider"></div>
+                            <div className="hero-prop-item">
+                              <FaSun className="hero-icon-xs vipaka" /> <span>{item.vipaka || "-"}</span>
+                            </div>
+                            <div className="hero-prop-divider"></div>
+                            <div className="hero-prop-item">
+                              <FaMoon className="hero-icon-xs dosha" /> <span>{item.dosha_action || "-"}</span>
+                            </div>
+                          </div>
+
+                          <div className="hero-ingredients-row">
+                            <span className="hero-label-inline"><FaLeaf className="hero-icon-xs" /> Ingredients:</span>
+                            <span className="hero-ing-list">
+                              {item.key_ingredients && item.key_ingredients.slice(0, 4).join(", ")}
+                              {item.key_ingredients && item.key_ingredients.length > 4 && "..."}
+                            </span>
+                          </div>
+
+                          <div className="hero-footer-grid">
+                            <div className="hero-footer-item">
+                              <span className="hero-label-xs">Standard Dosage</span>
+                              <span className="hero-val-sm">{item.dose || "As directed"}</span>
+                            </div>
+                            <div className="hero-footer-item">
+                              <span className="hero-label-xs">Reference</span>
+                              <span className="hero-val-sm">{item.classical_reference || item.reference_text || "Classical Text"}</span>
+                            </div>
+                          </div>
+
+                          <div className="hero-disclaimer-box">
+                            <FaExclamationTriangle className="hero-warn-icon" />
+                            <div className="hero-disclaimer-content">
+                              <p className="hero-advice">{item.administration_advice}</p>
+                              <p className="hero-legal">Disclaimer: Dosage mentioned is for adults. Consult a physician for children, pregnancy, or specific conditions.</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )
+                )}
+              </motion.div>
+            )}
+
+            <motion.div
+              className="button-container d-flex gap-4 mt-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
               {!isAuthenticated && (
                 <>
                   <Link to="/login">
@@ -311,12 +402,27 @@ const HeroSection = () => {
                   </Link>
                 </>
               )}
-            </div>
+            </motion.div>
           </div>
 
-          <div className="hero-right animate__animated animate__fadeInRight animate__delay-1s">
-            <img src={heroImage} alt="Ayurvedic Medicines" className="hero-image" />
-          </div>
+          <motion.div
+            className="hero-right"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <motion.img
+              src={heroImage}
+              alt="Ayurvedic Medicines"
+              className="hero-image"
+              animate={{ y: [0, -10, 0] }}
+              transition={{
+                repeat: Infinity,
+                duration: 4,
+                ease: "easeInOut"
+              }}
+            />
+          </motion.div>
         </div>
       </div>
     </>

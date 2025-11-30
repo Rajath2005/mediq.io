@@ -1,6 +1,6 @@
 import React from 'react';
 import './ServicesSection.css';
-import 'animate.css';
+import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAuthProtection } from "../hooks/useAuthProtection";
 import AuthModal from "./AuthModal";
@@ -92,18 +92,38 @@ const ServicesSection = () => {
         <AuthModal isOpen={showAuthModal} onClose={closeAuthModal} message="Please log in to view hospital details and book appointments" />
 
         <div className="section-header">
-          <h1 className="main-services-title">Our Services</h1>
+          <motion.h1
+            className="main-services-title"
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            Our Services
+          </motion.h1>
           <div className="title-underline"></div>
-          <h4 className="our-services-sub">We offer a range of healthcare and wellness services tailored for your natural well-being</h4>
+          <motion.h4
+            className="our-services-sub"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            We offer a range of healthcare and wellness services tailored for your natural well-being
+          </motion.h4>
         </div>
 
         <div className="services-grid">
           {services.map((service, index) => (
-            <div
+            <motion.div
               className="service-card"
               key={index}
               onClick={() => handleServiceClick(service.title)}
-              style={{ animationDelay: `${index * 0.1}s` }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -10, transition: { duration: 0.2 } }}
             >
               <div className="card-inner">
                 <div className="icon-wrapper">
@@ -125,7 +145,7 @@ const ServicesSection = () => {
                   <FontAwesomeIcon icon={faArrowRight} />
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 

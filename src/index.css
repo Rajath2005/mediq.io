@@ -11,22 +11,118 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* Import Premium Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 
 /* Light Mode Styles */
-body {
-  background: linear-gradient(to right, #a8e0ff, #ffffff);
-  color: #333;
-  transition: all 0.3s ease;
+/* Global Design System */
+:root {
+  /* Core Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #FCF8E8;
+  --bg-tertiary: #f0f7f4;
+  --bg-card: #ffffff;
+
+  --text-primary: #2F4B2F;
+  --text-secondary: #6C7D47;
+  --text-muted: #888888;
+  --text-light: #52b788;
+
+  --accent: #3FA34D;
+  --accent-hover: #2C7A3F;
+  --accent-secondary: #F4B400;
+
+  --border: #E6E2D3;
+  --divider: rgba(0, 0, 0, 0.1);
+
+  --bg-hover: #F1EED4;
+
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
+
+  /* Gradients */
+  --bg-gradient: linear-gradient(to right, #a8e0ff, #ffffff);
+  --navbar-bg: rgba(255, 255, 255, 0.95);
 }
 
-/* Dark Mode Styles */
 body.dark-mode {
-  background: linear-gradient(to right, #1a1e24, #2d333b);
-  color: #e6edf3;
+  /* Core Colors - Dark */
+  --bg-primary: #081C15;
+  --bg-secondary: #0F2F25;
+  --bg-tertiary: #1a1a1a;
+  --bg-card: #1e293b;
+
+  --text-primary: #D7F7D4;
+  --text-secondary: #A7C7A0;
+  --text-muted: #9ca3af;
+  --text-light: #81c784;
+
+  --accent: #56C271;
+  --accent-hover: #3D9A55;
+  --accent-secondary: #ECAE29;
+
+  --border: #114632;
+  --divider: rgba(255, 255, 255, 0.1);
+
+  --bg-hover: #113828;
+
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 34px rgba(0, 0, 0, 0.55);
+
+  /* Gradients */
+  --bg-gradient: linear-gradient(to right, #1a1e24, #2d333b);
+  --navbar-bg: rgba(15, 23, 42, 0.95);
+}
+
+/* Base Styles */
+body {
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
 }
 
 @tailwind components;
 @tailwind utilities;
 
+/* Glassmorphism Utilities */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
 
+.dark-mode .glass-effect {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

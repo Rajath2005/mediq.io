@@ -10,6 +10,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@google/generative-ai": "^0.24.1",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
     "@neondatabase/serverless": "^1.0.1",

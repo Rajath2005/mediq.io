@@ -111,7 +111,7 @@ body {
   font-weight: 700;
   letter-spacing: -0.02em;
   background: none;
-  color: var(--light-accent);
+  color: #3fa34d;
 }
 
 .custom-navbar.dark .brand-text {
@@ -269,7 +269,7 @@ body {
 }
 
 .dropdown-menu::before {
-  content: ''; 
+  content: '';
   position: absolute;
   top: -6px;
   left: 50%;
@@ -478,9 +478,12 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
   }
+
   50% {
     box-shadow: 0 0 0 12px rgba(239, 68, 68, 0);
   }
@@ -536,8 +539,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .mobile-menu {
@@ -553,7 +561,7 @@ body {
   animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-menu {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-menu {
   background: var(--dark-bg-primary);
 }
 
@@ -562,6 +570,7 @@ body {
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -578,7 +587,7 @@ body {
   color: var(--light-text-primary);
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-menu-header {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-menu-header {
   border-bottom-color: var(--dark-border);
   background: var(--dark-bg-primary);
   color: var(--dark-text-primary);
@@ -604,7 +613,7 @@ body {
   transition: all 0.3s ease;
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .close-btn {
+.custom-navbar.dark~.mobile-menu-overlay .close-btn {
   background: var(--dark-hover);
   color: var(--dark-text-primary);
 }
@@ -643,8 +652,8 @@ body {
   border: 2px solid transparent;
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-nav-links a,
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-nav-links button {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-nav-links a,
+.custom-navbar.dark~.mobile-menu-overlay .mobile-nav-links button {
   background: var(--dark-bg-primary);
   color: var(--dark-text-primary);
 }
@@ -657,8 +666,8 @@ body {
   box-shadow: 0 4px 12px rgba(63, 163, 77, 0.18);
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-nav-links a:hover,
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-nav-links button:hover {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-nav-links a:hover,
+.custom-navbar.dark~.mobile-menu-overlay .mobile-nav-links button:hover {
   background: linear-gradient(135deg, var(--dark-accent), var(--dark-gold));
   color: white;
   box-shadow: 0 4px 12px rgba(86, 194, 113, 0.2);
@@ -678,7 +687,7 @@ body {
   color: var(--light-text-primary);
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-dropdown-menu a {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-dropdown-menu a {
   background: var(--dark-bg-secondary);
   color: var(--dark-text-primary);
 }
@@ -688,7 +697,7 @@ body {
   color: white;
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-dropdown-menu a:hover {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-dropdown-menu a:hover {
   background: linear-gradient(135deg, var(--dark-accent), var(--dark-gold));
   color: white;
 }
@@ -699,7 +708,7 @@ body {
   background: var(--light-bg-primary);
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-actions {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-actions {
   border-top-color: var(--dark-border);
   background: var(--dark-bg-primary);
 }
@@ -716,7 +725,7 @@ body {
   border-color: transparent;
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .btn-secondary {
+.custom-navbar.dark~.mobile-menu-overlay .btn-secondary {
   background: var(--dark-bg-secondary);
   color: var(--dark-text-primary);
 }
@@ -726,7 +735,7 @@ body {
   color: white;
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .btn-secondary:hover {
+.custom-navbar.dark~.mobile-menu-overlay .btn-secondary:hover {
   background: linear-gradient(135deg, var(--dark-accent), var(--dark-gold));
   color: white;
 }
@@ -800,7 +809,7 @@ body {
   border-radius: 10px;
 }
 
-.custom-navbar.dark ~ .mobile-menu-overlay .mobile-menu::-webkit-scrollbar-thumb {
+.custom-navbar.dark~.mobile-menu-overlay .mobile-menu::-webkit-scrollbar-thumb {
   background: var(--dark-border);
 }
 

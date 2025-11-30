@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { FaGithub, FaTwitter, FaLinkedin, FaInstagram, FaCode, FaBook, FaServer } from 'react-icons/fa';
 import './Footer.css';
 import logo from './images/logo.jpg';
@@ -8,7 +9,13 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        <div className="footer-grid">
+        <motion.div
+          className="footer-grid"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, staggerChildren: 0.1 }}
+        >
           {/* Column 1: Brand */}
           <div className="footer-col footer-brand">
             <Link to="/" className="footer-logo-wrapper">
@@ -85,7 +92,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-        </div>
+        </motion.div>
 
         {/* Footer Bottom */}
         <div className="footer-bottom">
@@ -106,7 +113,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
+    </footer >
   );
 };
 

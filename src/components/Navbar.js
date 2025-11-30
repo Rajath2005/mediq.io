@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import "./Navbar.css";
 import logo from "./images/logo.jpg";
 import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
@@ -170,7 +171,12 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`custom-navbar ${darkMode ? "dark" : "light"}`}>
+      <motion.nav
+        className={`custom-navbar ${darkMode ? "dark" : "light"} glass-effect`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="navbar-container">
           {/* Logo and Brand */}
           <Link className="navbar-brand" to="/" onClick={handleServiceSelection}>
@@ -305,137 +311,152 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="mobile-menu-overlay" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
-            <div className="mobile-menu-header">
-              <span className="brand-text">AyuDost Menu</span>
-              <button
-                className="close-btn"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Close menu"
-              >
-                <FaTimes />
-              </button>
-            </div>
-
-            <ul className="mobile-nav-links">
-              <li>
-                <Link to="/" onClick={handleServiceSelection}>
-                  🏠 Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/search-medicines" onClick={handleServiceSelection}>
-                  🌿 Ayurvedic Medicines
-                </Link>
-              </li>
-              <li>
-                <Link to="/home-remedies" onClick={handleServiceSelection}>
-                  💊 Home Remedies
-                </Link>
-              </li>
-
-              <li className="mobile-dropdown">
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="mobile-menu-overlay"
+            onClick={() => setIsMobileMenuOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="mobile-menu"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            >
+              <div className="mobile-menu-header">
+                <span className="brand-text">AyuDost Menu</span>
                 <button
-                  className="dropdown-toggle"
-                  onClick={toggleMobileDropdown}
-                  type="button"
+                  className="close-btn"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  aria-label="Close menu"
                 >
-                  📋 More {isMobileDropdownOpen ? '▲' : '▼'}
+                  <FaTimes />
                 </button>
-                {isMobileDropdownOpen && (
-                  <ul className="mobile-dropdown-menu">
-                    <li>
-                      <Link to="/about" onClick={handleServiceSelection}>
-                        ℹ️ About Us
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/contact" onClick={handleServiceSelection}>
-                        📞 Contact Us
-                      </Link>
-                    </li>
-                    <li>
-                      <a
-                        href="https://ayudost-connect-62435.lovable.app/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={handleServiceSelection}
-                        style={{ display: 'block', padding: '10px 15px', color: 'inherit', textDecoration: 'none' }}
-                      >
-                        🏥 Book Appointment
-                      </a>
-                    </li>
-                    <li>
-                      <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
-                        🏪 Ayurvedic Shops
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/nearby-hospitals" onClick={handleServiceSelection}>
-                        📍 Nearby Hospitals
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/emergency-settings" onClick={handleServiceSelection}>
-                        🚨 Emergency Settings
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </li>
-            </ul>
+              </div>
 
-            <div className="mobile-actions">
-              {!isAuthenticated ? (
-                <>
-                  <Link
-                    to="/signup"
-                    className="btn btn-success btn-block"
-                    onClick={handleServiceSelection}
-                  >
-                    Sign Up
+              <ul className="mobile-nav-links">
+                <li>
+                  <Link to="/" onClick={handleServiceSelection}>
+                    🏠 Home
                   </Link>
-                  <Link
-                    to="/login"
-                    className="btn btn-info btn-block"
-                    onClick={handleServiceSelection}
-                  >
-                    Log In
+                </li>
+                <li>
+                  <Link to="/search-medicines" onClick={handleServiceSelection}>
+                    🌿 Ayurvedic Medicines
                   </Link>
-                </>
-              ) : (
-                <div className="mobile-user-section">
-                  <UserProfileDropdown
-                    isAuthenticated={isAuthenticated}
-                    isAdmin={isAdmin}
-                    onLogout={handleLogout}
-                  />
-                </div>
-              )}
+                </li>
+                <li>
+                  <Link to="/home-remedies" onClick={handleServiceSelection}>
+                    💊 Home Remedies
+                  </Link>
+                </li>
 
-              <button
-                className="btn btn-block btn-secondary theme-toggle"
-                onClick={toggleDarkMode}
-              >
-                {darkMode ? (
+                <li className="mobile-dropdown">
+                  <button
+                    className="dropdown-toggle"
+                    onClick={toggleMobileDropdown}
+                    type="button"
+                  >
+                    📋 More {isMobileDropdownOpen ? '▲' : '▼'}
+                  </button>
+                  {isMobileDropdownOpen && (
+                    <ul className="mobile-dropdown-menu">
+                      <li>
+                        <Link to="/about" onClick={handleServiceSelection}>
+                          ℹ️ About Us
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/contact" onClick={handleServiceSelection}>
+                          📞 Contact Us
+                        </Link>
+                      </li>
+                      <li>
+                        <a
+                          href="https://ayudost-connect-62435.lovable.app/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={handleServiceSelection}
+                          style={{ display: 'block', padding: '10px 15px', color: 'inherit', textDecoration: 'none' }}
+                        >
+                          🏥 Book Appointment
+                        </a>
+                      </li>
+                      <li>
+                        <Link to="/ayurvedic-shops" onClick={handleServiceSelection}>
+                          🏪 Ayurvedic Shops
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/nearby-hospitals" onClick={handleServiceSelection}>
+                          📍 Nearby Hospitals
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/emergency-settings" onClick={handleServiceSelection}>
+                          🚨 Emergency Settings
+                        </Link>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              </ul>
+
+              <div className="mobile-actions">
+                {!isAuthenticated ? (
                   <>
-                    <FaSun /> Switch to Light Mode
+                    <Link
+                      to="/signup"
+                      className="btn btn-success btn-block"
+                      onClick={handleServiceSelection}
+                    >
+                      Sign Up
+                    </Link>
+                    <Link
+                      to="/login"
+                      className="btn btn-info btn-block"
+                      onClick={handleServiceSelection}
+                    >
+                      Log In
+                    </Link>
                   </>
                 ) : (
-                  <>
-                    <FaMoon /> Switch to Dark Mode
-                  </>
+                  <div className="mobile-user-section">
+                    <UserProfileDropdown
+                      isAuthenticated={isAuthenticated}
+                      isAdmin={isAdmin}
+                      onLogout={handleLogout}
+                    />
+                  </div>
                 )}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+
+                <button
+                  className="btn btn-block btn-secondary theme-toggle"
+                  onClick={toggleDarkMode}
+                >
+                  {darkMode ? (
+                    <>
+                      <FaSun /> Switch to Light Mode
+                    </>
+                  ) : (
+                    <>
+                      <FaMoon /> Switch to Dark Mode
+                    </>
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };

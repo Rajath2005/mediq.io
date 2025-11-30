@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/SearchPage.css';
+import './SearchPage.css';
 import 'animate.css';
-import { FaLeaf, FaSearchPlus, FaBookMedical, FaHeart, FaFlask, FaInfoCircle, FaSearch, FaImage } from 'react-icons/fa';
+import { FaLeaf, FaSearch, FaImage, FaMortarPestle, FaExclamationTriangle, FaFire, FaSun, FaMoon, FaPrescriptionBottleAlt, FaBookOpen, FaCheckCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
@@ -34,36 +34,20 @@ const SearchPage = () => {
   const fetchData = () => {
     setIsLoading(true);
     setDataError(null);
-    
-    fetch("https://raw.githubusercontent.com/Sanath00007/ayurveda-api/main/ayur-med.json")
+
+    fetch("https://raw.githubusercontent.com/Sanath00007/ayurveda-api/refs/heads/main/ayur-med-updated.json")
       .then((res) => {
         if (!res.ok) {
           throw new Error(`HTTP error! Status: ${res.status}`);
         }
-        return res.text(); // Get as text first to handle JSON parsing errors
+        return res.json();
       })
-      .then((textData) => {
-        try {
-          // Remove NaN values which aren't valid JSON
-          const cleanedData = textData
-            .replace(/:\s*NaN\s*,/g, ': null,')
-            .replace(/:\s*NaN\s*}/g, ': null}');
-          
-          // Parse the cleaned JSON
-          const data = JSON.parse(cleanedData);
-          
-          console.log("Data fetched successfully:", Array.isArray(data) ? data.length : "not an array");
-          
-          if (Array.isArray(data) && data.length > 0) {
-            setRemedies(data);
-            setIsLoading(false);
-          } else {
-            setDataError("Received data is not in the expected format (array).");
-            setIsLoading(false);
-          }
-        } catch (error) {
-          console.error("JSON parsing error:", error);
-          setDataError("Error parsing JSON data: " + error.message);
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setRemedies(data);
+          setIsLoading(false);
+        } else {
+          setDataError("Received data is not in the expected format (array).");
           setIsLoading(false);
         }
       })
@@ -77,60 +61,51 @@ const SearchPage = () => {
   // Modified getImageUrl function to handle API image paths correctly
   const getImageUrl = (medicine) => {
     if (!medicine) return null;
-    
-    // If the medicine object has an images property from the API
-    if (medicine.images) {
-      // Check if it's not an empty string
-      if (medicine.images.trim() !== '') {
-        return `${imageBaseUrl}${medicine.images}`;
-      }
+
+    if (medicine.images && medicine.images.trim() !== '') {
+      return `${imageBaseUrl}${medicine.images}`;
     }
-    
-    // Fallback: Try multiple image formats using the medicine name
+
     const formattedName = medicine.name_of_medicine?.toLowerCase()
       .replace(/\s+/g, '-')
       .replace(/[^a-z0-9-]/g, '')
-      .replace(/\/{2,}/g, '/'); // Remove double slashes
+      .replace(/\/{2,}/g, '/');
 
     if (!formattedName) return null;
 
-    // Create URLs for supported formats
-    const possibleUrls = IMAGE_EXTENSIONS.map(ext => 
+    const possibleUrls = IMAGE_EXTENSIONS.map(ext =>
       `${imageBaseUrl}images/${formattedName}.${ext}`
     );
 
-    return possibleUrls[0]; // Return the first possible URL as fallback
+    return possibleUrls[0];
   };
 
   const handleImageError = (medicineName) => {
-    console.log(`Image failed to load for medicine: ${medicineName}`);
     setImageErrors(prev => ({ ...prev, [medicineName]: true }));
   };
 
   const normalize = (str) => {
-    // Handle null or undefined values safely
     if (!str) return "";
     return str.toLowerCase().replace(/\s+/g, " ").trim();
   };
 
-  // Function to find similar medicine names for recommendations
   const findSimilarMedicines = (searchTerm) => {
     if (!searchTerm || searchTerm.length < 2) return [];
-    
+
     const normalizedSearch = normalize(searchTerm);
-    
-    // Find medicines that contain parts of the search term
+
     const similar = remedies
       .filter(item => {
         const name = normalize(item.name_of_medicine);
-        // Check if medicine name contains part of search or search contains part of medicine
-        return name.includes(normalizedSearch.substring(0, 3)) || 
-               normalizedSearch.includes(name.substring(0, 3));
+        const synonyms = normalize(item.synonyms);
+        return name.includes(normalizedSearch.substring(0, 3)) ||
+          normalizedSearch.includes(name.substring(0, 3)) ||
+          synonyms.includes(normalizedSearch.substring(0, 3));
       })
       .map(item => item.name_of_medicine)
-      .slice(0, 5); // Limit to 5 recommendations
-    
-    return [...new Set(similar)]; // Remove duplicates
+      .slice(0, 5);
+
+    return [...new Set(similar)];
   };
 
   const handleSearch = () => {
@@ -140,7 +115,6 @@ const SearchPage = () => {
       return;
     }
 
-    // Check if data is loaded
     if (remedies.length === 0) {
       if (isLoading) {
         setResults([{ error: "Data is still loading. Please wait." }]);
@@ -151,41 +125,36 @@ const SearchPage = () => {
     }
 
     const lowerSearch = normalize(searchTerm);
-    console.log("Searching for:", lowerSearch);
-    
-    // More flexible search - partial word matches
+
     const matches = remedies.filter((item) => {
       const medicineName = normalize(item.name_of_medicine);
-      return medicineName.includes(lowerSearch);
+      const synonyms = normalize(item.synonyms);
+      const indications = normalize(item.main_indications);
+      const sanskritIndications = normalize(item.main_indications_sanskrit);
+
+      return medicineName.includes(lowerSearch) ||
+        synonyms.includes(lowerSearch) ||
+        indications.includes(lowerSearch) ||
+        sanskritIndications.includes(lowerSearch);
     });
 
-    console.log("Found matches:", matches.length);
-    
-    // Generate recommendations if no exact matches
     if (matches.length === 0) {
       const similarMedicines = findSimilarMedicines(searchTerm);
       setRecommendations(similarMedicines);
     } else {
       setRecommendations([]);
     }
-    
-    // Reset image errors when showing new results
+
     setImageErrors({});
-    
     setResults(matches.length > 0 ? matches : [{ error: "No remedy found for '" + searchTerm + "'." }]);
   };
 
   const handleRecommendationClick = (medicine) => {
     setSearchTerm(medicine);
-    
-    // Filter results based on the selected recommendation
     const matches = remedies.filter((item) => {
       return normalize(item.name_of_medicine) === normalize(medicine);
     });
-    
-    // Reset image errors when showing new results
     setImageErrors({});
-    
     setResults(matches);
     setRecommendations([]);
   };
@@ -193,8 +162,7 @@ const SearchPage = () => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    
-    // Show recommendations on typing if there's at least 2 characters
+
     if (value.length >= 2) {
       const similarMedicines = findSimilarMedicines(value);
       setRecommendations(similarMedicines);
@@ -207,273 +175,191 @@ const SearchPage = () => {
     fetchData();
   };
 
-  const getRandomColor = (str) => {
-    // Generate a color based on the medicine name for consistent coloring
-    if (!str) return "#6c5ce7";
-    const hash = str.split('').reduce((acc, char) => {
-      return char.charCodeAt(0) + ((acc << 5) - acc);
-    }, 0);
-    const hue = Math.abs(hash % 360);
-    return `hsl(${hue}, 70%, 65%)`;
-  };
-
-  // Added styling for the search bar
-  const searchBarStyle = {
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxShadow: searchFocus ? '0 0 0 2px rgba(108, 92, 231, 0.2)' : 'none',
-    transition: 'all 0.3s ease'
-  };
-
-  // New styling for recommendations
-  const recommendationsContainerStyle = {
-    marginTop: '15px',
-    padding: '10px 15px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.05)'
-  };
-
-  const recommendationHeaderStyle = {
-    fontSize: '14px',
-    color: '#666',
-    marginBottom: '10px',
-    fontWeight: '500'
-  };
-
-  const recommendationTagsStyle = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '8px'
-  };
-
-  const recommendationTagStyle = {
-    display: 'inline-block',
-    padding: '6px 12px',
-    backgroundColor: '#6c5ce7',
-    color: 'white',
-    borderRadius: '20px',
-    fontSize: '14px',
-    transition: 'all 0.2s ease',
-    cursor: 'pointer',
-    boxShadow: '0 2px 4px rgba(108, 92, 231, 0.2)'
-  };
-
-  const recommendationTagHoverStyle = {
-    backgroundColor: '#5649c0',
-    transform: 'translateY(-2px)',
-    boxShadow: '0 4px 8px rgba(108, 92, 231, 0.3)'
-  };
-
-  // Styling for medicine images
-  const medicineImageStyle = {
-    width: '100%',
-    maxHeight: '200px',
-    objectFit: 'contain',
-    borderRadius: '8px',
-    marginBottom: '15px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
-  };
-
-  const fallbackImageContainerStyle = {
-    height: '200px',
-    width: '100%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '8px',
-    marginBottom: '15px',
-    color: '#6c757d',
-    flexDirection: 'column'
-  };
-
-  // State to track hovered tag
-  const [hoveredTag, setHoveredTag] = useState(null);
-
   return (
     <div className="search-page">
-      <div className="mb-3 mt-2 me-auto animate__animated animate__fadeInUp" style={{ padding: '0 20px' }}>
-        <button 
-          className="btn btn-outline-success" 
+      <div className="search-nav-header animate__animated animate__fadeInDown">
+        <button
+          className="back-btn"
           onClick={() => navigate(-1)}
         >
-          Back to Home
+          ← Back
         </button>
+        <h1 className="page-brand">Ayurvedic Medicine Database</h1>
       </div>
 
       <div className="search-container animate__animated animate__fadeInUp">
-        <div className="search-header animate__animated animate__fadeIn">
-          <h1 className="search-title animate__animated animate__fadeInDown animate__delay-1s">
-            Discover Ayurvedic Medicines
-          </h1>
-          <p className="search-subtitle animate__animated animate__fadeIn animate__delay-2s">
-            Explore the ancient wisdom of Ayurveda with our comprehensive medicine database
+        <div className="search-hero">
+          <h2 className="search-heading">
+            <span className="highlight-text">Ayurvedic Medicines</span>
+          </h2>
+          <p className="search-subheading">
+            Search through our extensive collection of authentic Ayurvedic formulations
           </p>
 
-          {/* Enhanced Search Bar with border */}
-          <div 
-            className={`search-box-container ${searchFocus ? 'focused' : ''}`}
-          >
+          <div className={`search-input-wrapper ${searchFocus ? 'focused' : ''}`}>
+            <FaSearch className="search-icon-input" />
             <input
               type="text"
-              placeholder="Search for Ashwagandha, Triphala, Brahmi..."
-              className="search-bar"
+              placeholder="Search for medicines (e.g. Aravindasava, Amritarishta)..."
+              className="main-search-input"
               value={searchTerm}
               onChange={handleInputChange}
               onFocus={() => setSearchFocus(true)}
               onBlur={() => setSearchFocus(false)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-              style={searchBarStyle}
             />
-            <button 
-              className={`search-button ${!isLoading && remedies.length > 0 ? 'animate' : ''}`}
+            <button
+              className="main-search-btn"
               onClick={handleSearch}
               disabled={isLoading}
             >
-              <FaSearch className="search-icon" /> 
               Search
             </button>
           </div>
+
+          {/* Recommendations */}
+          {recommendations.length > 0 && (
+            <div className="recommendations-wrapper animate__animated animate__fadeIn">
+              <span className="rec-label">Suggestions:</span>
+              <div className="rec-tags">
+                {recommendations.map((medicine, index) => (
+                  <button
+                    key={index}
+                    className="rec-tag"
+                    onClick={() => handleRecommendationClick(medicine)}
+                  >
+                    {medicine}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Data Status Indicator */}
+        {/* Status Messages */}
         {isLoading && (
-          <div className="alert alert-info" role="alert">
-            Loading medicine database... Please wait.
+          <div className="status-message loading">
+            <div className="loader"></div>
+            <span>Loading database...</span>
           </div>
         )}
+
         {dataError && (
-          <div className="alert alert-danger" role="alert">
-            {dataError}
-            <button 
-              className="btn btn-sm btn-outline-danger ms-3" 
-              onClick={handleRetry}
-            >
-              Retry
-            </button>
+          <div className="status-message error">
+            <FaExclamationTriangle />
+            <span>{dataError}</span>
+            <button onClick={handleRetry} className="retry-link">Retry</button>
           </div>
         )}
 
-        {/* Improved Recommendations */}
-        {recommendations.length > 0 && (
-          <div 
-            className="recommendations-container animate__animated animate__fadeIn"
-            style={recommendationsContainerStyle}
-          >
-            <p style={recommendationHeaderStyle}>
-              {results.length > 0 && results[0].error 
-                ? "Did you mean:" 
-                : "Suggestions:"}
-            </p>
-            <div style={recommendationTagsStyle}>
-              {recommendations.map((medicine, index) => (
-                <span 
-                  key={index} 
-                  onClick={() => handleRecommendationClick(medicine)}
-                  onMouseEnter={() => setHoveredTag(index)}
-                  onMouseLeave={() => setHoveredTag(null)}
-                  style={{
-                    ...recommendationTagStyle,
-                    ...(hoveredTag === index ? recommendationTagHoverStyle : {})
-                  }}
-                >
-                  {medicine}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Search Results */}
-        <div className="results-container">
+        {/* Results Grid */}
+        <div className="results-grid">
           {results.map((item, index) => (
-            <div 
-              key={index} 
-              className={`flashcard animate__animated ${item.error ? 'animate__shakeX' : 'animate__zoomIn'}`}
-              style={item.error ? {} : {
-                borderTop: `5px solid ${getRandomColor(item.name_of_medicine)}`,
-                boxShadow: `0 10px 30px rgba(0, 0, 0, 0.1)`
-              }}
+            <div
+              key={index}
+              className={`medicine-result-card animate__animated ${item.error ? 'animate__shakeX' : 'animate__fadeInUp'}`}
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {item.error ? (
-                <div className="error-container">
-                  <FaInfoCircle className="error-icon" />
-                  <p className="error-message">{item.error}</p>
+                <div className="no-results">
+                  <div className="no-results-icon">🔍</div>
+                  <h3>No matches found</h3>
+                  <p>{item.error}</p>
                 </div>
               ) : (
                 <>
-                  <div className="medicine-header" style={{ backgroundColor: `${getRandomColor(item.name_of_medicine)}20` }}>
-                    <h2 className="medicine-name">{item.name_of_medicine}</h2>
-                    <div className="medicine-class">
-                      <span className="medicine-badge" style={{ backgroundColor: getRandomColor(item.name_of_medicine) }}>
-                        {item.class || "Ayurvedic"}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  <div className="medicine-content">
-                    {/* Medicine Image */}
+                  <div className="card-visual">
                     {!imageErrors[item.name_of_medicine] ? (
-                      <img 
+                      <img
                         src={getImageUrl(item)}
                         alt={item.name_of_medicine}
-                        style={medicineImageStyle}
+                        className="medicine-img-cover"
                         onError={() => handleImageError(item.name_of_medicine)}
-                        className="animate__animated animate__fadeIn"
                       />
                     ) : (
-                      <div style={fallbackImageContainerStyle}>
-                        <FaImage size={40} />
-                        <p className="mt-2">Image not available</p>
+                      <div className="medicine-img-fallback">
+                        <FaImage />
+                        <span>No Image</span>
                       </div>
                     )}
-                    
-                    <div className="medicine-section">
-                      <h3><FaLeaf /> Indications</h3>
-                      <p>{item.main_indications || "Not specified"}</p>
+                    <div className="card-badges-overlay">
+                      <span className="badge-pill class-badge">Class {item.class || "A"}</span>
+                      <span className="badge-pill form-badge">{item.form || "Medicine"}</span>
                     </div>
-                    
-                    <div className="medicine-section">
-                      <h3><FaFlask /> Dosage & Administration</h3>
-                      <p><strong>Dose:</strong> {item.dose || "Not specified"}</p>
-                      <p><strong>Pack Size:</strong> {item.dispensing_pack_size || "Not specified"}</p>
-                      <p><strong>Preferred Use:</strong> {item["preferred_use_(opd/_ipd)"] || "Not specified"}</p>
+                  </div>
+
+                  <div className="card-info">
+                    <div className="card-header">
+                      <h3 className="med-title">{item.name_of_medicine}</h3>
+                      {item.synonyms && <p className="med-subtitle">{item.synonyms}</p>}
                     </div>
-                    
-                    <div className="medicine-section">
-                      <h3><FaHeart /> Precautions</h3>
-                      <p>{item["precaution/_contraindication"] || "Not specified"}</p>
-                    </div>
-                    
-                    <div className="medicine-section">
-                      <h3><FaBookMedical /> Reference</h3>
-                      <p>{item.reference_text || "Not specified"}</p>
+
+                    <div className="card-body-content">
+                      <div className="info-section indications">
+                        <h4 className="info-label"><FaCheckCircle className="icon-sm" /> Indications</h4>
+                        <p className="info-val primary">{item.main_indications}</p>
+                        {item.main_indications_sanskrit && (
+                          <p className="info-val sanskrit">{item.main_indications_sanskrit}</p>
+                        )}
+                      </div>
+
+                      <div className="props-grid">
+                        <div className="prop-box">
+                          <FaFire className="prop-icon virya" />
+                          <span className="prop-name">Virya</span>
+                          <span className="prop-val">{item.virya || "-"}</span>
+                        </div>
+                        <div className="prop-box">
+                          <FaSun className="prop-icon vipaka" />
+                          <span className="prop-name">Vipaka</span>
+                          <span className="prop-val">{item.vipaka || "-"}</span>
+                        </div>
+                        <div className="prop-box">
+                          <FaMoon className="prop-icon dosha" />
+                          <span className="prop-name">Dosha</span>
+                          <span className="prop-val">{item.dosha_action || "-"}</span>
+                        </div>
+                      </div>
+
+                      <div className="info-section ingredients">
+                        <h4 className="info-label"><FaLeaf className="icon-sm" /> Key Ingredients</h4>
+                        <div className="tags-cloud">
+                          {item.key_ingredients && item.key_ingredients.slice(0, 5).map((ing, i) => (
+                            <span key={i} className="tag-pill">{ing}</span>
+                          ))}
+                          {item.key_ingredients && item.key_ingredients.length > 5 && (
+                            <span className="tag-pill more">+{item.key_ingredients.length - 5} more</span>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="info-row-dual">
+                        <div className="info-col">
+                          <h4 className="info-label"><FaPrescriptionBottleAlt className="icon-sm" /> Standard Dosage</h4>
+                          <p className="info-val">{item.dose || "As directed"}</p>
+                        </div>
+                        <div className="info-col">
+                          <h4 className="info-label"><FaBookOpen className="icon-sm" /> Reference</h4>
+                          <p className="info-val small">{item.classical_reference || item.reference_text || "Classical Text"}</p>
+                        </div>
+                      </div>
+
+                      {/* Expandable details could go here, but keeping it clean for now */}
+                      <div className="card-footer-note">
+                        <FaExclamationTriangle className="warning-icon" />
+                        <div className="disclaimer-text">
+                          <p className="admin-advice">{item.administration_advice}</p>
+                          <p className="medical-disclaimer">
+                            <strong>Disclaimer:</strong> Dosage mentioned is for adults. Consult a physician for children, pregnancy, or specific conditions.
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </>
               )}
             </div>
           ))}
-        </div>
-
-        {/* Feature Highlights */}
-        <div className="features-grid">
-          <div className="feature-card animate__animated animate__fadeInUp animate__delay-4s">
-            <FaLeaf className="feature-icon" />
-            <h3>Natural Remedies</h3>
-            <p>Access traditional herbal medicines and their benefits</p>
-          </div>
-          <div className="feature-card animate__animated animate__fadeInUp animate__delay-5s">
-            <FaSearchPlus className="feature-icon" />
-            <h3>Detailed Information</h3>
-            <p>Get comprehensive details about ingredients and uses</p>
-          </div>
-          <div className="feature-card animate__animated animate__fadeInUp animate__delay-6s">
-            <FaBookMedical className="feature-icon" />
-            <h3>Expert Insights</h3>
-            <p>Learn from authenticated Ayurvedic sources</p>
-          </div>
         </div>
       </div>
     </div>

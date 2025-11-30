@@ -3,7 +3,8 @@
 }
 
 /* Base styles */
-body, #root {
+body,
+#root {
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -35,11 +36,9 @@ body, #root {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(194, 243, 190, 0.15) 0%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(194, 243, 190, 0.15) 0%,
+      rgba(255, 255, 255, 0.1) 100%);
   backdrop-filter: blur(2px);
   z-index: -1;
 }
@@ -66,14 +65,14 @@ body, #root {
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: var(--bg-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--text-primary);
 }
 
 .App-link {
@@ -84,11 +83,13 @@ body, #root {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
 
+/* Dark mode styles */
 /* Dark mode styles */
 body.dark-mode #root::before {
   background: url('https://res.cloudinary.com/dacpbywfp/image/upload/v1745061858/background-abstract-line-digital-gradient-luxury_483537-2367_nifq3x.avif') no-repeat center center fixed;
@@ -96,23 +97,12 @@ body.dark-mode #root::before {
 }
 
 body.dark-mode #root::after {
-  background: linear-gradient(
-    135deg,
-    rgba(173, 171, 171, 0.685) 0%,
-    rgba(141, 252, 160, 0.555) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(20, 50, 30, 0.6) 100%);
   backdrop-filter: blur(3px);
 }
 
-body.dark-mode footer {
-  background-color: #282c34; /* or your preferred dark mode color */
-  color: #ffffff;
-  transition: all 0.3s ease-in-out;
-}
-
-body.dark-mode footer a {
-  color: #61dafb; /* for links in footer */
-}
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -134,7 +124,7 @@ html {
   html {
     scroll-behavior: auto;
   }
-  
+
   .app-container {
     transition: none;
   }
@@ -164,7 +154,8 @@ section {
   }
 
   #root::before {
-    background-attachment: scroll; /* Better mobile performance */
+    background-attachment: scroll;
+    /* Better mobile performance */
   }
 
   #root::after {
@@ -222,7 +213,8 @@ section {
 }
 
 /* High-DPI screens */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
   #root::after {
     backdrop-filter: blur(3px);
   }
@@ -230,7 +222,8 @@ section {
 
 /* Better touch interactions */
 @media (hover: none) and (pointer: coarse) {
-  button, 
+
+  button,
   a {
     min-height: 44px;
     min-width: 44px;
