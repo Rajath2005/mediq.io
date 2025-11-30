@@ -50,7 +50,7 @@
   font-size: clamp(2.5rem, 5vw, 3.8rem);
   font-weight: 800;
   line-height: 1.1;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.8rem;
   background: linear-gradient(45deg, #2d6a4f, #1b4332);
   background-clip: text;
   -webkit-background-clip: text;
@@ -61,7 +61,7 @@
 .hero-description {
   font-size: 1.3rem;
   line-height: 1.5;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   color: #4a5568;
 }
 

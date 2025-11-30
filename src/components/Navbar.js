@@ -225,6 +225,11 @@ const Navbar = () => {
                     </a>
                   </li>
                   <li>
+                    <Link to="/chatbot" onClick={handleServiceSelection}>
+                      AI Chatbot
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/about" onClick={handleServiceSelection}>
                       About Us
                     </Link>
@@ -372,6 +377,11 @@ const Navbar = () => {
                       <li>
                         <Link to="/about" onClick={handleServiceSelection}>
                           ℹ️ About Us
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/chatbot" onClick={handleServiceSelection}>
+                          🤖 AI Chatbot
                         </Link>
                       </li>
                       <li>
