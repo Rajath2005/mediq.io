@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import heroImage from './images/hero.jpeg';
 import { Link } from "react-router-dom";
 import Button from '../components/Button';
-import { FaSearch, FaImage, FaLeaf, FaFlask, FaHeart, FaBookMedical, FaExclamationTriangle, FaMortarPestle, FaFire, FaSun, FaMoon, FaCheckCircle, FaPrescriptionBottleAlt, FaBookOpen } from "react-icons/fa";
+import { FaSearch, FaImage, FaLeaf, FaExclamationTriangle, FaFire, FaSun, FaMoon } from "react-icons/fa";
 import { useAuth } from '../contexts/AuthContext';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { Helmet } from 'react-helmet-async';
@@ -19,8 +19,7 @@ const HeroSection = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [imageErrors, setImageErrors] = useState({});
   const [loading, setLoading] = useState(true);
-  const [searchFocus, setSearchFocus] = useState(false);
-  const [hoveredTag, setHoveredTag] = useState(null);
+
 
 
   const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
@@ -230,8 +229,8 @@ const HeroSection = () => {
                   setSearchTerm(value);
                   // Recommendations will be handled by the useEffect
                 }}
-                onFocus={() => setSearchFocus(true)}
-                onBlur={() => setSearchFocus(false)}
+                // onFocus={() => setSearchFocus(true)}
+                // onBlur={() => setSearchFocus(false)}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
                     handleSearch(e);
@@ -261,8 +260,8 @@ const HeroSection = () => {
                           setRecommendations([]);
                           handleSearch(null, true); // Pass true for exact match when clicking recommendation
                         }}
-                        onMouseEnter={() => setHoveredTag(index)}
-                        onMouseLeave={() => setHoveredTag(null)}
+                        // onMouseEnter={() => setHoveredTag(index)}
+                        // onMouseLeave={() => setHoveredTag(null)}
                         className="recommendation-tag"
                       >
                         {med}

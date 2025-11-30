@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './SearchPage.css';
 import 'animate.css';
-import { FaLeaf, FaSearch, FaImage, FaMortarPestle, FaExclamationTriangle, FaFire, FaSun, FaMoon, FaPrescriptionBottleAlt, FaBookOpen, FaCheckCircle } from 'react-icons/fa';
+import { FaLeaf, FaSearch, FaImage, FaExclamationTriangle, FaFire, FaSun, FaMoon, FaPrescriptionBottleAlt, FaBookOpen, FaCheckCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import useDocumentTitle from "../hooks/useDocumentTitle";
 
