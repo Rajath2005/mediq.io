@@ -253,6 +253,107 @@ mediq.io/
 └── tailwind.config.js      # Tailwind configuration
 ```
 
+## 🏗️ System Architecture
+
+The following sequence diagram illustrates the key data flows within the AyuDost application, highlighting the interactions between the React frontend, GitHub API for data retrieval, and the AI Chatbot integration.
+
+```mermaid
+sequenceDiagram
+    actor User
+    participant App as React App (Browser)
+    participant GitHub as GitHub Raw Content
+    participant Iframe as Chatbot Iframe
+    participant Backend as Local Backend (Port 5000)
+
+    %% Flow 1: Medicine Search
+    rect rgb(240, 248, 255)
+    note right of User: Flow 1: Medicine Search
+    User->>App: Navigate to Search Page
+    activate App
+    App->>GitHub: Fetch ayur-med-updated.json
+    activate GitHub
+    GitHub-->>App: Return JSON Data
+    deactivate GitHub
+    User->>App: Enter Search Term (e.g., "Arishta")
+    App->>App: Filter Data Locally
+    App-->>User: Display Medicine Results
+    deactivate App
+    end
+
+    %% Flow 2: Home Remedies
+    rect rgb(255, 245, 238)
+    note right of User: Flow 2: Home Remedies
+    User->>App: Navigate to Home Remedies
+    activate App
+    App->>GitHub: Fetch remedies.json
+    activate GitHub
+    GitHub-->>App: Return JSON Data
+    deactivate GitHub
+    User->>App: Select Condition (e.g., "Cold")
+    App->>App: Find Remedy Locally
+    App-->>User: Display Remedy Details
+    deactivate App
+    end
+
+    %% Flow 3: AI Chatbot
+    rect rgb(240, 255, 240)
+    note right of User: Flow 3: AI Chatbot
+    User->>App: Click Chatbot Icon
+    activate App
+    App->>Iframe: Load http://localhost:5000
+    activate Iframe
+    Iframe-->>User: Display Chat Interface
+    User->>Iframe: Send Message
+    Iframe->>Backend: API Request (Chat/Query)
+    activate Backend
+    note right of Backend: Processes with RAG/Gemini
+    Backend-->>Iframe: Return AI Response
+    deactivate Backend
+    Iframe-->>User: Display Answer
+    deactivate Iframe
+    deactivate App
+    end
+```
+
+```
+
+### Use Case Diagram
+
+The following diagram outlines the primary actors and their interactions with the AyuDost platform.
+
+```mermaid
+usecaseDiagram
+    actor "Patient / User" as User
+    actor "Administrator" as Admin
+
+    package "AyuDost Platform" {
+        usecase "Search Ayurvedic Medicines" as UC1
+        usecase "View Home Remedies" as UC2
+        usecase "Consult AI Chatbot" as UC3
+        usecase "Book Appointment" as UC4
+        usecase "View Hospitals & Doctors" as UC5
+        usecase "User Login / Signup" as UC6
+        usecase "Admin Login" as UC7
+        usecase "Manage Appointments" as UC8
+        usecase "View Services" as UC9
+    }
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    User --> UC9
+
+    Admin --> UC7
+    Admin --> UC8
+    
+    %% Relationships
+    UC4 ..> UC6 : <<include>>
+    UC8 ..> UC7 : <<include>>
+```
+
 ## 🌐 Live Demo
 
 **[Visit MediQ →](https://rajath2005.github.io/mediq.io/)**
