@@ -255,7 +255,12 @@ mediq.io/
 
 ## 🏗️ System Architecture
 
-The following sequence diagram illustrates the key data flows within the AyuDost application, highlighting the interactions between the React frontend, GitHub API for data retrieval, and the AI Chatbot integration.
+AyuDost is powered by a decoupled architecture. While this repository houses the main React frontend, the platform's functionality relies on two core backbone repositories:
+
+- 🗄️ **[Ayurveda API Data Repository](https://github.com/Sanath00007/ayurveda-api)**: Serves as the primary data source containing the comprehensive JSON databases for Ayurvedic medicines and home remedies.
+- 🤖 **[AyuDost AI Backend](https://github.com/Rajath2005/AyuDostAI)**: The intelligent backend service powering the chatbot interface, utilizing RAG (Retrieval-Augmented Generation) and the Gemini API.
+
+The following sequence diagram illustrates the key data flows within the AyuDost application, highlighting the interactions between the React frontend, these backend services, and the AI Chatbot integration.
 
 ```mermaid
 sequenceDiagram
