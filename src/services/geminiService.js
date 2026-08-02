@@ -4,7 +4,7 @@ const API_KEY = process.env.REACT_APP_GEMINI_SEARCH_API_KEY;
 
 let genAI = null;
 if (API_KEY) {
-  console.log("Gemini API Key found:", API_KEY.substring(0, 5) + "...");
+  console.log("Gemini API Key found and configured.");
   genAI = new GoogleGenerativeAI(API_KEY);
 } else {
   console.error("REACT_APP_GEMINI_SEARCH_API_KEY is missing in environment variables.");
